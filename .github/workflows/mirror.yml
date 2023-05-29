@@ -12,6 +12,7 @@ jobs:
       contents: write # In order to upload artifacts to GitHub releases
       id-token: write # In order to request a JWT for AWS auth
     steps:
+      - uses: DeterminateSystems/nix-installer-action@v3
       - uses: oprypin/find-latest-tag@v1
         with:
           repository: ${{ matrix.repo }}
