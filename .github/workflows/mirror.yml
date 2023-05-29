@@ -12,6 +12,7 @@ jobs:
           - nix-community/disko
           - nix-community/lanzaboote
           - nix-community/nix-eval-jobs
+          - figsoda/utf8
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
