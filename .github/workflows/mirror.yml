@@ -42,15 +42,19 @@ jobs:
         include:
           - repo: NixOS/nixpkgs
             branch: nixos-unstable
+            tag_prefix: 0.0.
           - repo: NixOS/nixpkgs
-            branch: nixos-unstable-small
+            branch: nixos-22.11
+            tag_prefix: 22.11.
           - repo: NixOS/nixpkgs
             branch: nixpkgs-unstable
+            tag_prefix: 0.0.
           - repo: nix-community/home-manager
             branch: master
+            tag_prefix: 0.0.
           - repo: nix-community/nixos-generators
             branch: master
-          -
+            tag_prefix: 0.0.
             
     runs-on: ubuntu-latest
     permissions:
@@ -58,20 +62,16 @@ jobs:
       id-token: write # In order to request a JWT for AWS auth
     steps:
       - uses: DeterminateSystems/nix-installer-action@v3
-      - uses: oprypin/find-latest-tag@v1
-        with:
-          repository: ${{ matrix.repo }}
-        id: tagfetch
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
           repository: ${{ matrix.repo }}
-          ref: ${{ steps.tagfetch.outputs.tag }}
+          ref: ${{ matrix.branch }}
 
       - name: Release to Nxfr
         uses: DeterminateSystems/nxfr-push@main
         with:
           visibility: public
           mirrored-for: ${{ matrix.repo }}
-          mirrored-tag: ${{ steps.tagfetch.outputs.tag }}
+          mirrored-tag: ${{ matrix.tag_prefix }}$(date +%s)
