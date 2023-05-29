@@ -48,7 +48,7 @@ jobs:
             tag_prefix: 22.11.
           - repo: NixOS/nixpkgs
             branch: nixpkgs-unstable
-            tag_prefix: 0.0.
+            tag_prefix: 0.1.
           - repo: nix-community/home-manager
             branch: master
             tag_prefix: 0.0.
