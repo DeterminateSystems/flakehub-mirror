@@ -69,7 +69,6 @@ jobs:
         with:
           repository: ${{ matrix.repo }}
           ref: ${{ matrix.branch }}
-          fetch-depth: 0
 
       - name: Release to Nxfr
         uses: DeterminateSystems/nxfr-push@main
