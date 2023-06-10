@@ -4,6 +4,7 @@ on:
   
 jobs:
   mirror_tags:
+    if: false
     strategy:
       matrix:
         repo:
@@ -43,19 +44,19 @@ jobs:
         include:
           - repo: NixOS/nixpkgs
             branch: nixos-unstable
-            tag_prefix: 0.0.
-          - repo: NixOS/nixpkgs
-            branch: nixos-22.11
-            tag_prefix: 22.11.
-          - repo: NixOS/nixpkgs
-            branch: nixpkgs-unstable
-            tag_prefix: 0.1.
-          - repo: nix-community/home-manager
-            branch: master
-            tag_prefix: 0.0.
-          - repo: nix-community/nixos-generators
-            branch: master
-            tag_prefix: 0.0.
+            rolling-prefix: v0.1
+#          - repo: NixOS/nixpkgs
+#            branch: nixos-22.11
+#            rolling-prefix: 22.11.
+#          - repo: NixOS/nixpkgs
+#            branch: nixpkgs-unstable
+#            tag_prefix: 0.1.
+#          - repo: nix-community/home-manager
+#            branch: master
+#            tag_prefix: 0.0.
+#          - repo: nix-community/nixos-generators
+#            branch: master
+#            tag_prefix: 0.0.
             
     runs-on: ubuntu-latest
     permissions:
@@ -75,4 +76,4 @@ jobs:
         with:
           visibility: public
           mirrored-for: ${{ matrix.repo }}
-          mirrored-tag: ${{ matrix.tag_prefix }}$(git rev-list --count HEAD)
+          rolling-prefix: ${{ matrix.rolling-prefix }}
