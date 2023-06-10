@@ -49,7 +49,7 @@ jobs:
             rolling-prefix: v22.11
           - repo: NixOS/nixpkgs
             branch: nixos-23.05
-            rolling-prefix: v23.05
+            rolling-prefix: v23.5
           - repo: nix-community/home-manager
             branch: master
             rolling-prefix: v0.1
