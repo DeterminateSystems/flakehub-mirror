@@ -60,6 +60,9 @@ jobs:
           - repo: nix-community/nixos-generators
             branch: master
             rolling-prefix: v0.1
+          - repo: cachix/nixpkgs-python
+            branch: main
+            rolling-prefix: v0.1
             
     runs-on: ubuntu-latest
     permissions:
