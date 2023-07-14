@@ -37,7 +37,7 @@ jobs:
         uses: DeterminateSystems/nxfr-push@main
         with:
           visibility: public
-          mirrored-for: ${{ matrix.repo }}
+          upload-name: ${{ matrix.repo }}
           tag: ${{ steps.tagfetch.outputs.tag }}
           
   rolling:
@@ -84,5 +84,5 @@ jobs:
         uses: DeterminateSystems/nxfr-push@main
         with:
           visibility: public
-          mirrored-for: ${{ matrix.repo }}
+          upload-name: ${{ matrix.repo }}
           rolling-prefix: ${{ matrix.rolling-prefix }}
