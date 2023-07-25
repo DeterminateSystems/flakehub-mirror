@@ -81,7 +81,7 @@ jobs:
           ref: ${{ matrix.branch }}
 
       - name: Release to Nxfr
-        uses: DeterminateSystems/nxfr-push@main
+        uses: DeterminateSystems/flakehub-push@main
         with:
           visibility: public
           upload-name: ${{ matrix.repo }}
