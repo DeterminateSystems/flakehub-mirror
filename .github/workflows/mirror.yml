@@ -37,6 +37,7 @@ jobs:
       - name: Release to Nxfr
         uses: DeterminateSystems/flakehub-push@tidy-up-for-nxfr-mirror
         with:
+          mirror: true
           visibility: public
           repository: ${{ matrix.repo }}
           tag: ${{ steps.tagfetch.outputs.tag }}
@@ -88,6 +89,7 @@ jobs:
       - name: Release to Nxfr
         uses: DeterminateSystems/flakehub-push@tidy-up-for-nxfr-mirror
         with:
+          mirror: true
           visibility: public
           repository: ${{ matrix.repo }}
           rolling-prefix: ${{ matrix.rolling-prefix }}
