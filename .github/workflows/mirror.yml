@@ -35,10 +35,10 @@ jobs:
           ref: ${{ steps.tagfetch.outputs.tag }}
 
       - name: Release to Nxfr
-        uses: DeterminateSystems/flakehub-push@main
+        uses: DeterminateSystems/flakehub-push@tidy-up-for-nxfr-mirror
         with:
           visibility: public
-          upload-name: ${{ matrix.repo }}
+          repository: ${{ matrix.repo }}
           tag: ${{ steps.tagfetch.outputs.tag }}
           
   rolling:
@@ -83,8 +83,8 @@ jobs:
           ref: ${{ matrix.branch }}
 
       - name: Release to Nxfr
-        uses: DeterminateSystems/flakehub-push@main
+        uses: DeterminateSystems/flakehub-push@tidy-up-for-nxfr-mirror
         with:
           visibility: public
-          upload-name: ${{ matrix.repo }}
+          repository: ${{ matrix.repo }}
           rolling-prefix: ${{ matrix.rolling-prefix }}
