@@ -11,7 +11,6 @@ jobs:
       matrix:
         repo:
           - NixOS/nix
-          - nix-community/poetry2nix
           - nix-community/disko
           - nix-community/lanzaboote
           - nix-community/nix-eval-jobs
