@@ -40,7 +40,7 @@ jobs:
           visibility: public
           repository: ${{ matrix.repo }}
           tag: ${{ steps.tagfetch.outputs.tag }}
-          log-directive: flakehub_push=trace
+          log-directives: flakehub_push=trace
           
   rolling:
     strategy:
@@ -89,4 +89,4 @@ jobs:
           visibility: public
           repository: ${{ matrix.repo }}
           rolling-prefix: ${{ matrix.rolling-prefix }}
-          log-directive: flakehub_push=trace
+          log-directives: flakehub_push=trace
