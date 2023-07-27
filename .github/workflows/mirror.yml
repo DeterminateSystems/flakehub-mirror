@@ -70,6 +70,9 @@ jobs:
           - repo: cachix/nixpkgs-python
             branch: main
             rolling-prefix: v0.1
+          - repo: nix-community/poetry2nix
+            branch: main
+            rolling-prefix: v0.1
             
     runs-on: ubuntu-latest
     permissions:
