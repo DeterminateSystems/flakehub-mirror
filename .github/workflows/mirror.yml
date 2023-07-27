@@ -41,6 +41,7 @@ jobs:
           repository: ${{ matrix.repo }}
           tag: ${{ steps.tagfetch.outputs.tag }}
           log-directives: flakehub_push=trace
+          logger: pretty
           flakehub-push-pr: 25
           
   rolling:
@@ -91,4 +92,5 @@ jobs:
           repository: ${{ matrix.repo }}
           rolling-prefix: ${{ matrix.rolling-prefix }}
           log-directives: flakehub_push=trace
+          logger: pretty
           flakehub-push-pr: 25
