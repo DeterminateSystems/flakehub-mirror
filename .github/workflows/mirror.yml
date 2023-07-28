@@ -89,7 +89,7 @@ jobs:
           ref: ${{ matrix.branch }}
 
       - name: Release to Nxfr
-        uses: DeterminateSystems/flakehub-push@tidy-up-for-nxfr-mirror
+        uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
           visibility: public
