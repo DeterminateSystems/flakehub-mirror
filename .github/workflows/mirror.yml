@@ -11,7 +11,6 @@ jobs:
       matrix:
         repo:
           - NixOS/nix
-          - nix-community/poetry2nix
           - nix-community/disko
           - nix-community/lanzaboote
           - nix-community/nix-eval-jobs
@@ -37,9 +36,13 @@ jobs:
       - name: Release to Nxfr
         uses: DeterminateSystems/flakehub-push@main
         with:
+          mirror: true
           visibility: public
-          upload-name: ${{ matrix.repo }}
+          repository: ${{ matrix.repo }}
           tag: ${{ steps.tagfetch.outputs.tag }}
+          log-directives: flakehub_push=trace
+          logger: pretty
+          flakehub-push-pr: 25
           
   rolling:
     strategy:
@@ -67,6 +70,9 @@ jobs:
           - repo: cachix/nixpkgs-python
             branch: main
             rolling-prefix: v0.1
+          - repo: nix-community/poetry2nix
+            branch: main
+            rolling-prefix: v0.1
             
     runs-on: ubuntu-latest
     permissions:
@@ -85,6 +91,10 @@ jobs:
       - name: Release to Nxfr
         uses: DeterminateSystems/flakehub-push@main
         with:
+          mirror: true
           visibility: public
-          upload-name: ${{ matrix.repo }}
+          repository: ${{ matrix.repo }}
           rolling-prefix: ${{ matrix.rolling-prefix }}
+          log-directives: flakehub_push=trace
+          logger: pretty
+          flakehub-push-pr: 25
