@@ -67,9 +67,6 @@ jobs:
           - repo: nix-community/dream2nix
             branch: main
             rolling-prefix: v0.1
-          - repo: cachix/nixpkgs-python
-            branch: main
-            rolling-prefix: v0.1
           - repo: nix-community/poetry2nix
             branch: main
             rolling-prefix: v0.1
