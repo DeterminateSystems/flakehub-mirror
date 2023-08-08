@@ -70,6 +70,9 @@ jobs:
           - repo: nix-community/poetry2nix
             branch: main
             rolling-prefix: v0.1
+          - repo: cole-h/nixos-config
+            branch: darwin
+            rolling-prefix: v0.1
             
     runs-on: ubuntu-latest
     permissions:
