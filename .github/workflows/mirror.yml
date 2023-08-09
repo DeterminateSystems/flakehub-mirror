@@ -33,7 +33,7 @@ jobs:
           repository: ${{ matrix.repo }}
           ref: ${{ steps.tagfetch.outputs.tag }}
 
-      - name: Release to Nxfr
+      - name: Release to FlakeHub
         uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
@@ -91,7 +91,7 @@ jobs:
           repository: ${{ matrix.repo }}
           ref: ${{ matrix.branch }}
 
-      - name: Release to Nxfr
+      - name: Release to FlakeHub
         uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
