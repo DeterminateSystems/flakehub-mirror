@@ -73,6 +73,9 @@ jobs:
           - repo: cole-h/nixos-config
             branch: darwin
             rolling-prefix: v0.1
+          - repo: DeterminateSystems/nix-netboot-serve
+            branch: main
+            rolling-prefix: v0.1
             
     runs-on: ubuntu-latest
     permissions:
