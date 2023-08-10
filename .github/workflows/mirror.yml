@@ -23,6 +23,7 @@ jobs:
           - nix-community/nix-melt
           - nix-community/nix-zsh-completions
           - nix-community/nixd
+          - nix-community/nixpkgs-fmt
           - nix-community/nurl
           - nix-community/poetry2nix
           - Mic92/nix-update
