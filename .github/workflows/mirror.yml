@@ -79,7 +79,9 @@ jobs:
           - repo: nixified-ai/flake
             branch: master
             rolling-prefix: v0.1
-            
+          - repo: numtide/flake-utils
+            branch: main
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
