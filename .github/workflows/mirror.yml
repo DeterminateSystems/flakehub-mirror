@@ -25,6 +25,7 @@ jobs:
           - nix-community/poetry2nix
           - Mic92/nixos-shell
           - Mic92/nixpkgs-review
+          - Mic92/ssh-to-age
           - figsoda/utf8
           - ryantm/agenix
           - zhaofengli/colmena
