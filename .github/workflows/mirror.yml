@@ -39,6 +39,7 @@ jobs:
           - nerdypepper/statix
           - ryantm/agenix
           - serokell/nixfmt
+          - vlinkz/nix-software-center
           - zhaofengli/colmena
     runs-on: ubuntu-latest
     permissions:
