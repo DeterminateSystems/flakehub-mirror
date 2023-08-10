@@ -28,6 +28,7 @@ jobs:
           - Mic92/nixpkgs-review
           - Mic92/ssh-to-age
           - astro/deadnix
+          - astro/microvm.nix
           - figsoda/utf8
           - kamadorueda/alejandra
           - kamadorueda/nixel
