@@ -20,6 +20,7 @@ jobs:
           - nix-community/nix-melt
           - nix-community/nixd
           - nix-community/nurl
+          - nix-community/poetry2nix
           - figsoda/utf8
           - ryantm/agenix
     runs-on: ubuntu-latest
@@ -72,9 +73,6 @@ jobs:
             branch: master
             rolling-prefix: v0.1
           - repo: nix-community/dream2nix
-            branch: main
-            rolling-prefix: v0.1
-          - repo: nix-community/poetry2nix
             branch: main
             rolling-prefix: v0.1
           - repo: cole-h/nixos-config
