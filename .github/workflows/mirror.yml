@@ -83,6 +83,9 @@ jobs:
           - repo: numtide/flake-utils
             branch: main
             rolling-prefix: v0.1
+          - repo: ryantm/nixpkgs-update
+            branch: main
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
