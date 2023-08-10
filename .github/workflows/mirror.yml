@@ -132,6 +132,9 @@ jobs:
           - repo: jnsgruk/crafts-flake
             branch: main
             rolling-prefix: v0.1
+          - repo: thiagokokada/nix-alien
+            branch: master
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
