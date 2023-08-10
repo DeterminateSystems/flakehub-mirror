@@ -119,6 +119,9 @@ jobs:
           - repo: nix-community/impermanence
             branch: master
             rolling-prefix: v0.1
+          - repo: nix-community/naersk
+            branch: master
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
