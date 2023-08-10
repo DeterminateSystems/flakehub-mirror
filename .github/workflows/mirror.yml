@@ -15,6 +15,7 @@ jobs:
           - nix-community/lanzaboote
           - nix-community/harmonia
           - nix-community/haumea
+          - nix-community/lorri
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
           - nix-community/nix-index
