@@ -85,6 +85,9 @@ jobs:
           - repo: nix-community/nixos-generators
             branch: master
             rolling-prefix: v0.1
+          - repo: NixOS/nixos-hardware
+            branch: master
+            rolling-prefix: v0.1
           - repo: nix-community/dream2nix
             branch: main
             rolling-prefix: v0.1
