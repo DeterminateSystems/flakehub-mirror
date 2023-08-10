@@ -98,6 +98,9 @@ jobs:
           - repo: zhaofengli/attic
             branch: main
             rolling-prefix: v0.1
+          - repo: Mic92/sops-nix
+            branch: master
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
