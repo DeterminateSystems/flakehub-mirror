@@ -28,6 +28,7 @@ jobs:
           - Mic92/nixpkgs-review
           - Mic92/ssh-to-age
           - figsoda/utf8
+          - kamadorueda/alejandra
           - ryantm/agenix
           - zhaofengli/colmena
     runs-on: ubuntu-latest
