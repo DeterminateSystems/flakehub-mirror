@@ -76,6 +76,9 @@ jobs:
           - repo: DeterminateSystems/nix-netboot-serve
             branch: main
             rolling-prefix: v0.1
+          - repo: nixified-ai/flake
+            branch: master
+            rolling-prefix: v0.1
             
     runs-on: ubuntu-latest
     permissions:
