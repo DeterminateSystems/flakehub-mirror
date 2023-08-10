@@ -17,6 +17,7 @@ jobs:
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
           - nix-community/nix-init
+          - nix-community/nix-melt
           - nix-community/nixd
           - figsoda/utf8
           - ryantm/agenix
