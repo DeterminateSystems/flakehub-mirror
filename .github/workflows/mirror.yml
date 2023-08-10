@@ -15,6 +15,7 @@ jobs:
           - nix-community/lanzaboote
           - nix-community/nix-eval-jobs
           - figsoda/utf8
+          - ryantm/agenix
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
