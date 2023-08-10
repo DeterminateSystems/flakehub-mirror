@@ -14,6 +14,7 @@ jobs:
           - nix-community/disko
           - nix-community/lanzaboote
           - nix-community/harmonia
+          - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
           - nix-community/nix-init
           - nix-community/nixd
