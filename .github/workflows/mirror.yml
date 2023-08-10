@@ -17,6 +17,7 @@ jobs:
           - nix-community/haumea
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
+          - nix-community/nix-index
           - nix-community/nix-init
           - nix-community/nix-melt
           - nix-community/nix-zsh-completions
