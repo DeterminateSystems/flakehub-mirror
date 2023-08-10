@@ -18,6 +18,7 @@ jobs:
           - nix-community/nix-eval-jobs
           - nix-community/nix-init
           - nix-community/nix-melt
+          - nix-community/nix-zsh-completions
           - nix-community/nixd
           - nix-community/nurl
           - nix-community/poetry2nix
