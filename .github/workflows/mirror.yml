@@ -125,6 +125,9 @@ jobs:
           - repo: nix-community/naersk
             branch: master
             rolling-prefix: v0.1
+          - repo: Gerschtli/nix-formatter-pack
+            branch: master
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
