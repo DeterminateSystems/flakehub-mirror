@@ -24,6 +24,7 @@ jobs:
           - nix-community/poetry2nix
           - figsoda/utf8
           - ryantm/agenix
+          - zhaofengli/colmena
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
