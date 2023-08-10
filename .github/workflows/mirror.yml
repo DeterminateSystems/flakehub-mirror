@@ -31,6 +31,7 @@ jobs:
           - figsoda/utf8
           - kamadorueda/alejandra
           - ryantm/agenix
+          - serokell/nixfmt
           - zhaofengli/colmena
     runs-on: ubuntu-latest
     permissions:
