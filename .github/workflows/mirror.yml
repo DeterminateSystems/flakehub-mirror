@@ -135,6 +135,9 @@ jobs:
           - repo: thiagokokada/nix-alien
             branch: master
             rolling-prefix: v0.1
+          - repo: danth/stylix
+            branch: master
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
