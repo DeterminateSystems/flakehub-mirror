@@ -95,6 +95,9 @@ jobs:
           - repo: nix-community/fenix
             branch: main
             rolling-prefix: v0.1
+          - repo: zhaofengli/attic
+            branch: main
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
