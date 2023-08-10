@@ -27,6 +27,7 @@ jobs:
           - Mic92/nixos-shell
           - Mic92/nixpkgs-review
           - Mic92/ssh-to-age
+          - astro/deadnix
           - figsoda/utf8
           - kamadorueda/alejandra
           - ryantm/agenix
