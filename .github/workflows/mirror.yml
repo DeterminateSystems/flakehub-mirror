@@ -23,6 +23,7 @@ jobs:
           - nix-community/nixd
           - nix-community/nurl
           - nix-community/poetry2nix
+          - Mic92/nixpkgs-review
           - figsoda/utf8
           - ryantm/agenix
           - zhaofengli/colmena
