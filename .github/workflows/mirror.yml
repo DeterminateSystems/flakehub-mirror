@@ -30,6 +30,7 @@ jobs:
           - astro/deadnix
           - figsoda/utf8
           - kamadorueda/alejandra
+          - kamadorueda/nixel
           - nerdypepper/statix
           - ryantm/agenix
           - serokell/nixfmt
