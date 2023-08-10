@@ -33,6 +33,7 @@ jobs:
           - astro/deadnix
           - astro/microvm.nix
           - figsoda/utf8
+          - hyprwm/Hyprland
           - kamadorueda/alejandra
           - kamadorueda/nixel
           - nerdypepper/statix
