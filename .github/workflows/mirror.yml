@@ -1,6 +1,8 @@
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
   schedule:
     - cron:  '30 5,17 * * *'
   
@@ -13,8 +15,34 @@ jobs:
           - NixOS/nix
           - nix-community/disko
           - nix-community/lanzaboote
+          - nix-community/harmonia
+          - nix-community/haumea
+          - nix-community/lorri
+          - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
+          - nix-community/nix-index
+          - nix-community/nix-init
+          - nix-community/nix-melt
+          - nix-community/nix-zsh-completions
+          - nix-community/nixd
+          - nix-community/nixpkgs-fmt
+          - nix-community/nurl
+          - nix-community/poetry2nix
+          - Mic92/nix-update
+          - Mic92/nixos-shell
+          - Mic92/nixpkgs-review
+          - Mic92/ssh-to-age
+          - astro/deadnix
+          - astro/microvm.nix
           - figsoda/utf8
+          - hyprwm/Hyprland
+          - kamadorueda/alejandra
+          - kamadorueda/nixel
+          - nerdypepper/statix
+          - ryantm/agenix
+          - serokell/nixfmt
+          - vlinkz/nix-software-center
+          - zhaofengli/colmena
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
@@ -33,7 +61,7 @@ jobs:
           repository: ${{ matrix.repo }}
           ref: ${{ steps.tagfetch.outputs.tag }}
 
-      - name: Release to Nxfr
+      - name: Release to FlakeHub
         uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
@@ -64,10 +92,10 @@ jobs:
           - repo: nix-community/nixos-generators
             branch: master
             rolling-prefix: v0.1
-          - repo: nix-community/dream2nix
-            branch: main
+          - repo: NixOS/nixos-hardware
+            branch: master
             rolling-prefix: v0.1
-          - repo: nix-community/poetry2nix
+          - repo: nix-community/dream2nix
             branch: main
             rolling-prefix: v0.1
           - repo: cole-h/nixos-config
@@ -76,7 +104,42 @@ jobs:
           - repo: DeterminateSystems/nix-netboot-serve
             branch: main
             rolling-prefix: v0.1
-            
+          - repo: nixified-ai/flake
+            branch: master
+            rolling-prefix: v0.1
+          - repo: numtide/flake-utils
+            branch: main
+            rolling-prefix: v0.1
+          - repo: ryantm/nixpkgs-update
+            branch: main
+            rolling-prefix: v0.1
+          - repo: nix-community/fenix
+            branch: main
+            rolling-prefix: v0.1
+          - repo: zhaofengli/attic
+            branch: main
+            rolling-prefix: v0.1
+          - repo: Mic92/sops-nix
+            branch: master
+            rolling-prefix: v0.1
+          - repo: nix-community/impermanence
+            branch: master
+            rolling-prefix: v0.1
+          - repo: nix-community/naersk
+            branch: master
+            rolling-prefix: v0.1
+          - repo: Gerschtli/nix-formatter-pack
+            branch: master
+            rolling-prefix: v0.1
+          - repo: jnsgruk/crafts-flake
+            branch: main
+            rolling-prefix: v0.1
+          - repo: thiagokokada/nix-alien
+            branch: master
+            rolling-prefix: v0.1
+          - repo: danth/stylix
+            branch: master
+            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
@@ -91,7 +154,7 @@ jobs:
           repository: ${{ matrix.repo }}
           ref: ${{ matrix.branch }}
 
-      - name: Release to Nxfr
+      - name: Release to FlakeHub
         uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
