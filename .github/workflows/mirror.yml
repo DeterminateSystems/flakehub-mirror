@@ -82,10 +82,10 @@ jobs:
             rolling-prefix: v0.1
           - repo: NixOS/nixpkgs
             branch: nixos-22.11
-            rolling-prefix: v22.11
+            rolling-prefix: v2211
           - repo: NixOS/nixpkgs
             branch: nixos-23.05
-            rolling-prefix: v23.5
+            rolling-prefix: v2305
           - repo: nix-community/home-manager
             branch: master
             rolling-prefix: v0.1
