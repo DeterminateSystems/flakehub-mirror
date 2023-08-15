@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
   push:
-#    branches:
-#      - main
+    branches:
+      - main
   schedule:
     - cron:  '30 5,17 * * *'
   
