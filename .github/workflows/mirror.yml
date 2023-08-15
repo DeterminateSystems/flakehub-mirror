@@ -120,6 +120,8 @@ jobs:
             branch: master
           - repo: danth/stylix
             branch: master
+          - repo: DeterminateSystems/nuenv
+            branch: main
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
