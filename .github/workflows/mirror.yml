@@ -15,15 +15,11 @@ jobs:
           - NixOS/nix
           - nix-community/disko
           - nix-community/lanzaboote
-          - nix-community/harmonia
           - nix-community/haumea
-          - nix-community/lorri
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
-          - nix-community/nix-index
           - nix-community/nix-init
           - nix-community/nix-melt
-          - nix-community/nix-zsh-completions
           - nix-community/nixd
           - nix-community/nixpkgs-fmt
           - nix-community/nurl
@@ -33,14 +29,12 @@ jobs:
           - Mic92/nixpkgs-review
           - Mic92/ssh-to-age
           - astro/deadnix
-          - astro/microvm.nix
           - figsoda/utf8
           - hyprwm/Hyprland
           - kamadorueda/alejandra
           - kamadorueda/nixel
           - nerdypepper/statix
           - ryantm/agenix
-          - serokell/nixfmt
           - vlinkz/nix-software-center
           - zhaofengli/colmena
     runs-on: ubuntu-latest
@@ -109,8 +103,6 @@ jobs:
           - repo: Mic92/sops-nix
             branch: master
           - repo: nix-community/impermanence
-            branch: master
-          - repo: nix-community/naersk
             branch: master
           - repo: Gerschtli/nix-formatter-pack
             branch: master
