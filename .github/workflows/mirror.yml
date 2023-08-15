@@ -78,70 +78,50 @@ jobs:
         include:
           - repo: NixOS/nixpkgs
             branch: nixos-unstable
-            rolling-prefix: v0.1
           - repo: NixOS/nixpkgs
             branch: nixos-22.11
-            rolling-prefix: v2211
+            rolling-minor: 2211
           - repo: NixOS/nixpkgs
             branch: nixos-23.05
-            rolling-prefix: v2305
+            rolling-minor: 2305
           - repo: nix-community/home-manager
             branch: master
-            rolling-prefix: v0.1
           - repo: nix-community/nixos-generators
             branch: master
-            rolling-prefix: v0.1
           - repo: NixOS/nixos-hardware
             branch: master
-            rolling-prefix: v0.1
           - repo: nix-community/dream2nix
             branch: main
-            rolling-prefix: v0.1
           - repo: cole-h/nixos-config
             branch: darwin
-            rolling-prefix: v0.1
           - repo: DeterminateSystems/nix-netboot-serve
             branch: main
-            rolling-prefix: v0.1
           - repo: nixified-ai/flake
             branch: master
-            rolling-prefix: v0.1
           - repo: numtide/flake-utils
             branch: main
-            rolling-prefix: v0.1
           - repo: ryantm/nixpkgs-update
             branch: main
-            rolling-prefix: v0.1
           - repo: nix-community/fenix
             branch: main
-            rolling-prefix: v0.1
           - repo: zhaofengli/attic
             branch: main
-            rolling-prefix: v0.1
           - repo: Mic92/sops-nix
             branch: master
-            rolling-prefix: v0.1
           - repo: nix-community/impermanence
             branch: master
-            rolling-prefix: v0.1
           - repo: nix-community/naersk
             branch: master
-            rolling-prefix: v0.1
           - repo: Gerschtli/nix-formatter-pack
             branch: master
-            rolling-prefix: v0.1
           - repo: jnsgruk/crafts-flake
             branch: main
-            rolling-prefix: v0.1
           - repo: thiagokokada/nix-alien
             branch: master
-            rolling-prefix: v0.1
           - repo: danth/stylix
             branch: master
-            rolling-prefix: v0.1
           - repo: DeterminateSystems/nuenv
             branch: main
-            rolling-prefix: v0.1
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
@@ -162,6 +142,7 @@ jobs:
           mirror: true
           visibility: public
           repository: ${{ matrix.repo }}
-          rolling-prefix: ${{ matrix.rolling-prefix }}
+          rolling: true
+          rolling-minor: ${{ matrix.rolling-minor }}
           log-directives: flakehub_push=trace
           logger: pretty
