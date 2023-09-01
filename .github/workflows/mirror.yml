@@ -15,14 +15,10 @@ jobs:
           - NixOS/nix
           - nix-community/disko
           - nix-community/lanzaboote
-          - nix-community/haumea
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
-          - nix-community/nix-init
-          - nix-community/nix-melt
           - nix-community/nixd
           - nix-community/nixpkgs-fmt
-          - nix-community/nurl
           - nix-community/poetry2nix
           - Mic92/nix-update
           - Mic92/nixos-shell
@@ -95,8 +91,6 @@ jobs:
           - repo: numtide/flake-utils
             branch: main
           - repo: ryantm/nixpkgs-update
-            branch: main
-          - repo: nix-community/fenix
             branch: main
           - repo: zhaofengli/attic
             branch: main
