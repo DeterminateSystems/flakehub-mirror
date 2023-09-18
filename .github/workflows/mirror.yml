@@ -106,6 +106,8 @@ jobs:
             branch: master
           - repo: danth/stylix
             branch: master
+          - repo: oxalica/rust-overlay
+            branch: master
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
