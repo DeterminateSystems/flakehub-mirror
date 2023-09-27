@@ -63,6 +63,10 @@ jobs:
         if: steps.split.outputs.minorVersion
         with:
           name: "NixOS/nixpkgs"
+          repository: "NixOS/nixpkgs"
           rolling: true
           visibility: "public"
           rolling-minor: "${{ steps.split.outputs.minorVersion }}"
+          mirror: true
+          log-directives: flakehub_push=trace
+          logger: pretty
