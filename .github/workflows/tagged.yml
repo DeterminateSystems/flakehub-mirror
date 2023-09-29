@@ -1,0 +1,34 @@
+name: "Mirror a repo's latest tag to FlakeHub."
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag to publish."
+        type: "string"
+        required: true
+      repo:
+        description: "The repo to publish, in the format of Owner/Repo."
+        type: "string"
+        required: true
+jobs:
+  flakehub-publish:
+    runs-on: "ubuntu-latest"
+    permissions:
+      id-token: "write"
+      contents: "read"
+    steps:
+      - uses: "actions/checkout@v3"
+        with:
+          repository: ${{ inputs.repo }}
+          ref: ${{ inputs.tag }}
+        
+      - uses: "DeterminateSystems/nix-installer-action@main"
+      - uses: "DeterminateSystems/magic-nix-cache-action@main"
+      - uses: "DeterminateSystems/flakehub-push@main"
+        with:
+          mirror: true
+          visibility: public
+          repository: ${{ inputs.repo }}
+          tag: ${{ inputs.tag }}
+          log-directives: flakehub_push=trace
+          logger: pretty
