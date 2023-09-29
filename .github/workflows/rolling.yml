@@ -1,0 +1,24 @@
+name: "Mirror a repo's latest commit to a specific branch to FlakeHub."
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to publish."
+        type: "string"
+        required: true
+      repo:
+        description: "The repo to publish, in the format of Owner/Repo."
+        type: "string"
+        required: true
+      rolling_minor:
+        description: "The minor version to publish under."
+        type: "number"
+        required: true
+jobs:
+  flakehub-publish:
+    runs-on: "ubuntu-latest"
+    permissions:
+      id-token: "write"
+      contents: "read"
+    steps:
+      - run: echo ${{ fromJSON(inputs.rolling_minor) }}
