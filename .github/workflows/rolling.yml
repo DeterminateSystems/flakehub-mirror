@@ -21,4 +21,19 @@ jobs:
       id-token: "write"
       contents: "read"
     steps:
-      - run: echo ${{ fromJSON(inputs.rolling_minor) }}
+      - uses: "actions/checkout@v3"
+        with:
+          repository: ${{ inputs.repo }}
+          ref: ${{ inputs.branch }}
+        
+      - uses: "DeterminateSystems/nix-installer-action@main"
+      - uses: "DeterminateSystems/magic-nix-cache-action@main"
+      - uses: "DeterminateSystems/flakehub-push@main"
+        with:
+          mirror: true
+          visibility: public
+          repository: ${{ inputs.repo }}
+          rolling: true
+          rolling-minor: ${{ fromJSON(inputs.rolling_minor) }}
+          log-directives: flakehub_push=trace
+          logger: pretty
