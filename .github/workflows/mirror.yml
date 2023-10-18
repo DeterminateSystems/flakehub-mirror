@@ -26,7 +26,6 @@ jobs:
           - kamadorueda/alejandra
           - kamadorueda/nixel
           - nerdypepper/statix
-          - ryantm/agenix
           - vlinkz/nix-software-center
           - zhaofengli/colmena
     runs-on: ubuntu-latest
