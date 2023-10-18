@@ -73,6 +73,8 @@ jobs:
             rolling-minor: 2305
           - repo: nix-community/home-manager
             branch: master
+          - repo: nix-community/naersk
+            branch: master
           - repo: nix-community/nixos-generators
             branch: master
           - repo: NixOS/nixos-hardware
