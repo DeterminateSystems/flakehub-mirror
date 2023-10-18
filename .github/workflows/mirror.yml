@@ -16,7 +16,6 @@ jobs:
           - nix-community/nix-eval-jobs
           - nix-community/nixd
           - nix-community/nixpkgs-fmt
-          - nix-community/poetry2nix
           - Mic92/nix-update
           - Mic92/nixos-shell
           - Mic92/nixpkgs-review
@@ -76,6 +75,8 @@ jobs:
           - repo: nix-community/naersk
             branch: master
           - repo: nix-community/nixos-generators
+            branch: master
+          - repo: nix-community/poetry2nix
             branch: master
           - repo: NixOS/nixos-hardware
             branch: master
