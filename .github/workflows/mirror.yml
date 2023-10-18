@@ -99,8 +99,6 @@ jobs:
             branch: master
           - repo: Gerschtli/nix-formatter-pack
             branch: master
-          - repo: jnsgruk/crafts-flake
-            branch: main
           - repo: thiagokokada/nix-alien
             branch: master
           - repo: danth/stylix
