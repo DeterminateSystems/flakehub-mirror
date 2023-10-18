@@ -1,4 +1,5 @@
 name: "Publish every Git push to NixOS release branches to FlakeHub. nixos-unstable is 0.1.x, and nixos-yy.mm is 0.yymm.x."
+run-name: Mirror Nixpkgs ${{ inputs.release_branch }}
 on:
   workflow_dispatch:
     inputs:
