@@ -1,4 +1,5 @@
 name: "Mirror a repo's latest commit to a specific branch to FlakeHub."
+run-name: Mirror ${{ inputs.repo }}#${{ inputs.branch }}@${{ inputs.rolling_minor }}
 on:
   workflow_dispatch:
     inputs:

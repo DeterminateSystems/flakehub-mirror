@@ -5,27 +5,29 @@ on:
   
 jobs:
   mirror_tags:
+    name: Tag ${{ matrix.repo }}
     strategy:
       fail-fast: false
       matrix:
         repo:
-          - NixOS/nix
+          # Please keep this sorted.
+          - astro/deadnix
+          - figsoda/utf8
+          - hyprwm/Hyprland
+          - kamadorueda/alejandra
+          - kamadorueda/nixel
+          - Mic92/nix-update
+          - Mic92/nixos-shell
+          - Mic92/nixpkgs-review
+          - Mic92/ssh-to-age
+          - nerdypepper/statix
           - nix-community/disko
           - nix-community/lanzaboote
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
           - nix-community/nixd
           - nix-community/nixpkgs-fmt
-          - Mic92/nix-update
-          - Mic92/nixos-shell
-          - Mic92/nixpkgs-review
-          - Mic92/ssh-to-age
-          - astro/deadnix
-          - figsoda/utf8
-          - hyprwm/Hyprland
-          - kamadorueda/alejandra
-          - kamadorueda/nixel
-          - nerdypepper/statix
+          - NixOS/nix
           - vlinkz/nix-software-center
           - zhaofengli/colmena
     runs-on: ubuntu-latest
@@ -57,19 +59,27 @@ jobs:
           logger: pretty
           
   rolling:
+    name: Branch ${{ matrix.repo }}#${{ matrix.branch }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - repo: NixOS/nixpkgs
-            branch: nixos-unstable
-          - repo: NixOS/nixpkgs
-            branch: nixos-22.11
-            rolling-minor: 2211
-          - repo: NixOS/nixpkgs
-            branch: nixos-23.05
-            rolling-minor: 2305
+          # Please keep this sorted.
+          - repo: cole-h/nixos-config
+            branch: darwin
+          - repo: danth/stylix
+            branch: master
+          - repo: DeterminateSystems/nix-netboot-serve
+            branch: main
+          - repo: Gerschtli/nix-formatter-pack
+            branch: master
+          - repo: Mic92/sops-nix
+            branch: master
+          - repo: nix-community/dream2nix
+            branch: main
           - repo: nix-community/home-manager
+            branch: master
+          - repo: nix-community/impermanence
             branch: master
           - repo: nix-community/naersk
             branch: master
@@ -77,32 +87,30 @@ jobs:
             branch: master
           - repo: nix-community/poetry2nix
             branch: master
-          - repo: NixOS/nixos-hardware
-            branch: master
-          - repo: nix-community/dream2nix
-            branch: main
-          - repo: cole-h/nixos-config
-            branch: darwin
-          - repo: DeterminateSystems/nix-netboot-serve
-            branch: main
           - repo: nixified-ai/flake
+            branch: master
+          - repo: NixOS/nixpkgs
+            branch: nixos-unstable
+          - repo: NixOS/nixos-hardware
             branch: master
           - repo: numtide/flake-utils
             branch: main
+          - repo: oxalica/rust-overlay
+            branch: master
           - repo: ryantm/nixpkgs-update
             branch: main
           - repo: zhaofengli/attic
             branch: main
-          - repo: Mic92/sops-nix
-            branch: master
-          - repo: nix-community/impermanence
-            branch: master
-          - repo: Gerschtli/nix-formatter-pack
-            branch: master
-          - repo: danth/stylix
-            branch: master
-          - repo: oxalica/rust-overlay
-            branch: master
+
+          # Pulled out of the alpha-sorted list, since they're handled special
+          # in the rapid, fast-acting update handling.
+          - repo: NixOS/nixpkgs
+            branch: nixos-22.11
+            rolling-minor: 2211
+          - repo: NixOS/nixpkgs
+            branch: nixos-23.05
+            rolling-minor: 2305
+
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
