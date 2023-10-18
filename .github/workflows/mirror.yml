@@ -5,6 +5,7 @@ on:
   
 jobs:
   mirror_tags:
+    name: Tag ${{ matrix.repo }}
     strategy:
       fail-fast: false
       matrix:
@@ -58,6 +59,7 @@ jobs:
           logger: pretty
           
   rolling:
+    name: Branch ${{ matrix.repo }}#${{ matrix.branch }}
     strategy:
       fail-fast: false
       matrix:
