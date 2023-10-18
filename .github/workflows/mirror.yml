@@ -99,8 +99,6 @@ jobs:
             branch: master
           - repo: Gerschtli/nix-formatter-pack
             branch: master
-          - repo: thiagokokada/nix-alien
-            branch: master
           - repo: danth/stylix
             branch: master
           - repo: oxalica/rust-overlay
