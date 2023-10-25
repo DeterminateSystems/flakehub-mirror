@@ -12,8 +12,10 @@ jobs:
         repo:
           # Please keep this sorted.
           - astro/deadnix
+          - cachix/nixpkgs-python
           - figsoda/utf8
           - hyprwm/Hyprland
+          - infinisil/nixus
           - kamadorueda/alejandra
           - kamadorueda/nixel
           - Mic92/nix-update
