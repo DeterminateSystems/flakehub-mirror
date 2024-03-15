@@ -12,7 +12,7 @@ jobs:
         include:
           - name: DeterminateSystems/nixpkgs-weekly
             repo: NixOS/nixpkgs
-            branch: nixos-unstable
+            branch: nixpkgs-unstable
 
     runs-on: ubuntu-latest
     permissions:
