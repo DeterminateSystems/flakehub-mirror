@@ -1,0 +1,41 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '30 5 * * 2'
+  
+jobs:
+  rolling:
+    name: Buffered mirror of branch ${{ matrix.repo }}#${{ matrix.branch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: DeterminateSystems/nixpkgs-weekly
+            repo: NixOS/nixpkgs
+            branch: nixpkgs-unstable
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # In order to upload artifacts to GitHub releases
+      id-token: write # In order to request a JWT for AWS auth
+    steps:
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.branch }}
+
+      - name: Release to FlakeHub
+        uses: DeterminateSystems/flakehub-push@main
+        with:
+          name: ${{ matrix.name }}
+          mirror: true
+          visibility: public
+          repository: ${{ matrix.repo }}
+          rolling: true
+          rolling-minor: ${{ matrix.rolling-minor }}
+          log-directives: flakehub_push=trace
+          logger: pretty
