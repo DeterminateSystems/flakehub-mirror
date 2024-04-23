@@ -9,7 +9,7 @@ jobs:
       matrix:
         repo:
           # Please keep this sorted.
-          - grahamc/test6
+          - grahamc/test7
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
@@ -45,7 +45,7 @@ jobs:
       matrix:
         include:
           # Please keep this sorted.
-          - repo: grahamc/test6
+          - repo: grahamc/test7
             branch: main
 
 
