@@ -1,0 +1,75 @@
+on:
+  workflow_dispatch:
+  
+jobs:
+  mirror_tags:
+    name: Tag ${{ matrix.repo }} (Test)
+    strategy:
+      fail-fast: false
+      matrix:
+        repo:
+          # Please keep this sorted.
+          - grahamc/test3
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # In order to upload artifacts to GitHub releases
+      id-token: write # In order to request a JWT for AWS auth
+    steps:
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: oprypin/find-latest-tag@v1
+        with:
+          repository: ${{ matrix.repo }}
+        id: tagfetch
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ matrix.repo }}
+          ref: ${{ steps.tagfetch.outputs.tag }}
+
+      - name: Release to FlakeHub
+        uses: DeterminateSystems/flakehub-push@detsys-ts
+        with:
+          mirror: true
+          visibility: public
+          repository: ${{ matrix.repo }}
+          tag: ${{ steps.tagfetch.outputs.tag }}
+          log-directives: flakehub_push=trace
+          logger: pretty
+          
+  rolling:
+    name: Branch ${{ matrix.repo }}#${{ matrix.branch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Please keep this sorted.
+          - repo: grahamc/test3
+            branch: main
+
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # In order to upload artifacts to GitHub releases
+      id-token: write # In order to request a JWT for AWS auth
+    steps:
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.branch }}
+
+      - name: Release to FlakeHub
+        uses: DeterminateSystems/flakehub-push@detsy-ts
+        with:
+          mirror: true
+          visibility: public
+          repository: ${{ matrix.repo }}
+          rolling: true
+          rolling-minor: ${{ matrix.rolling-minor }}
+          log-directives: flakehub_push=trace
+          logger: pretty
