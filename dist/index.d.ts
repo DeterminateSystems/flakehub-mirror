@@ -1,2 +1,3 @@
+declare function makeMinorVersion(ref: string): string;
 
-export {  }
+export { makeMinorVersion };

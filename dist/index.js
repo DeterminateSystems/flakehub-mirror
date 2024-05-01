@@ -26660,6 +26660,23 @@ module.exports = parseParams
 /******/ }
 /******/ 
 /************************************************************************/
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__nccwpck_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			}
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
 /******/ /* webpack/runtime/compat */
 /******/ 
 /******/ if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = new URL('.', import.meta.url).pathname.slice(import.meta.url.match(/^file:\/\/\/\w:/) ? 1 : 0, -1) + "/";
@@ -26668,24 +26685,26 @@ module.exports = parseParams
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
+/* harmony export */   "c": () => (/* binding */ makeMinorVersion)
+/* harmony export */ });
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(9093);
 // src/index.ts
 
+var MINOR_VERSION_REGEX = new RegExp(
+  /^nixos-(?<version>([0-9]+\.[0-9]+)(-small)?|unstable)$/
+);
 function makeMinorVersion(ref) {
-  const regex = new RegExp(
-    /^nixos-(?<version>([0-9]+\.[0-9]+)(-small)?|unstable)$/
-  );
-  const match = regex.exec(ref);
+  const match = MINOR_VERSION_REGEX.exec(ref);
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
-      const minorVersion = versionPart === "unstable" ? "1" : versionPart.replace(".", "");
-      return minorVersion;
+      return versionPart === "unstable" ? "1" : versionPart.replace(".", "");
     } else {
-      throw new Error(`version part is undefined in matches: ${match.groups}`);
+      throw new Error(`Version part is undefined in matches: ${match.groups}`);
     }
   } else {
-    throw new Error(`Branch didn't match our publishable regex.`);
+    throw new Error(`Branch \`${ref}\` didn't match our publishable regex.`);
   }
 }
 function main() {
@@ -26711,6 +26730,9 @@ function main() {
   }
 }
 main();
-//# sourceMappingURL=index.js.map
+
+
 })();
 
+var __webpack_exports__makeMinorVersion = __webpack_exports__.c;
+export { __webpack_exports__makeMinorVersion as makeMinorVersion };
