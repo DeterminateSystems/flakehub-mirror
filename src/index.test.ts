@@ -17,31 +17,17 @@ test("derive minor version from Git ref", () => {
     expect(makeMinorVersion(ref)).toBe(minorVersion),
   );
 
-  type ErrorCase = {
-    ref: string;
-    error: string;
-  };
-
-  const errorCases: ErrorCase[] = [
-    {
-      ref: "",
-      error: "Branch didn't match our publishable regex.",
-    },
-    {
-      ref: "some-weird-ref",
-      error: "Branch didn't match our publishable regex.",
-    },
-    {
-      ref: "nixos-something",
-      error: "Branch didn't match our publishable regex.",
-    },
-    {
-      ref: "nixos-1.1.5",
-      error: "Branch didn't match our publishable regex.",
-    },
+  const noMatchCases: string[] = [
+    "",
+    "some-weird-ref",
+    "nixos-something",
+    "nixos-1.1.5",
+    "nixos-25.06-dev",
   ];
 
-  errorCases.forEach(({ ref, error }) => {
-    expect(() => makeMinorVersion(ref)).toThrowError(error);
+  noMatchCases.forEach((ref) => {
+    expect(() => makeMinorVersion(ref)).toThrowError(
+      `Branch \`${ref}\` didn't match our publishable regex.`,
+    );
   });
 });

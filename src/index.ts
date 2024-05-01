@@ -1,10 +1,11 @@
 import * as actionsCore from "@actions/core";
 
+const MINOR_VERSION_REGEX = new RegExp(
+  /^nixos-(?<version>([0-9]+\.[0-9]+)(-small)?|unstable)$/,
+);
+
 export function makeMinorVersion(ref: string): string {
-  const regex = new RegExp(
-    /^nixos-(?<version>([0-9]+\.[0-9]+)(-small)?|unstable)$/,
-  );
-  const match = regex.exec(ref);
+  const match = MINOR_VERSION_REGEX.exec(ref);
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
@@ -13,7 +14,7 @@ export function makeMinorVersion(ref: string): string {
       throw new Error(`Version part is undefined in matches: ${match.groups}`);
     }
   } else {
-    throw new Error(`Branch didn't match our publishable regex.`);
+    throw new Error(`Branch \`${ref}\` didn't match our publishable regex.`);
   }
 }
 
