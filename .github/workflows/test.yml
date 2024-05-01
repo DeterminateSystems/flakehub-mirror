@@ -29,7 +29,7 @@ jobs:
           ref: ${{ steps.tagfetch.outputs.tag }}
 
       - name: Release to FlakeHub
-        uses: DeterminateSystems/flakehub-push@detsys-ts
+        uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
           visibility: public
@@ -63,7 +63,7 @@ jobs:
           ref: ${{ matrix.branch }}
 
       - name: Release to FlakeHub
-        uses: DeterminateSystems/flakehub-push@detsy-ts
+        uses: DeterminateSystems/flakehub-push@main
         with:
           mirror: true
           visibility: public
