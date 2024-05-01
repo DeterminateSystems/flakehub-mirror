@@ -26,7 +26,7 @@ jobs:
         with:
           repository: ${{ inputs.repo }}
           ref: ${{ inputs.branch }}
-        
+
       - uses: "DeterminateSystems/nix-installer-action@main"
       - uses: "DeterminateSystems/magic-nix-cache-action@main"
       - uses: "DeterminateSystems/flakehub-push@main"

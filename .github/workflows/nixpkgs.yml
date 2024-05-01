@@ -53,13 +53,12 @@ jobs:
           repository: "NixOS/nixpkgs"
           ref: ${{ inputs.release_branch }}
 
-        
       - uses: "DeterminateSystems/nix-installer-action@main"
         if: steps.split.outputs.minorVersion
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
         if: steps.split.outputs.minorVersion
-        
+
       - uses: "DeterminateSystems/flakehub-push@main"
         if: steps.split.outputs.minorVersion
         with:
