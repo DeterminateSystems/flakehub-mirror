@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  javascript-checks:
+    name: Run all TS/JS checks
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: pnpm install
+        run: nix develop --command pnpm install
+      - name: prettier format
+        run: nix develop --command pnpm run format
+      - name: ESLint
+        run: nix develop --command pnpm run lint
+      - name: Vitest
+        run: nix develop --command pnpm run test
+      - name: tsup build
+        run: nix develop --command pnpm run build
+      - name: ncc package
+        run: nix develop --command pnpm run package
+      - name: Git status
+        run: git status --porcelain=v1
+      - name: Ensure no staged changes
+        run: git diff --exit-code
