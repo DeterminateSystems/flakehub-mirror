@@ -9,7 +9,7 @@ jobs:
       matrix:
         repo:
           # Please keep this sorted.
-          - grahamc/test3
+          - grahamc/test7
     runs-on: ubuntu-latest
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
@@ -45,7 +45,7 @@ jobs:
       matrix:
         include:
           # Please keep this sorted.
-          - repo: grahamc/test3
+          - repo: grahamc/test7
             branch: main
 
 
@@ -64,7 +64,7 @@ jobs:
           ref: ${{ matrix.branch }}
 
       - name: Release to FlakeHub
-        uses: DeterminateSystems/flakehub-push@detsy-ts
+        uses: DeterminateSystems/flakehub-push@detsys-ts
         with:
           mirror: true
           visibility: public
