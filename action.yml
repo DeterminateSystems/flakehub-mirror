@@ -1,0 +1,9 @@
+name: flakehub-mirror
+branding:
+  icon: "box"
+  color: "purple"
+description: "Mirror Nixpkgs to FlakeHub"
+inputs: {}
+runs:
+  using: "node20"
+  main: "./dist/index.js"
