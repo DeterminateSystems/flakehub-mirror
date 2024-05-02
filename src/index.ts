@@ -1,10 +1,12 @@
 import * as actionsCore from "@actions/core";
 
 const MINOR_VERSION_REGEX = new RegExp(
-  /^nixos-(?<version>([0-9]+\.[0-9]+)(-small)?|unstable)$/,
+  /^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/,
 );
 
 export function makeMinorVersion(ref: string): string {
+  if (ref === "") throw new Error("Git ref can't be an empty string");
+
   const match = MINOR_VERSION_REGEX.exec(ref);
   if (match && match.groups) {
     const versionPart = match.groups.version;

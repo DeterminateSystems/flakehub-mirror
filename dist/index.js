@@ -26692,9 +26692,11 @@ var __webpack_exports__ = {};
 // src/index.ts
 
 var MINOR_VERSION_REGEX = new RegExp(
-  /^nixos-(?<version>([0-9]+\.[0-9]+)(-small)?|unstable)$/
+  /^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/
 );
 function makeMinorVersion(ref) {
+  if (ref === "")
+    throw new Error("Git ref can't be an empty string");
   const match = MINOR_VERSION_REGEX.exec(ref);
   if (match && match.groups) {
     const versionPart = match.groups.version;
