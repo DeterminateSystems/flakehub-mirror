@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-  
+
 jobs:
   mirror_tags:
     name: Tag ${{ matrix.repo }} (Test)
@@ -37,7 +37,7 @@ jobs:
           tag: ${{ steps.tagfetch.outputs.tag }}
           log-directives: flakehub_push=trace
           logger: pretty
-          
+
   rolling:
     name: Branch ${{ matrix.repo }}#${{ matrix.branch }}
     strategy:
@@ -47,7 +47,6 @@ jobs:
           # Please keep this sorted.
           - repo: grahamc/test7
             branch: main
-
 
     runs-on: ubuntu-latest
     permissions:

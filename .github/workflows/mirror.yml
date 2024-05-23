@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 5,17 * * *'
-  
+    - cron: "30 5,17 * * *"
+
 jobs:
   mirror_tags:
     name: Tag ${{ matrix.repo }}
@@ -59,7 +59,7 @@ jobs:
           tag: ${{ steps.tagfetch.outputs.tag }}
           log-directives: flakehub_push=trace
           logger: pretty
-          
+
   rolling:
     name: Branch ${{ matrix.repo }}#${{ matrix.branch }}
     strategy:
