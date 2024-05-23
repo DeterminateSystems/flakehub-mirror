@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-check-typescript:
-    name: Build and check the TypeScript Action
+    name: Build, check, and test the TypeScript Action
     runs-on: ubuntu-22.04
     permissions:
       contents: read

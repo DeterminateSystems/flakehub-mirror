@@ -3,8 +3,8 @@
   description = "Development environment for the flakehub-mirror Action";
 
   inputs = {
-    flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*.tar.gz";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
+    flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2405.*";
   };
 
   outputs = { self, flake-schemas, nixpkgs }:
@@ -15,7 +15,7 @@
       });
     in
     {
-      schemas = flake-schemas.schemas;
+      inherit (flake-schemas) schemas;
 
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
