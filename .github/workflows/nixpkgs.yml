@@ -1,9 +1,9 @@
 name: "Publish every Git push to NixOS release branches to FlakeHub. nixos-unstable is 0.1.x, and nixos-yy.mm is 0.yymm.x."
-run-name: Mirror Nixpkgs ${{ inputs.release_branch }}
+run-name: Mirror Nixpkgs ${{ inputs.release-branch }}
 on:
   workflow_dispatch:
     inputs:
-      release_branch:
+      release-branch:
         description: "The release branch to publish to FlakeHub"
         type: "string"
         required: true
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/github-script@v6
         id: split
         env:
-          RELEASE_BRANCH: "${{ inputs.release_branch }}"
+          RELEASE_BRANCH: "${{ inputs.release-branch }}"
         with:
           script: |
             "use strict";
@@ -51,15 +51,14 @@ jobs:
         if: steps.split.outputs.minorVersion
         with:
           repository: "NixOS/nixpkgs"
-          ref: ${{ inputs.release_branch }}
+          ref: ${{ inputs.release-branch }}
 
-        
       - uses: "DeterminateSystems/nix-installer-action@main"
         if: steps.split.outputs.minorVersion
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
         if: steps.split.outputs.minorVersion
-        
+
       - uses: "DeterminateSystems/flakehub-push@main"
         if: steps.split.outputs.minorVersion
         with:

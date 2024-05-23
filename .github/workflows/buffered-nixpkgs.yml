@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 5 * * 2'
-  
+    - cron: "30 5 * * 2"
+
 jobs:
   rolling:
     name: Buffered mirror of branch ${{ matrix.repo }}#${{ matrix.branch }}
