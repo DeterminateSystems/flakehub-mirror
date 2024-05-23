@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-check-typescript:
+    name: Build and check the TypeScript Action
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Install pnpm dependencies
+        run: nix develop --command pnpm install
+      - name: Check prettier formatting
+        run: nix develop --command pnpm run format
+      - name: Run ESLint
+        run: nix develop --command pnpm run lint
+      - name: Run Vitest test suite
+        run: nix develop --command pnpm test
+      - name: Build using tsup
+        run: nix develop --command pnpm run build
+      - name: Package using ncc
+        run: nix develop --command pnpm run package
+      - name: git status
+        run: git status --porcelain=v1
+      - name: Ensure no unstaged changes
+        run: git diff --exit-code

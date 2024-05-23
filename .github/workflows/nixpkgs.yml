@@ -15,58 +15,30 @@ jobs:
       id-token: "write"
       contents: "read"
     steps:
-      - uses: actions/github-script@v6
-        id: split
-        env:
-          RELEASE_BRANCH: "${{ inputs.release-branch }}"
-        with:
-          script: |
-            "use strict";
-            const ref = process.env['RELEASE_BRANCH'];
-            if (!ref) {
-                console.log("ref is undefined in context:", context);
-                process.exit(1);
-            }
-            console.log(`Calculating the minor version for ${ref}`);
-            let regex = new RegExp(/^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/);
-            let match = regex.exec(ref);
-            if (match && match.groups) {
-                const versionPart = match.groups.version;
-                if (versionPart) {
-                    const minorVersion = versionPart == "unstable" ? "1" : versionPart.replace('.', '');
-                    console.log(`Minor version part: ${minorVersion}`);
-                    core.setOutput("minorVersion", minorVersion);
-                }
-                else {
-                    console.log(`version part is undefined in matches:`, match.groups);
-                    process.exit(1);
-                }
-            }
-            else {
-                console.log(`Branch didn't match our publishable regex.`);
-                process.exit();
-            }
+      - name: Determine minor version
+        id: minor-version
+        run: node "$GITHUB_ACTION_PATH/dist/index.js"
 
       - uses: "actions/checkout@v3"
-        if: steps.split.outputs.minorVersion
+        if: steps.minor-version.outputs.minorVersion
         with:
           repository: "NixOS/nixpkgs"
           ref: ${{ inputs.release-branch }}
 
       - uses: "DeterminateSystems/nix-installer-action@main"
-        if: steps.split.outputs.minorVersion
+        if: steps.minor-version.outputs.minorVersion
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
-        if: steps.split.outputs.minorVersion
+        if: steps.minor-version.outputs.minorVersion
 
       - uses: "DeterminateSystems/flakehub-push@main"
-        if: steps.split.outputs.minorVersion
+        if: steps.minor-version.outputs.minorVersion
         with:
           name: "NixOS/nixpkgs"
           repository: "NixOS/nixpkgs"
           rolling: true
           visibility: "public"
-          rolling-minor: "${{ steps.split.outputs.minorVersion }}"
+          rolling-minor: "${{ steps.minor-version.outputs.minorVersion }}"
           mirror: true
           log-directives: flakehub_push=trace
           logger: pretty

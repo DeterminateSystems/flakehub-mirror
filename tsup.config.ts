@@ -8,7 +8,7 @@ export default defineConfig({
   target: "node20",
   bundle: true,
   splitting: false,
-  sourcemap: true,
+  sourcemap: false,
   clean: true,
   dts: {
     resolve: true,

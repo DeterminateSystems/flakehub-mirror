@@ -1,2 +1,3 @@
+declare function getRollingMinor(branch: string): string;
 
-export {  }
+export { getRollingMinor };
