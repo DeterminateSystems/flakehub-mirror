@@ -1,5 +1,5 @@
 name: "Mirror a repo's latest commit to a specific branch to FlakeHub."
-run-name: Mirror ${{ inputs.repo }}#${{ inputs.branch }}@${{ inputs.rolling_minor }}
+run-name: Mirror ${{ inputs.repo }}#${{ inputs.branch }}@${{  inputs.rolling_minor }}
 on:
   workflow_dispatch:
     inputs:
@@ -22,6 +22,15 @@ jobs:
       id-token: "write"
       contents: "read"
     steps:
+      - name: (Nixpkgs only) Validate Nixpkgs version is stable
+        if: ${{ inputs.repo }} == "NixOS/nixpkgs"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUTS_RELEASE_BRANCH: ${{ inputs.branch }}
+        run: node "$GITHUB_ACTION_PATH/dist/index.js"
+
+      - run: exit 1
+
       - uses: "actions/checkout@v3"
         with:
           repository: ${{ inputs.repo }}
