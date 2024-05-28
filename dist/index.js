@@ -86764,17 +86764,19 @@ async function getRollingMinor(branch) {
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
-      const expectedRef = `tags/${versionPart}`;
-      try {
-        await octokit.rest.git.getRef({
-          owner: "NixOS",
-          repo: "nixpkgs",
-          ref: expectedRef
-        });
-      } catch (e) {
-        throw new Error(
-          `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .n)(e)}`
-        );
+      if (versionPart !== "unstable") {
+        const expectedRef = `tags/${versionPart}`;
+        try {
+          await octokit.rest.git.getRef({
+            owner: "NixOS",
+            repo: "nixpkgs",
+            ref: expectedRef
+          });
+        } catch (e) {
+          throw new Error(
+            `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .n)(e)}`
+          );
+        }
       }
       const minorVersion = versionPart === "unstable" ? "1" : versionPart.replace(".", "");
       _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Minor version part: ${minorVersion}`);
