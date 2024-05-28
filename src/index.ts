@@ -48,16 +48,18 @@ export async function getRollingMinor(branch: string): Promise<string> {
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
+      const expectedRef = `tags/${versionPart}`;
+
       // Check that NixOS/nixpkgs has the tag nixos-${versionPart}
       try {
         await octokit.rest.git.getRef({
           owner: "NixOS",
           repo: "nixpkgs",
-          ref: versionPart,
+          ref: expectedRef,
         });
       } catch (e: unknown) {
         throw new Error(
-          `Failed to detect NixOS/nixpkgs ref ${versionPart}: ${stringifyError(e)}`,
+          `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${stringifyError(e)}`,
         );
       }
 
