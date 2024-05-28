@@ -29,17 +29,10 @@ class FlakeHubMirrorAction {
   }
 }
 
-export async function getRollingMinor(branch: string): Promise<string> {
-  const githubToken = process.env["GITHUB_TOKEN"];
-
-  if (!githubToken) {
-    throw new Error(
-      "GitHub token not found; should be provided by GITHUB_TOKEN environment variable",
-    );
-  }
-
-  const octokit = github.getOctokit(githubToken);
-
+export async function getRollingMinor(
+  branch: string,
+  testMode = false,
+): Promise<string> {
   if (branch === "") {
     throw new Error("Branch name can't be empty");
   }
@@ -50,7 +43,17 @@ export async function getRollingMinor(branch: string): Promise<string> {
     if (versionPart) {
       // For releases that aren't unstable, we need to make sure that the tag exists
       // in NixOS/nixpkgs. If it doesn't, then the release isn't stable.
-      if (versionPart !== "unstable") {
+      if (!testMode && versionPart !== "unstable") {
+        const githubToken = process.env["GITHUB_TOKEN"];
+
+        if (!githubToken) {
+          throw new Error(
+            "GitHub token not found; should be provided by GITHUB_TOKEN environment variable",
+          );
+        }
+
+        const octokit = github.getOctokit(githubToken);
+
         const expectedRef = `tags/${versionPart}`;
 
         // Check that NixOS/nixpkgs has the tag `${versionPart}`, like a tag named `24.05` for the nixos-24.05 branch.
@@ -73,11 +76,11 @@ export async function getRollingMinor(branch: string): Promise<string> {
       return minorVersion;
     } else {
       throw new Error(
-        `Version part ${versionPart} is undefined in matches: ${match.groups}`,
+        `Version part \`${versionPart}\` is undefined in matches: ${match.groups}`,
       );
     }
   } else {
-    throw new Error(`Branch ${branch} didn't match our publishable regex`);
+    throw new Error(`Branch \`${branch}\` didn't match our publishable regex`);
   }
 }
 

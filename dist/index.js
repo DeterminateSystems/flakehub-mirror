@@ -86749,14 +86749,7 @@ var FlakeHubMirrorAction = class {
     }
   }
 };
-async function getRollingMinor(branch) {
-  const githubToken = process.env["GITHUB_TOKEN"];
-  if (!githubToken) {
-    throw new Error(
-      "GitHub token not found; should be provided by GITHUB_TOKEN environment variable"
-    );
-  }
-  const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_2__.getOctokit(githubToken);
+async function getRollingMinor(branch, testMode = false) {
   if (branch === "") {
     throw new Error("Branch name can't be empty");
   }
@@ -86764,7 +86757,14 @@ async function getRollingMinor(branch) {
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
-      if (versionPart !== "unstable") {
+      if (!testMode && versionPart !== "unstable") {
+        const githubToken = process.env["GITHUB_TOKEN"];
+        if (!githubToken) {
+          throw new Error(
+            "GitHub token not found; should be provided by GITHUB_TOKEN environment variable"
+          );
+        }
+        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_2__.getOctokit(githubToken);
         const expectedRef = `tags/${versionPart}`;
         try {
           await octokit.rest.git.getRef({
@@ -86783,11 +86783,11 @@ async function getRollingMinor(branch) {
       return minorVersion;
     } else {
       throw new Error(
-        `Version part ${versionPart} is undefined in matches: ${match.groups}`
+        `Version part \`${versionPart}\` is undefined in matches: ${match.groups}`
       );
     }
   } else {
-    throw new Error(`Branch ${branch} didn't match our publishable regex`);
+    throw new Error(`Branch \`${branch}\` didn't match our publishable regex`);
   }
 }
 async function main() {
