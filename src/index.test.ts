@@ -11,7 +11,7 @@ type ErrorCase = {
   error: string;
 };
 
-test("properly formed branches produce expected rolling minor versions", () => {
+test("properly formed branches produce expected rolling minor versions", async () => {
   const successCases: SuccessCase[] = [
     { branch: "nixos-unstable", minorVersion: "1" },
     { branch: "nixos-22.11", minorVersion: "2211" },
@@ -22,11 +22,11 @@ test("properly formed branches produce expected rolling minor versions", () => {
   ];
 
   for (const { branch, minorVersion } of successCases) {
-    expect(getRollingMinor(branch)).toEqual(minorVersion);
+    expect(await getRollingMinor(branch)).toEqual(minorVersion);
   }
 });
 
-test("malformed branches produce expected errors", () => {
+test("malformed branches produce expected errors", async () => {
   const errorCases: ErrorCase[] = [
     {
       branch: "",
@@ -47,6 +47,6 @@ test("malformed branches produce expected errors", () => {
   ];
 
   for (const { branch, error } of errorCases) {
-    expect(() => getRollingMinor(branch)).toThrowError(new Error(error));
+    expect(await getRollingMinor(branch)).toThrowError(new Error(error));
   }
 });
