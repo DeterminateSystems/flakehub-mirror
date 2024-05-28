@@ -16,6 +16,8 @@ jobs:
       contents: "read"
     steps:
       - name: Determine minor version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         id: minor-version
         run: node "$GITHUB_ACTION_PATH/dist/index.js"
 
