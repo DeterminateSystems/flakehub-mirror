@@ -53,7 +53,7 @@ export async function getRollingMinor(branch: string): Promise<string> {
       if (versionPart !== "unstable") {
         const expectedRef = `tags/${versionPart}`;
 
-        // Check that NixOS/nixpkgs has the tag nixos-${versionPart}
+        // Check that NixOS/nixpkgs has the tag `${versionPart}`, like a tag named `24.05` for the nixos-24.05 branch.
         try {
           await octokit.rest.git.getRef({
             owner: "NixOS",
