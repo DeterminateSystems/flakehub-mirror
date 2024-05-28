@@ -48253,7 +48253,7 @@ function onceStrict (fn) {
 
 /***/ }),
 
-/***/ 1538:
+/***/ 4438:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 ;(function (sax) { // wrapper for non-node envs
@@ -48327,6 +48327,12 @@ function onceStrict (fn) {
     // which protos to its parent tag.
     if (parser.opt.xmlns) {
       parser.ns = Object.create(rootNS)
+    }
+
+    // disallow unquoted attribute values if not otherwise configured
+    // and strict mode is true
+    if (parser.opt.unquotedAttributeValues === undefined) {
+      parser.opt.unquotedAttributeValues = !strict;
     }
 
     // mostly just for error reporting
@@ -49348,15 +49354,22 @@ function onceStrict (fn) {
           continue
 
         case S.SGML_DECL:
-          if ((parser.sgmlDecl + c).toUpperCase() === CDATA) {
+          if (parser.sgmlDecl + c === '--') {
+            parser.state = S.COMMENT
+            parser.comment = ''
+            parser.sgmlDecl = ''
+            continue;
+          }
+
+          if (parser.doctype && parser.doctype !== true && parser.sgmlDecl) {
+            parser.state = S.DOCTYPE_DTD
+            parser.doctype += '<!' + parser.sgmlDecl + c
+            parser.sgmlDecl = ''
+          } else if ((parser.sgmlDecl + c).toUpperCase() === CDATA) {
             emitNode(parser, 'onopencdata')
             parser.state = S.CDATA
             parser.sgmlDecl = ''
             parser.cdata = ''
-          } else if (parser.sgmlDecl + c === '--') {
-            parser.state = S.COMMENT
-            parser.comment = ''
-            parser.sgmlDecl = ''
           } else if ((parser.sgmlDecl + c).toUpperCase() === DOCTYPE) {
             parser.state = S.DOCTYPE
             if (parser.doctype || parser.sawRoot) {
@@ -49410,12 +49423,18 @@ function onceStrict (fn) {
           continue
 
         case S.DOCTYPE_DTD:
-          parser.doctype += c
           if (c === ']') {
+            parser.doctype += c
             parser.state = S.DOCTYPE
+          } else if (c === '<') {
+            parser.state = S.OPEN_WAKA
+            parser.startTagPosition = parser.position
           } else if (isQuote(c)) {
+            parser.doctype += c
             parser.state = S.DOCTYPE_DTD_QUOTED
             parser.q = c
+          } else {
+            parser.doctype += c
           }
           continue
 
@@ -49456,6 +49475,8 @@ function onceStrict (fn) {
             // which is a comment of " blah -- bloo "
             parser.comment += '--' + c
             parser.state = S.COMMENT
+          } else if (parser.doctype && parser.doctype !== true) {
+            parser.state = S.DOCTYPE_DTD
           } else {
             parser.state = S.TEXT
           }
@@ -49623,7 +49644,9 @@ function onceStrict (fn) {
             parser.q = c
             parser.state = S.ATTRIB_VALUE_QUOTED
           } else {
-            strictFail(parser, 'Unquoted attribute value')
+            if (!parser.opt.unquotedAttributeValues) {
+              error(parser, 'Unquoted attribute value')
+            }
             parser.state = S.ATTRIB_VALUE_UNQUOTED
             parser.attribValue = c
           }
@@ -49741,13 +49764,13 @@ function onceStrict (fn) {
           }
 
           if (c === ';') {
-            if (parser.opt.unparsedEntities) {
-              var parsedEntity = parseEntity(parser)
+            var parsedEntity = parseEntity(parser)
+            if (parser.opt.unparsedEntities && !Object.values(sax.XML_ENTITIES).includes(parsedEntity)) {
               parser.entity = ''
               parser.state = returnState
               parser.write(parsedEntity)
             } else {
-              parser[buffer] += parseEntity(parser)
+              parser[buffer] += parsedEntity
               parser.entity = ''
               parser.state = returnState
             }
@@ -69221,7 +69244,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 6002:
+/***/ 1187:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
@@ -69335,7 +69358,7 @@ const {
   kAborted,
   kLastProgressEventFired
 } = __nccwpck_require__(3738)
-const { ProgressEvent } = __nccwpck_require__(6002)
+const { ProgressEvent } = __nccwpck_require__(1187)
 const { getEncoding } = __nccwpck_require__(2444)
 const { DOMException } = __nccwpck_require__(756)
 const { serializeAMimeType, parseMIMEType } = __nccwpck_require__(6932)
@@ -77588,7 +77611,7 @@ function wrappy (fn, cb) {
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  sax = __nccwpck_require__(1538);
+  sax = __nccwpck_require__(4438);
 
   events = __nccwpck_require__(2361);
 
@@ -86699,7 +86722,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "O": () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(440);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(6002);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9093);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(5942);
 // src/index.ts
@@ -86722,7 +86745,7 @@ var FlakeHubMirrorAction = class {
       const minorVersion = await getRollingMinor(this.releaseBranch);
       _actions_core__WEBPACK_IMPORTED_MODULE_1__.setOutput(OUTPUT_KEY, minorVersion);
     } catch (e) {
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__.setFailed(`flakehub-mirror failed: ${stringifyError(e)}`);
+      _actions_core__WEBPACK_IMPORTED_MODULE_1__.setFailed(`flakehub-mirror failed: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .n)(e)}`);
     }
   }
 };
@@ -86741,16 +86764,15 @@ async function getRollingMinor(branch) {
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
-      const releaseRef = `nixos-${versionPart}`;
       try {
         await octokit.rest.git.getRef({
           owner: "NixOS",
           repo: "nixpkgs",
-          ref: releaseRef
+          ref: versionPart
         });
       } catch (e) {
         throw new Error(
-          `Failed to detect NixOS/nixpkgs ref ${releaseRef}: ${stringifyError(e)}`
+          `Failed to detect NixOS/nixpkgs ref ${versionPart}: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .n)(e)}`
         );
       }
       const minorVersion = versionPart === "unstable" ? "1" : versionPart.replace(".", "");
@@ -86765,9 +86787,6 @@ async function getRollingMinor(branch) {
     throw new Error(`Branch ${branch} didn't match our publishable regex`);
   }
 }
-function stringifyError(error) {
-  return error instanceof Error || typeof error == "string" ? error.toString() : JSON.stringify(error);
-}
 async function main() {
   await new FlakeHubMirrorAction().execute();
 }
@@ -86779,13 +86798,14 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 440:
+/***/ 6002:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
 // EXPORTS
 __nccwpck_require__.d(__webpack_exports__, {
-  "FU": () => (/* binding */ inputs_exports)
+  "FU": () => (/* binding */ inputs_exports),
+  "n": () => (/* binding */ stringifyError)
 });
 
 // UNUSED EXPORTS: DetSysAction, platform
@@ -86816,7 +86836,7 @@ const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(impo
 const external_node_stream_promises_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:stream/promises");
 ;// CONCATENATED MODULE: external "node:zlib"
 const external_node_zlib_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:zlib");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@848cedfa44c31ae5ed7995350bb2707b9422840e_heluh4h342h2muwandvhzbsvpi/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@112942f7ce890dbb82848ce5d8daa1fec1b1e5a0_gftcia4th3e7yz6fslxxwfpoa4/node_modules/detsys-ts/dist/index.js
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -87124,6 +87144,7 @@ function hashEnvironmentVariables(prefix, variables) {
 var inputs_exports = {};
 __export(inputs_exports, {
   getArrayOfStrings: () => getArrayOfStrings,
+  getArrayOfStringsOrNull: () => getArrayOfStringsOrNull,
   getBool: () => getBool,
   getMultilineStringOrNull: () => getMultilineStringOrNull,
   getNumberOrNull: () => getNumberOrNull,
@@ -87139,6 +87160,14 @@ var getBool = (name) => {
 var getArrayOfStrings = (name, separator) => {
   const original = getString(name);
   return handleString(original, separator);
+};
+var getArrayOfStringsOrNull = (name, separator) => {
+  const original = getStringOrNull(name);
+  if (original === null) {
+    return null;
+  } else {
+    return handleString(original, separator);
+  }
 };
 var handleString = (input, separator) => {
   const sepChar = separator === "comma" ? "," : /\s+/;
@@ -87271,6 +87300,19 @@ function noisilyGetInput(suffix, legacyPrefix) {
 
 
 
+
+// src/errors.ts
+function stringifyError(e) {
+  if (e instanceof Error) {
+    return e.message;
+  } else if (typeof e === "string") {
+    return e;
+  } else {
+    return JSON.stringify(e);
+  }
+}
+
+// src/index.ts
 var DEFAULT_IDS_HOST = "https://install.determinate.systems";
 var IDS_HOST = process.env["IDS_HOST"] ?? DEFAULT_IDS_HOST;
 var EVENT_EXCEPTION = "exception";
@@ -87358,7 +87400,7 @@ var DetSysAction = class {
         }
       }).catch((e) => {
         actionsCore6.debug(
-          `Failure getting platform details: ${stringifyError(e)}`
+          `Failure getting platform details: ${stringifyError2(e)}`
         );
       });
     }
@@ -87475,7 +87517,7 @@ var DetSysAction = class {
       this.addFact(FACT_ENDED_WITH_EXCEPTION, false);
     } catch (e) {
       this.addFact(FACT_ENDED_WITH_EXCEPTION, true);
-      const reportable = stringifyError(e);
+      const reportable = stringifyError2(e);
       this.addFact(FACT_FINAL_EXCEPTION, reportable);
       if (this.isPost) {
         actionsCore6.warning(reportable);
@@ -87495,7 +87537,7 @@ var DetSysAction = class {
         } catch (innerError) {
           exceptionContext.set(
             `staple_failure_${attachmentLabel}`,
-            stringifyError(innerError)
+            stringifyError2(innerError)
           );
         }
       }
@@ -87560,7 +87602,7 @@ var DetSysAction = class {
         try {
           await this.saveCachedVersion(v, destFile);
         } catch (e) {
-          actionsCore6.debug(`Error caching the artifact: ${stringifyError(e)}`);
+          actionsCore6.debug(`Error caching the artifact: ${stringifyError2(e)}`);
         }
       }
       return destFile;
@@ -87739,7 +87781,7 @@ var DetSysAction = class {
       }
       this.addFact(FACT_NIX_STORE_VERSION, JSON.stringify(parsed.version));
     } catch (e) {
-      this.addFact(FACT_NIX_STORE_CHECK_ERROR, stringifyError(e));
+      this.addFact(FACT_NIX_STORE_CHECK_ERROR, stringifyError2(e));
     }
   }
   async submitEvents() {
@@ -87761,13 +87803,13 @@ var DetSysAction = class {
       });
     } catch (e) {
       actionsCore6.debug(
-        `Error submitting diagnostics event: ${stringifyError(e)}`
+        `Error submitting diagnostics event: ${stringifyError2(e)}`
       );
     }
     this.events = [];
   }
 };
-function stringifyError(error2) {
+function stringifyError2(error2) {
   return error2 instanceof Error || typeof error2 == "string" ? error2.toString() : JSON.stringify(error2);
 }
 function makeOptionsConfident(actionOptions) {
@@ -87805,7 +87847,7 @@ function determineDiagnosticsUrl(idsProjectName, urlOption) {
         return mungeDiagnosticEndpoint(new URL(providedDiagnosticEndpoint));
       } catch (e) {
         actionsCore6.info(
-          `User-provided diagnostic endpoint ignored: not a valid URL: ${stringifyError(e)}`
+          `User-provided diagnostic endpoint ignored: not a valid URL: ${stringifyError2(e)}`
         );
       }
     }
@@ -87817,7 +87859,7 @@ function determineDiagnosticsUrl(idsProjectName, urlOption) {
     return diagnosticUrl;
   } catch (e) {
     actionsCore6.info(
-      `Generated diagnostic endpoint ignored: not a valid URL: ${stringifyError(e)}`
+      `Generated diagnostic endpoint ignored: not a valid URL: ${stringifyError2(e)}`
     );
   }
   return void 0;
@@ -87839,7 +87881,7 @@ function mungeDiagnosticEndpoint(inputUrl) {
     return inputUrl;
   } catch (e) {
     actionsCore6.info(
-      `Default or overridden IDS host isn't a valid URL: ${stringifyError(e)}`
+      `Default or overridden IDS host isn't a valid URL: ${stringifyError2(e)}`
     );
   }
   return inputUrl;

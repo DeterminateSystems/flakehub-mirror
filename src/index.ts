@@ -1,4 +1,4 @@
-import { inputs } from "detsys-ts";
+import { inputs, stringifyError } from "detsys-ts";
 import * as actionsCore from "@actions/core";
 import * as github from "@actions/github";
 
@@ -48,18 +48,16 @@ export async function getRollingMinor(branch: string): Promise<string> {
   if (match && match.groups) {
     const versionPart = match.groups.version;
     if (versionPart) {
-      const releaseRef = `nixos-${versionPart}`;
-
       // Check that NixOS/nixpkgs has the tag nixos-${versionPart}
       try {
         await octokit.rest.git.getRef({
           owner: "NixOS",
           repo: "nixpkgs",
-          ref: releaseRef,
+          ref: versionPart,
         });
       } catch (e: unknown) {
         throw new Error(
-          `Failed to detect NixOS/nixpkgs ref ${releaseRef}: ${stringifyError(e)}`,
+          `Failed to detect NixOS/nixpkgs ref ${versionPart}: ${stringifyError(e)}`,
         );
       }
 
@@ -75,12 +73,6 @@ export async function getRollingMinor(branch: string): Promise<string> {
   } else {
     throw new Error(`Branch ${branch} didn't match our publishable regex`);
   }
-}
-
-function stringifyError(error: unknown): string {
-  return error instanceof Error || typeof error == "string"
-    ? error.toString()
-    : JSON.stringify(error);
 }
 
 async function main(): Promise<void> {
