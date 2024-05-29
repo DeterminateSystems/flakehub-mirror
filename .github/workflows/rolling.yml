@@ -22,6 +22,7 @@ jobs:
       id-token: "write"
       contents: "read"
     steps:
+      - uses: "actions/checkout@v4"
       - name: (Nixpkgs only) Validate Nixpkgs version is stable
         if: ${{ inputs.repo }} == "NixOS/nixpkgs"
         env:
@@ -31,7 +32,7 @@ jobs:
 
       - run: exit 1
 
-      - uses: "actions/checkout@v3"
+      - uses: "actions/checkout@v4"
         with:
           repository: ${{ inputs.repo }}
           ref: ${{ inputs.branch }}
