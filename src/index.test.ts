@@ -22,7 +22,7 @@ test("properly formed branches produce expected rolling minor versions", async (
   ];
 
   for (const { branch, minorVersion } of successCases) {
-    expect(await getRollingMinor(branch)).toEqual(minorVersion);
+    expect(await getRollingMinor(branch, true)).toEqual(minorVersion);
   }
 });
 
@@ -34,19 +34,21 @@ test("malformed branches produce expected errors", async () => {
     },
     {
       branch: "foo",
-      error: "Branch foo didn't match our publishable regex",
+      error: "Branch `foo` didn't match our publishable regex",
     },
     {
       branch: "nixos-12345",
-      error: "Branch nixos-12345 didn't match our publishable regex",
+      error: "Branch `nixos-12345` didn't match our publishable regex",
     },
     {
       branch: "other-24.05-unstable",
-      error: "Branch other-24.05-unstable didn't match our publishable regex",
+      error: "Branch `other-24.05-unstable` didn't match our publishable regex",
     },
   ];
 
   for (const { branch, error } of errorCases) {
-    expect(await getRollingMinor(branch)).toThrowError(new Error(error));
+    await expect(getRollingMinor(branch, true)).rejects.toThrowError(
+      new Error(error),
+    );
   }
 });
