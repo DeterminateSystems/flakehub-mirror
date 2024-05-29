@@ -1,5 +1,5 @@
 name: "Mirror a repo's latest commit to a specific branch to FlakeHub."
-run-name: Mirror ${{ inputs.repo }}#${{ inputs.branch }}@${{  inputs.rolling_minor }}
+run-name: Mirror ${{ inputs.repo }}#${{ inputs.branch }}@${{ inputs.rolling_minor }}
 on:
   workflow_dispatch:
     inputs:
@@ -29,8 +29,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_RELEASE-BRANCH: ${{ inputs.branch }}
         run: node "./dist/index.js"
-
-      - run: exit 1
 
       - uses: "actions/checkout@v4"
         with:
