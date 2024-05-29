@@ -21,7 +21,7 @@ jobs:
         id: minor-version
         run: node "$GITHUB_ACTION_PATH/dist/index.js"
 
-      - uses: "actions/checkout@v3"
+      - uses: "actions/checkout@v4"
         if: steps.minor-version.outputs.minorVersion
         with:
           repository: "NixOS/nixpkgs"
