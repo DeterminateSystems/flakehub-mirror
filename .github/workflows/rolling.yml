@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
       - name: (Nixpkgs only) Validate Nixpkgs version is stable
-        if: ${{ inputs.repo }} == "NixOS/nixpkgs"
+        if: ${{ inputs.repo == 'NixOS/nixpkgs' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_RELEASE-BRANCH: ${{ inputs.branch }}
