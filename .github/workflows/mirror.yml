@@ -45,7 +45,7 @@ jobs:
         id: tagfetch
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ matrix.repo }}
           ref: ${{ steps.tagfetch.outputs.tag }}
@@ -129,7 +129,7 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ matrix.repo }}
           ref: ${{ matrix.branch }}
