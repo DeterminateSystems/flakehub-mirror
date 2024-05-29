@@ -28,7 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUTS_RELEASE_BRANCH: ${{ inputs.branch }}
-        run: node "$GITHUB_ACTION_PATH/dist/index.js"
+        run: node "./dist/index.js"
 
       - run: exit 1
 
