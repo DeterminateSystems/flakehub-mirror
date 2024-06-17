@@ -82,6 +82,7 @@ jobs:
           - repo: nix-community/home-manager
             branch: master
             too-big: true
+            run-on: UbuntuLatest32Cores128G
           - repo: nix-community/impermanence
             branch: master
           - repo: nix-community/naersk
@@ -118,12 +119,14 @@ jobs:
             branch: release-22.11
             rolling-minor: 2211
             too-big: true
+            run-on: UbuntuLatest32Cores128G
           - repo: nix-community/home-manager
             branch: release-23.05
             rolling-minor: 2305
             too-big: true
+            run-on: UbuntuLatest32Cores128G
 
-    runs-on: 'ubuntu-latest'
+    runs-on: ${{ matrix.run-on || 'ubuntu-latest' }}
     permissions:
       contents: write # In order to upload artifacts to GitHub releases
       id-token: write # In order to request a JWT for AWS auth
