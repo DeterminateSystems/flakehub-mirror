@@ -116,6 +116,7 @@ jobs:
             branch: release-24.05
             rolling-minor: 2405
             too-big: true
+            run-on: UbuntuLatest32Cores128G
 
     runs-on: ${{ matrix.run-on || 'ubuntu-latest' }}
     permissions:
