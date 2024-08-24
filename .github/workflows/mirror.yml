@@ -77,8 +77,6 @@ jobs:
             branch: master
           - repo: Mic92/sops-nix
             branch: master
-          - repo: nix-community/dream2nix
-            branch: main
           - repo: nix-community/home-manager
             branch: master
             too-big: true
