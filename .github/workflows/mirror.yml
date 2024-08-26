@@ -67,6 +67,8 @@ jobs:
       matrix:
         include:
           # Please keep this sorted.
+          - repo: cachix/git-hooks.nix
+            branch: master
           - repo: cole-h/nixos-config
             branch: darwin
           - repo: danth/stylix
@@ -75,6 +77,8 @@ jobs:
             branch: main
           - repo: Gerschtli/nix-formatter-pack
             branch: master
+          - repo: hercules-ci/flake-parts
+            branch: main
           - repo: Mic92/sops-nix
             branch: master
           - repo: nix-community/dream2nix
