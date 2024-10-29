@@ -95,6 +95,8 @@ jobs:
             branch: master
           - repo: nixified-ai/flake
             branch: master
+          - repo: NixOS/amis
+            branch: main
           - repo: NixOS/nixpkgs
             branch: nixos-unstable
           - repo: NixOS/nixos-hardware
