@@ -13,7 +13,7 @@ dependencies:
     version: 6.0.0
   detsys-ts:
     specifier: github:DeterminateSystems/detsys-ts
-    version: github.com/DeterminateSystems/detsys-ts/65dd73c562ac60a068340f8e0c040bdcf2c59afe
+    version: github.com/DeterminateSystems/detsys-ts/4280bc94c9545f31ccf08001cc16f20ccb91b770
 
 devDependencies:
   '@trivago/prettier-plugin-sort-imports':
@@ -81,6 +81,13 @@ packages:
     dependencies:
       '@actions/http-client': 2.2.3
       uuid: 8.3.2
+    dev: false
+
+  /@actions/core@1.11.1:
+    resolution: {integrity: sha512-hXJCSrkwfA46Vd9Z3q4cpEpHB1rL5NG04+/rbqW9d3+CSvtB1tYe8UTpAlixa1vj0m/ULglfEK2UKxMGxCxv5A==}
+    dependencies:
+      '@actions/exec': 1.1.1
+      '@actions/http-client': 2.2.3
     dev: false
 
   /@actions/exec@1.1.1:
@@ -1200,8 +1207,8 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
-  /@sindresorhus/is@7.0.0:
-    resolution: {integrity: sha512-WDTlVTyvFivSOuyvMeedzg2hdoBLZ3f1uNVuEida2Rl9BrfjrIRjWA/VZIrMRLvSwJYCAlCRA3usDt1THytxWQ==}
+  /@sindresorhus/is@7.0.1:
+    resolution: {integrity: sha512-QWLl2P+rsCJeofkDNIT3WFmb6NrRud1SUYW8dIhXK/46XFV8Q/g7Bsvib0Askb0reRLe+WYPeeE+l5cH7SlkuQ==}
     engines: {node: '>=18'}
     dev: false
 
@@ -2861,11 +2868,11 @@ packages:
       get-intrinsic: 1.2.4
     dev: true
 
-  /got@14.4.2:
-    resolution: {integrity: sha512-+Te/qEZ6hr7i+f0FNgXx/6WQteSM/QqueGvxeYQQFm0GDfoxLVJ/oiwUKYMTeioColWUTdewZ06hmrBjw6F7tw==}
+  /got@14.4.4:
+    resolution: {integrity: sha512-tqiF7eSgTBwQkxb1LxsEpva8TaMYVisbhplrFVmw9GQE3855Z+MH/mnsXLLOkDxR6hZJRFMj5VTAZ8lmTF8ZOA==}
     engines: {node: '>=20'}
     dependencies:
-      '@sindresorhus/is': 7.0.0
+      '@sindresorhus/is': 7.0.1
       '@szmarczak/http-timer': 5.0.1
       cacheable-lookup: 7.0.0
       cacheable-request: 12.0.1
@@ -2875,7 +2882,7 @@ packages:
       lowercase-keys: 3.0.0
       p-cancelable: 4.0.1
       responselike: 3.0.0
-      type-fest: 4.25.0
+      type-fest: 4.26.1
     dev: false
 
   /graceful-fs@4.2.11:
@@ -4359,8 +4366,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /type-fest@4.25.0:
-    resolution: {integrity: sha512-bRkIGlXsnGBRBQRAY56UXBm//9qH4bmJfFvq83gSz41N282df+fjy8ofcEgc1sM8geNt5cl6mC2g9Fht1cs8Aw==}
+  /type-fest@4.26.1:
+    resolution: {integrity: sha512-yOGpmOAL7CkKe/91I5O3gPICmJNLJ1G4zFYVAsRHg7M64biSnPtRj0WNQt++bRkjYOqjWXrhnUw1utzmVErAdg==}
     engines: {node: '>=16'}
     dev: false
 
@@ -4726,16 +4733,16 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  github.com/DeterminateSystems/detsys-ts/65dd73c562ac60a068340f8e0c040bdcf2c59afe:
-    resolution: {tarball: https://codeload.github.com/DeterminateSystems/detsys-ts/tar.gz/65dd73c562ac60a068340f8e0c040bdcf2c59afe}
+  github.com/DeterminateSystems/detsys-ts/4280bc94c9545f31ccf08001cc16f20ccb91b770:
+    resolution: {tarball: https://codeload.github.com/DeterminateSystems/detsys-ts/tar.gz/4280bc94c9545f31ccf08001cc16f20ccb91b770}
     name: detsys-ts
     version: 1.0.0
     dependencies:
       '@actions/cache': 3.2.4
-      '@actions/core': 1.10.1
+      '@actions/core': 1.11.1
       '@actions/exec': 1.1.1
-      got: 14.4.2
-      type-fest: 4.25.0
+      got: 14.4.4
+      type-fest: 4.26.1
     transitivePeerDependencies:
       - encoding
       - supports-color
