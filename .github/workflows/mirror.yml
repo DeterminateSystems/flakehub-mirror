@@ -114,9 +114,19 @@ jobs:
             branch: nixos-24.05
             rolling-minor: 2405
 
+          - repo: NixOS/nixpkgs
+            branch: nixos-24.11
+            rolling-minor: 2411
+
           - repo: nix-community/home-manager
             branch: release-24.05
             rolling-minor: 2405
+            too-big: true
+            run-on: UbuntuLatest32Cores128G
+
+          - repo: nix-community/home-manager
+            branch: release-24.11
+            rolling-minor: 2411
             too-big: true
             run-on: UbuntuLatest32Cores128G
 
