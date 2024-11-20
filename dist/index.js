@@ -1,7 +1,7 @@
 import { createRequire as __WEBPACK_EXTERNAL_createRequire } from "module";
 /******/ var __webpack_modules__ = ({
 
-/***/ 6878:
+/***/ 5591:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -39,11 +39,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.saveCache = exports.restoreCache = exports.isFeatureAvailable = exports.ReserveCacheError = exports.ValidationError = void 0;
-const core = __importStar(__nccwpck_require__(9093));
+const core = __importStar(__nccwpck_require__(8407));
 const path = __importStar(__nccwpck_require__(1017));
-const utils = __importStar(__nccwpck_require__(9522));
-const cacheHttpClient = __importStar(__nccwpck_require__(5213));
-const tar_1 = __nccwpck_require__(3686);
+const utils = __importStar(__nccwpck_require__(2071));
+const cacheHttpClient = __importStar(__nccwpck_require__(5062));
+const tar_1 = __nccwpck_require__(1630);
 class ValidationError extends Error {
     constructor(message) {
         super(message);
@@ -242,7 +242,7 @@ exports.saveCache = saveCache;
 
 /***/ }),
 
-/***/ 5213:
+/***/ 5062:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -280,16 +280,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.saveCache = exports.reserveCache = exports.downloadCache = exports.getCacheEntry = exports.getCacheVersion = void 0;
-const core = __importStar(__nccwpck_require__(9093));
+const core = __importStar(__nccwpck_require__(8407));
 const http_client_1 = __nccwpck_require__(6634);
 const auth_1 = __nccwpck_require__(2177);
 const crypto = __importStar(__nccwpck_require__(6113));
 const fs = __importStar(__nccwpck_require__(7147));
 const url_1 = __nccwpck_require__(7310);
-const utils = __importStar(__nccwpck_require__(9522));
-const downloadUtils_1 = __nccwpck_require__(1428);
-const options_1 = __nccwpck_require__(730);
-const requestUtils_1 = __nccwpck_require__(6264);
+const utils = __importStar(__nccwpck_require__(2071));
+const downloadUtils_1 = __nccwpck_require__(9314);
+const options_1 = __nccwpck_require__(8272);
+const requestUtils_1 = __nccwpck_require__(4299);
 const versionSalt = '1.0';
 function getCacheApiUrl(resource) {
     const baseUrl = process.env['ACTIONS_CACHE_URL'] || '';
@@ -510,7 +510,7 @@ exports.saveCache = saveCache;
 
 /***/ }),
 
-/***/ 9522:
+/***/ 2071:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -555,16 +555,16 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isGhes = exports.assertDefined = exports.getGnuTarPathOnWindows = exports.getCacheFileName = exports.getCompressionMethod = exports.unlinkFile = exports.resolvePaths = exports.getArchiveFileSizeInBytes = exports.createTempDirectory = void 0;
-const core = __importStar(__nccwpck_require__(9093));
+const core = __importStar(__nccwpck_require__(8407));
 const exec = __importStar(__nccwpck_require__(7775));
 const glob = __importStar(__nccwpck_require__(7272));
 const io = __importStar(__nccwpck_require__(2826));
+const crypto = __importStar(__nccwpck_require__(6113));
 const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
 const semver = __importStar(__nccwpck_require__(6843));
 const util = __importStar(__nccwpck_require__(3837));
-const uuid_1 = __nccwpck_require__(8493);
-const constants_1 = __nccwpck_require__(4498);
+const constants_1 = __nccwpck_require__(1034);
 // From https://github.com/actions/toolkit/blob/main/packages/tool-cache/src/tool-cache.ts#L23
 function createTempDirectory() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -586,7 +586,7 @@ function createTempDirectory() {
             }
             tempDirectory = path.join(baseLocation, 'actions', 'temp');
         }
-        const dest = path.join(tempDirectory, (0, uuid_1.v4)());
+        const dest = path.join(tempDirectory, crypto.randomUUID());
         yield io.mkdirP(dest);
         return dest;
     });
@@ -714,7 +714,7 @@ exports.isGhes = isGhes;
 
 /***/ }),
 
-/***/ 4498:
+/***/ 1034:
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -756,7 +756,7 @@ exports.ManifestFilename = 'manifest.txt';
 
 /***/ }),
 
-/***/ 1428:
+/***/ 9314:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -794,16 +794,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.downloadCacheStorageSDK = exports.downloadCacheHttpClientConcurrent = exports.downloadCacheHttpClient = exports.DownloadProgress = void 0;
-const core = __importStar(__nccwpck_require__(9093));
+const core = __importStar(__nccwpck_require__(8407));
 const http_client_1 = __nccwpck_require__(6634);
-const storage_blob_1 = __nccwpck_require__(3626);
+const storage_blob_1 = __nccwpck_require__(1103);
 const buffer = __importStar(__nccwpck_require__(4300));
 const fs = __importStar(__nccwpck_require__(7147));
 const stream = __importStar(__nccwpck_require__(2781));
 const util = __importStar(__nccwpck_require__(3837));
-const utils = __importStar(__nccwpck_require__(9522));
-const constants_1 = __nccwpck_require__(4498);
-const requestUtils_1 = __nccwpck_require__(6264);
+const utils = __importStar(__nccwpck_require__(2071));
+const constants_1 = __nccwpck_require__(1034);
+const requestUtils_1 = __nccwpck_require__(4299);
 const abort_controller_1 = __nccwpck_require__(4732);
 /**
  * Pipes the body of a HTTP response to a stream
@@ -1140,7 +1140,7 @@ const promiseWithTimeout = (timeoutMs, promise) => __awaiter(void 0, void 0, voi
 
 /***/ }),
 
-/***/ 6264:
+/***/ 4299:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -1178,9 +1178,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.retryHttpClientResponse = exports.retryTypedResponse = exports.retry = exports.isRetryableStatusCode = exports.isServerErrorStatusCode = exports.isSuccessStatusCode = void 0;
-const core = __importStar(__nccwpck_require__(9093));
+const core = __importStar(__nccwpck_require__(8407));
 const http_client_1 = __nccwpck_require__(6634);
-const constants_1 = __nccwpck_require__(4498);
+const constants_1 = __nccwpck_require__(1034);
 function isSuccessStatusCode(statusCode) {
     if (!statusCode) {
         return false;
@@ -1283,7 +1283,7 @@ exports.retryHttpClientResponse = retryHttpClientResponse;
 
 /***/ }),
 
-/***/ 3686:
+/***/ 1630:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -1325,8 +1325,8 @@ const exec_1 = __nccwpck_require__(7775);
 const io = __importStar(__nccwpck_require__(2826));
 const fs_1 = __nccwpck_require__(7147);
 const path = __importStar(__nccwpck_require__(1017));
-const utils = __importStar(__nccwpck_require__(9522));
-const constants_1 = __nccwpck_require__(4498);
+const utils = __importStar(__nccwpck_require__(2071));
+const constants_1 = __nccwpck_require__(1034);
 const IS_WINDOWS = process.platform === 'win32';
 // Returns tar path and type: BSD or GNU
 function getTarPath() {
@@ -1561,7 +1561,7 @@ exports.createTar = createTar;
 
 /***/ }),
 
-/***/ 730:
+/***/ 8272:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -1590,7 +1590,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getDownloadOptions = exports.getUploadOptions = void 0;
-const core = __importStar(__nccwpck_require__(9093));
+const core = __importStar(__nccwpck_require__(8407));
 /**
  * Returns a copy of the upload options with defaults filled in.
  *
@@ -7381,24 +7381,24 @@ exports.AbortSignal = AbortSignal;
 
 /***/ }),
 
-/***/ 3626:
+/***/ 1103:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 
-var coreRestPipeline = __nccwpck_require__(7314);
-var tslib = __nccwpck_require__(9236);
-var coreAuth = __nccwpck_require__(9334);
-var coreUtil = __nccwpck_require__(8143);
+var coreRestPipeline = __nccwpck_require__(2631);
+var tslib = __nccwpck_require__(1772);
+var coreAuth = __nccwpck_require__(3728);
+var coreUtil = __nccwpck_require__(1910);
 var coreHttpCompat = __nccwpck_require__(7050);
 var coreClient = __nccwpck_require__(2026);
-var coreXml = __nccwpck_require__(5182);
+var coreXml = __nccwpck_require__(9542);
 var logger$1 = __nccwpck_require__(2208);
-var abortController = __nccwpck_require__(4732);
+var abortController = __nccwpck_require__(5964);
 var crypto = __nccwpck_require__(6113);
-var coreTracing = __nccwpck_require__(7423);
+var coreTracing = __nccwpck_require__(3810);
 var stream = __nccwpck_require__(2781);
 var coreLro = __nccwpck_require__(2045);
 var events = __nccwpck_require__(2361);
@@ -7429,14 +7429,14 @@ var fs__namespace = /*#__PURE__*/_interopNamespaceDefault(fs);
 var util__namespace = /*#__PURE__*/_interopNamespaceDefault(util);
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * The `@azure/logger` configuration for this package.
  */
 const logger = logger$1.createClientLogger("storage-blob");
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * The base class from which all request policies derive.
  */
@@ -7476,9 +7476,9 @@ class BaseRequestPolicy {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-const SDK_VERSION = "12.24.0";
-const SERVICE_VERSION = "2024-08-04";
+// Licensed under the MIT License.
+const SDK_VERSION = "12.26.0";
+const SERVICE_VERSION = "2025-01-05";
 const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES = 256 * 1024 * 1024; // 256MB
 const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES = 4000 * 1024 * 1024; // 4000MB
 const BLOCK_BLOB_MAX_BLOCKS = 50000;
@@ -7702,7 +7702,7 @@ const PathStylePorts = [
 ];
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
@@ -8415,7 +8415,7 @@ function assertResponse(response) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * RetryPolicy types.
  */
@@ -8627,7 +8627,7 @@ class StorageRetryPolicy extends BaseRequestPolicy {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * StorageRetryPolicyFactory is a factory class helping generating {@link StorageRetryPolicy} objects.
  */
@@ -8651,7 +8651,7 @@ class StorageRetryPolicyFactory {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an
  * abstract class.
@@ -8679,7 +8679,7 @@ class CredentialPolicy extends BaseRequestPolicy {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /*
  * We need to imitate .Net culture-aware sorting, which is used in storage service.
  * Below tables contain sort-keys for en-US culture.
@@ -8752,7 +8752,7 @@ function isLessThan(lhs, rhs) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
  */
@@ -8889,7 +8889,7 @@ class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Credential is an abstract class for Azure Storage HTTP requests signing. This
  * class will host an credentialPolicyCreator factory which generates CredentialPolicy.
@@ -8907,7 +8907,7 @@ class Credential {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -8944,7 +8944,7 @@ class StorageSharedKeyCredential extends Credential {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * AnonymousCredentialPolicy is used with HTTP(S) requests that read public resources
  * or for use with Shared Access Signatures (SAS).
@@ -8963,7 +8963,7 @@ class AnonymousCredentialPolicy extends CredentialPolicy {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * AnonymousCredential provides a credentialPolicyCreator member used to create
  * AnonymousCredentialPolicy objects. AnonymousCredentialPolicy is used with
@@ -8983,7 +8983,7 @@ class AnonymousCredential extends Credential {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 let _defaultHttpClient;
 function getCachedDefaultHttpClient() {
     if (!_defaultHttpClient) {
@@ -8993,7 +8993,7 @@ function getCachedDefaultHttpClient() {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * The programmatic identifier of the StorageBrowserPolicy.
  */
@@ -9021,7 +9021,7 @@ function storageBrowserPolicy() {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Name of the {@link storageRetryPolicy}
  */
@@ -9195,7 +9195,7 @@ function storageRetryPolicy(options = {}) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.
  */
@@ -9323,7 +9323,7 @@ function storageSharedKeyCredentialPolicy(options) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * StorageBrowserPolicy will handle differences between Node.js and browser runtime, including:
  *
@@ -9366,7 +9366,7 @@ class StorageBrowserPolicy extends BaseRequestPolicy {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * StorageBrowserPolicyFactory is a factory class helping generating StorageBrowserPolicy objects.
  */
@@ -9383,7 +9383,7 @@ class StorageBrowserPolicyFactory {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * The programmatic identifier of the storageCorrectContentLengthPolicy.
  */
@@ -9409,7 +9409,7 @@ function storageCorrectContentLengthPolicy() {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * A helper to decide if a given argument satisfies the Pipeline contract
  * @param pipeline - An argument that may be a Pipeline
@@ -18140,7 +18140,7 @@ const timeoutInSeconds = {
 const version = {
     parameterPath: "version",
     mapper: {
-        defaultValue: "2024-08-04",
+        defaultValue: "2025-01-05",
         isConstant: true,
         serializedName: "x-ms-version",
         type: {
@@ -21138,7 +21138,12 @@ const setImmutabilityPolicyOperationSpec = {
             headersMapper: BlobSetImmutabilityPolicyExceptionHeaders,
         },
     },
-    queryParameters: [timeoutInSeconds, comp12],
+    queryParameters: [
+        timeoutInSeconds,
+        snapshot,
+        versionId,
+        comp12,
+    ],
     urlParameters: [url],
     headerParameters: [
         version,
@@ -21163,7 +21168,12 @@ const deleteImmutabilityPolicyOperationSpec = {
             headersMapper: BlobDeleteImmutabilityPolicyExceptionHeaders,
         },
     },
-    queryParameters: [timeoutInSeconds, comp12],
+    queryParameters: [
+        timeoutInSeconds,
+        snapshot,
+        versionId,
+        comp12,
+    ],
     urlParameters: [url],
     headerParameters: [
         version,
@@ -21185,7 +21195,12 @@ const setLegalHoldOperationSpec = {
             headersMapper: BlobSetLegalHoldExceptionHeaders,
         },
     },
-    queryParameters: [timeoutInSeconds, comp13],
+    queryParameters: [
+        timeoutInSeconds,
+        snapshot,
+        versionId,
+        comp13,
+    ],
     urlParameters: [url],
     headerParameters: [
         version,
@@ -22757,7 +22772,7 @@ let StorageClient$1 = class StorageClient extends coreHttpCompat__namespace.Exte
         const defaults = {
             requestContentType: "application/json; charset=utf-8",
         };
-        const packageDetails = `azsdk-js-azure-storage-blob/12.24.0`;
+        const packageDetails = `azsdk-js-azure-storage-blob/12.26.0`;
         const userAgentPrefix = options.userAgentOptions && options.userAgentOptions.userAgentPrefix
             ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
             : `${packageDetails}`;
@@ -22768,7 +22783,7 @@ let StorageClient$1 = class StorageClient extends coreHttpCompat__namespace.Exte
         // Parameter assignments
         this.url = url;
         // Assigning values to Constant parameters
-        this.version = options.version || "2024-08-04";
+        this.version = options.version || "2025-01-05";
         this.service = new ServiceImpl(this);
         this.container = new ContainerImpl(this);
         this.blob = new BlobImpl(this);
@@ -22779,7 +22794,7 @@ let StorageClient$1 = class StorageClient extends coreHttpCompat__namespace.Exte
 };
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * @internal
  */
@@ -22795,7 +22810,7 @@ class StorageContextClient extends StorageClient$1 {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * A StorageClient represents a based URL class for {@link BlobServiceClient}, {@link ContainerClient}
  * and etc.
@@ -22821,7 +22836,7 @@ class StorageClient {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Creates a span using the global tracer.
  * @internal
@@ -22833,7 +22848,7 @@ const tracingClient = coreTracing.createTracingClient({
 });
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -23028,7 +23043,7 @@ class BlobSASPermissions {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a container.
  * Setting a value to true means that any SAS which uses these permissions will grant permissions for that operation.
@@ -23249,7 +23264,7 @@ class ContainerSASPermissions {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -23279,7 +23294,7 @@ class UserDelegationKeyCredential {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Generate SasIPRange format string. For example:
  *
@@ -23292,7 +23307,7 @@ function ipRangeToString(ipRange) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Protocols for generated SAS.
  */
@@ -23524,8 +23539,11 @@ class SASQueryParameters {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 function generateBlobSASQueryParameters(blobSASSignatureValues, sharedKeyCredentialOrUserDelegationKey, accountName) {
+    return generateBlobSASQueryParametersInternal(blobSASSignatureValues, sharedKeyCredentialOrUserDelegationKey, accountName).sasQueryParameters;
+}
+function generateBlobSASQueryParametersInternal(blobSASSignatureValues, sharedKeyCredentialOrUserDelegationKey, accountName) {
     const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
     const sharedKeyCredential = sharedKeyCredentialOrUserDelegationKey instanceof StorageSharedKeyCredential
         ? sharedKeyCredentialOrUserDelegationKey
@@ -23630,7 +23648,10 @@ function generateBlobSASQueryParameters20150405(blobSASSignatureValues, sharedKe
         blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : "",
     ].join("\n");
     const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType);
+    return {
+        sasQueryParameters: new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType),
+        stringToSign: stringToSign,
+    };
 }
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -23699,7 +23720,10 @@ function generateBlobSASQueryParameters20181109(blobSASSignatureValues, sharedKe
         blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : "",
     ].join("\n");
     const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType);
+    return {
+        sasQueryParameters: new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType),
+        stringToSign: stringToSign,
+    };
 }
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -23769,7 +23793,10 @@ function generateBlobSASQueryParameters20201206(blobSASSignatureValues, sharedKe
         blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : "",
     ].join("\n");
     const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, undefined, undefined, undefined, blobSASSignatureValues.encryptionScope);
+    return {
+        sasQueryParameters: new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, undefined, undefined, undefined, blobSASSignatureValues.encryptionScope),
+        stringToSign: stringToSign,
+    };
 }
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -23845,7 +23872,10 @@ function generateBlobSASQueryParametersUDK20181109(blobSASSignatureValues, userD
         blobSASSignatureValues.contentType,
     ].join("\n");
     const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, userDelegationKeyCredential.userDelegationKey);
+    return {
+        sasQueryParameters: new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, userDelegationKeyCredential.userDelegationKey),
+        stringToSign: stringToSign,
+    };
 }
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -23924,7 +23954,10 @@ function generateBlobSASQueryParametersUDK20200210(blobSASSignatureValues, userD
         blobSASSignatureValues.contentType,
     ].join("\n");
     const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, userDelegationKeyCredential.userDelegationKey, blobSASSignatureValues.preauthorizedAgentObjectId, blobSASSignatureValues.correlationId);
+    return {
+        sasQueryParameters: new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, userDelegationKeyCredential.userDelegationKey, blobSASSignatureValues.preauthorizedAgentObjectId, blobSASSignatureValues.correlationId),
+        stringToSign: stringToSign,
+    };
 }
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -24004,7 +24037,10 @@ function generateBlobSASQueryParametersUDK20201206(blobSASSignatureValues, userD
         blobSASSignatureValues.contentType,
     ].join("\n");
     const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, userDelegationKeyCredential.userDelegationKey, blobSASSignatureValues.preauthorizedAgentObjectId, blobSASSignatureValues.correlationId, blobSASSignatureValues.encryptionScope);
+    return {
+        sasQueryParameters: new SASQueryParameters(blobSASSignatureValues.version, signature, verifiedPermissions, undefined, undefined, blobSASSignatureValues.protocol, blobSASSignatureValues.startsOn, blobSASSignatureValues.expiresOn, blobSASSignatureValues.ipRange, blobSASSignatureValues.identifier, resource, blobSASSignatureValues.cacheControl, blobSASSignatureValues.contentDisposition, blobSASSignatureValues.contentEncoding, blobSASSignatureValues.contentLanguage, blobSASSignatureValues.contentType, userDelegationKeyCredential.userDelegationKey, blobSASSignatureValues.preauthorizedAgentObjectId, blobSASSignatureValues.correlationId, blobSASSignatureValues.encryptionScope),
+        stringToSign: stringToSign,
+    };
 }
 function getCanonicalName(accountName, containerName, blobName) {
     // Container: "/blob/account/containerName"
@@ -24071,7 +24107,7 @@ function SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * A client that manages leases for a {@link ContainerClient} or a {@link BlobClient}.
  */
@@ -24259,7 +24295,7 @@ class BlobLeaseClient {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -24376,7 +24412,7 @@ class RetriableReadableStream extends stream.Readable {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -24837,14 +24873,14 @@ class BlobDownloadResponse {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const AVRO_SYNC_MARKER_SIZE = 16;
 const AVRO_INIT_BYTES = new Uint8Array([79, 98, 106, 1]);
 const AVRO_CODEC_KEY = "avro.codec";
 const AVRO_SCHEMA_KEY = "avro.schema";
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 class AvroParser {
     /**
      * Reads a fixed number of bytes from the stream.
@@ -25001,6 +25037,7 @@ class AvroType {
     /**
      * Determines the AvroType from the Avro Schema.
      */
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     static fromSchema(schema) {
         if (typeof schema === "string") {
             return AvroType.fromStringSchema(schema);
@@ -25036,8 +25073,8 @@ class AvroType {
         try {
             return AvroType.fromStringSchema(type);
         }
-        catch (err) {
-            // eslint-disable-line no-empty
+        catch (_a) {
+            // no-op
         }
         switch (type) {
             case AvroComplex.RECORD:
@@ -25081,6 +25118,7 @@ class AvroPrimitiveType extends AvroType {
         super();
         this._primitive = primitive;
     }
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     read(stream, options = {}) {
         switch (this._primitive) {
             case AvroPrimitive.NULL:
@@ -25109,6 +25147,7 @@ class AvroEnumType extends AvroType {
         super();
         this._symbols = symbols;
     }
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     async read(stream, options = {}) {
         const value = await AvroParser.readInt(stream, options);
         return this._symbols[value];
@@ -25120,7 +25159,6 @@ class AvroUnionType extends AvroType {
         this._types = types;
     }
     async read(stream, options = {}) {
-        // eslint-disable-line @typescript-eslint/ban-types
         const typeIndex = await AvroParser.readInt(stream, options);
         return this._types[typeIndex].read(stream, options);
     }
@@ -25130,6 +25168,7 @@ class AvroMapType extends AvroType {
         super();
         this._itemType = itemType;
     }
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     read(stream, options = {}) {
         const readItemMethod = (s, opts) => {
             return this._itemType.read(s, opts);
@@ -25143,7 +25182,9 @@ class AvroRecordType extends AvroType {
         this._fields = fields;
         this._name = name;
     }
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     async read(stream, options = {}) {
+        // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
         const record = {};
         record["$schema"] = this._name;
         for (const key in this._fields) {
@@ -25156,11 +25197,10 @@ class AvroRecordType extends AvroType {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 function arraysEqual(a, b) {
     if (a === b)
         return true;
-    // eslint-disable-next-line eqeqeq
     if (a == null || b == null)
         return false;
     if (a.length !== b.length)
@@ -25173,7 +25213,7 @@ function arraysEqual(a, b) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 class AvroReader {
     get blockOffset() {
         return this._blockOffset;
@@ -25257,7 +25297,7 @@ class AvroReader {
                             abortSignal: options.abortSignal,
                         }));
                     }
-                    catch (err) {
+                    catch (_a) {
                         // We hit the end of the stream.
                         this._itemsRemainingInBlock = 0;
                     }
@@ -25273,12 +25313,12 @@ class AvroReader {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 class AvroReadable {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const ABORT_ERROR = new abortController.AbortError("Reading from the avro stream was aborted.");
 class AvroReadableFromStream extends AvroReadable {
     toUint8Array(data) {
@@ -25360,7 +25400,7 @@ class AvroReadableFromStream extends AvroReadable {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -25469,7 +25509,7 @@ class BlobQuickQueryStream extends stream.Readable {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -25834,7 +25874,7 @@ class BlobQueryResponse {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Represents the access tier on a blob.
  * For detailed information about block blob level tiering see {@link https://docs.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers|Hot, cool and archive storage tiers.}
@@ -25948,7 +25988,7 @@ function getBlobServiceAccountAudience(storageAccountName) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Function that converts PageRange and ClearRange to a common Range object.
  * PageRange and ClearRange have start and end while Range offset and count
@@ -25972,7 +26012,7 @@ function rangeResponseFromModel(response) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This is the poller returned by {@link BlobClient.beginCopyFromURL}.
  * This can not be instantiated directly outside of this package.
@@ -26100,7 +26140,7 @@ function makeBlobBeginCopyFromURLPollOperation(state) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Generate a range string. For example:
  *
@@ -26121,7 +26161,7 @@ function rangeToString(iRange) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 // In browser, during webpack or browserify bundling, this module will be replaced by 'events'
 // https://github.com/Gozala/events
 /**
@@ -26242,7 +26282,7 @@ class Batch {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This class generates a readable stream from the data in an array of buffers.
  */
@@ -26324,7 +26364,7 @@ class BuffersStream extends stream.Readable {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const maxBufferLength = buffer.constants.MAX_LENGTH;
 /**
  * This class provides a buffer container which conceptually has no hard size limit.
@@ -26406,7 +26446,7 @@ class PooledBuffer {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This class accepts a Node.js Readable stream as input, and keeps reading data
  * from the stream into the internal buffer structure, until it reaches maxBuffers.
@@ -26656,7 +26696,7 @@ class BufferScheduler {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
  *
@@ -26766,7 +26806,7 @@ const fsStat = util__namespace.promisify(fs__namespace.stat);
 const fsCreateReadStream = fs__namespace.createReadStream;
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
@@ -27671,6 +27711,56 @@ class BlobClient extends StorageClient {
         });
     }
     /**
+     * Only available for BlobClient constructed with a shared key credential.
+     *
+     * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
+     * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+     *
+     * @param options - Optional parameters.
+     * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+    generateSasStringToSign(options) {
+        if (!(this.credential instanceof StorageSharedKeyCredential)) {
+            throw new RangeError("Can only generate the SAS when the client is initialized with a shared key credential");
+        }
+        return generateBlobSASQueryParametersInternal(Object.assign({ containerName: this._containerName, blobName: this._name, snapshotTime: this._snapshot, versionId: this._versionId }, options), this.credential).stringToSign;
+    }
+    /**
+     *
+     * Generates a Blob Service Shared Access Signature (SAS) URI based on
+     * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+     *
+     * @param options - Optional parameters.
+     * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+     * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateUserDelegationSasUrl(options, userDelegationKey) {
+        return new Promise((resolve) => {
+            const sas = generateBlobSASQueryParameters(Object.assign({ containerName: this._containerName, blobName: this._name, snapshotTime: this._snapshot, versionId: this._versionId }, options), userDelegationKey, this.accountName).toString();
+            resolve(appendToURLQuery(this.url, sas));
+        });
+    }
+    /**
+     * Only available for BlobClient constructed with a shared key credential.
+     *
+     * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
+     * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+     *
+     * @param options - Optional parameters.
+     * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+     * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateUserDelegationSasStringToSign(options, userDelegationKey) {
+        return generateBlobSASQueryParametersInternal(Object.assign({ containerName: this._containerName, blobName: this._name, snapshotTime: this._snapshot, versionId: this._versionId }, options), userDelegationKey, this.accountName).stringToSign;
+    }
+    /**
      * Delete the immutablility policy on the blob.
      *
      * @param options - Optional options to delete immutability policy on the blob.
@@ -28529,6 +28619,7 @@ class BlockBlobClient extends BlobClient {
                 blockList.push(blockID);
                 blockNum++;
                 await this.stageBlock(blockID, body, length, {
+                    customerProvidedKey: options.customerProvidedKey,
                     conditions: options.conditions,
                     encryptionScope: options.encryptionScope,
                     tracingOptions: updatedOptions.tracingOptions,
@@ -29286,7 +29377,7 @@ class PageBlobClient extends BlobClient {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 async function getBodyAsText(batchResponse) {
     let buffer = Buffer.alloc(BATCH_MAX_PAYLOAD_IN_BYTES);
     const responseLength = await streamToBuffer2(batchResponse.readableStreamBody, buffer);
@@ -29299,7 +29390,7 @@ function utf8ByteLength(str) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const HTTP_HEADER_DELIMITER = ": ";
 const SPACE_DELIMITER = " ";
 const NOT_FOUND = -1;
@@ -29431,7 +29522,7 @@ class BatchResponseParser {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 var MutexLockStatus;
 (function (MutexLockStatus) {
     MutexLockStatus[MutexLockStatus["LOCKED"] = 0] = "LOCKED";
@@ -29496,7 +29587,7 @@ Mutex.keys = {};
 Mutex.listeners = {};
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * A BlobBatch represents an aggregated set of operations on blobs.
  * Currently, only `delete` and `setAccessTier` are supported.
@@ -29748,7 +29839,7 @@ function batchHeaderFilterPolicy() {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * A BlobBatchClient allows you to make batched requests to the Azure Storage Blob service.
  *
@@ -31016,6 +31107,53 @@ class ContainerClient extends StorageClient {
         });
     }
     /**
+     * Only available for ContainerClient constructed with a shared key credential.
+     *
+     * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
+     * based on the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+     *
+     * @param options - Optional parameters.
+     * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+    generateSasStringToSign(options) {
+        if (!(this.credential instanceof StorageSharedKeyCredential)) {
+            throw new RangeError("Can only generate the SAS when the client is initialized with a shared key credential");
+        }
+        return generateBlobSASQueryParametersInternal(Object.assign({ containerName: this._containerName }, options), this.credential).stringToSign;
+    }
+    /**
+     * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
+     * and parameters passed in. The SAS is signed by the input user delegation key.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+     *
+     * @param options - Optional parameters.
+     * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+     * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateUserDelegationSasUrl(options, userDelegationKey) {
+        return new Promise((resolve) => {
+            const sas = generateBlobSASQueryParameters(Object.assign({ containerName: this._containerName }, options), userDelegationKey, this.accountName).toString();
+            resolve(appendToURLQuery(this.url, sas));
+        });
+    }
+    /**
+     * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
+     * based on the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+     *
+     * @param options - Optional parameters.
+     * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+     * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateUserDelegationSasStringToSign(options, userDelegationKey) {
+        return generateBlobSASQueryParametersInternal(Object.assign({ containerName: this._containerName }, options), userDelegationKey, this.accountName).stringToSign;
+    }
+    /**
      * Creates a BlobBatchClient object to conduct batch operations.
      *
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
@@ -31028,7 +31166,7 @@ class ContainerClient extends StorageClient {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -31255,7 +31393,7 @@ class AccountSASPermissions {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -31327,7 +31465,7 @@ class AccountSASResourceTypes {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -31407,7 +31545,7 @@ class AccountSASServices {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -31420,6 +31558,10 @@ class AccountSASServices {
  * @param sharedKeyCredential -
  */
 function generateAccountSASQueryParameters(accountSASSignatureValues, sharedKeyCredential) {
+    return generateAccountSASQueryParametersInternal(accountSASSignatureValues, sharedKeyCredential)
+        .sasQueryParameters;
+}
+function generateAccountSASQueryParametersInternal(accountSASSignatureValues, sharedKeyCredential) {
     const version = accountSASSignatureValues.version
         ? accountSASSignatureValues.version
         : SERVICE_VERSION;
@@ -31489,7 +31631,10 @@ function generateAccountSASQueryParameters(accountSASSignatureValues, sharedKeyC
         ].join("\n");
     }
     const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
-    return new SASQueryParameters(version, signature, parsedPermissions.toString(), parsedServices, parsedResourceTypes, accountSASSignatureValues.protocol, accountSASSignatureValues.startsOn, accountSASSignatureValues.expiresOn, accountSASSignatureValues.ipRange, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, accountSASSignatureValues.encryptionScope);
+    return {
+        sasQueryParameters: new SASQueryParameters(version, signature, parsedPermissions.toString(), parsedServices, parsedResourceTypes, accountSASSignatureValues.protocol, accountSASSignatureValues.startsOn, accountSASSignatureValues.expiresOn, accountSASSignatureValues.ipRange, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, accountSASSignatureValues.encryptionScope),
+        stringToSign: stringToSign,
+    };
 }
 
 /**
@@ -32164,10 +32309,36 @@ class BlobServiceClient extends StorageClient {
             resourceTypes, services: AccountSASServices.parse("b").toString() }, options), this.credential).toString();
         return appendToURLQuery(this.url, sas);
     }
+    /**
+     * Only available for BlobServiceClient constructed with a shared key credential.
+     *
+     * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on
+     * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+     *
+     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+     *
+     * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+     * @param permissions - Specifies the list of permissions to be associated with the SAS.
+     * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+     * @param options - Optional parameters.
+     * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateSasStringToSign(expiresOn, permissions = AccountSASPermissions.parse("r"), resourceTypes = "sco", options = {}) {
+        if (!(this.credential instanceof StorageSharedKeyCredential)) {
+            throw RangeError("Can only generate the account SAS when the client is initialized with a shared key credential");
+        }
+        if (expiresOn === undefined) {
+            const now = new Date();
+            expiresOn = new Date(now.getTime() + 3600 * 1000);
+        }
+        return generateAccountSASQueryParametersInternal(Object.assign({ permissions,
+            expiresOn,
+            resourceTypes, services: AccountSASServices.parse("b").toString() }, options), this.credential).stringToSign;
+    }
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
 exports.KnownEncryptionAlgorithmType = void 0;
 (function (KnownEncryptionAlgorithmType) {
@@ -36635,7 +36806,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 9280:
+/***/ 4602:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /* eslint-env browser */
@@ -36894,7 +37065,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __nccwpck_require__(85)(exports);
+module.exports = __nccwpck_require__(8958)(exports);
 
 const {formatters} = module.exports;
 
@@ -36913,7 +37084,7 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 85:
+/***/ 8958:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
@@ -36929,7 +37100,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __nccwpck_require__(5717);
+	createDebug.humanize = __nccwpck_require__(158);
 	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
@@ -37194,7 +37365,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 4684:
+/***/ 9329:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 /**
@@ -37203,15 +37374,15 @@ module.exports = setup;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __nccwpck_require__(9280);
+	module.exports = __nccwpck_require__(4602);
 } else {
-	module.exports = __nccwpck_require__(1240);
+	module.exports = __nccwpck_require__(6193);
 }
 
 
 /***/ }),
 
-/***/ 1240:
+/***/ 6193:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /**
@@ -37453,7 +37624,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __nccwpck_require__(85)(exports);
+module.exports = __nccwpck_require__(8958)(exports);
 
 const {formatters} = module.exports;
 
@@ -37508,14 +37679,14 @@ exports.Deprecation = Deprecation;
 
 /***/ }),
 
-/***/ 3601:
+/***/ 5542:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
 
-const validator = __nccwpck_require__(8128);
-const XMLParser = __nccwpck_require__(897);
-const XMLBuilder = __nccwpck_require__(6762);
+const validator = __nccwpck_require__(1876);
+const XMLParser = __nccwpck_require__(4120);
+const XMLBuilder = __nccwpck_require__(534);
 
 module.exports = {
   XMLParser: XMLParser,
@@ -37525,7 +37696,33 @@ module.exports = {
 
 /***/ }),
 
-/***/ 3480:
+/***/ 3628:
+/***/ ((module) => {
+
+function getIgnoreAttributesFn(ignoreAttributes) {
+    if (typeof ignoreAttributes === 'function') {
+        return ignoreAttributes
+    }
+    if (Array.isArray(ignoreAttributes)) {
+        return (attrName) => {
+            for (const pattern of ignoreAttributes) {
+                if (typeof pattern === 'string' && attrName === pattern) {
+                    return true
+                }
+                if (pattern instanceof RegExp && pattern.test(attrName)) {
+                    return true
+                }
+            }
+        }
+    }
+    return () => false
+}
+
+module.exports = getIgnoreAttributesFn
+
+/***/ }),
+
+/***/ 4340:
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -37604,12 +37801,12 @@ exports.nameRegexp = nameRegexp;
 
 /***/ }),
 
-/***/ 8128:
+/***/ 1876:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 
-const util = __nccwpck_require__(3480);
+const util = __nccwpck_require__(4340);
 
 const defaultOptions = {
   allowBooleanAttributes: false, //A tag can have attributes without any value
@@ -38036,12 +38233,13 @@ function getPositionFromMatch(match) {
 
 /***/ }),
 
-/***/ 6762:
+/***/ 534:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
 //parse Empty Node as self closing node
-const buildFromOrderedJs = __nccwpck_require__(9603);
+const buildFromOrderedJs = __nccwpck_require__(4354);
+const getIgnoreAttributesFn = __nccwpck_require__(3628)
 
 const defaultOptions = {
   attributeNamePrefix: '@_',
@@ -38079,11 +38277,12 @@ const defaultOptions = {
 
 function Builder(options) {
   this.options = Object.assign({}, defaultOptions, options);
-  if (this.options.ignoreAttributes || this.options.attributesGroupName) {
+  if (this.options.ignoreAttributes === true || this.options.attributesGroupName) {
     this.isAttribute = function(/*a*/) {
       return false;
     };
   } else {
+    this.ignoreAttributesFn = getIgnoreAttributesFn(this.options.ignoreAttributes)
     this.attrPrefixLen = this.options.attributeNamePrefix.length;
     this.isAttribute = isAttribute;
   }
@@ -38112,13 +38311,14 @@ Builder.prototype.build = function(jObj) {
         [this.options.arrayNodeName] : jObj
       }
     }
-    return this.j2x(jObj, 0).val;
+    return this.j2x(jObj, 0, []).val;
   }
 };
 
-Builder.prototype.j2x = function(jObj, level) {
+Builder.prototype.j2x = function(jObj, level, ajPath) {
   let attrStr = '';
   let val = '';
+  const jPath = ajPath.join('.')
   for (let key in jObj) {
     if(!Object.prototype.hasOwnProperty.call(jObj, key)) continue;
     if (typeof jObj[key] === 'undefined') {
@@ -38141,9 +38341,9 @@ Builder.prototype.j2x = function(jObj, level) {
     } else if (typeof jObj[key] !== 'object') {
       //premitive type
       const attr = this.isAttribute(key);
-      if (attr) {
+      if (attr && !this.ignoreAttributesFn(attr, jPath)) {
         attrStr += this.buildAttrPairStr(attr, '' + jObj[key]);
-      }else {
+      } else if (!attr) {
         //tag value
         if (key === this.options.textNodeName) {
           let newval = this.options.tagValueProcessor(key, '' + jObj[key]);
@@ -38167,13 +38367,13 @@ Builder.prototype.j2x = function(jObj, level) {
           // val += this.indentate(level) + '<' + key + '/' + this.tagEndChar;
         } else if (typeof item === 'object') {
           if(this.options.oneListGroup){
-            const result = this.j2x(item, level + 1);
+            const result = this.j2x(item, level + 1, ajPath.concat(key));
             listTagVal += result.val;
             if (this.options.attributesGroupName && item.hasOwnProperty(this.options.attributesGroupName)) {
               listTagAttr += result.attrStr
             }
           }else{
-            listTagVal += this.processTextOrObjNode(item, key, level)
+            listTagVal += this.processTextOrObjNode(item, key, level, ajPath)
           }
         } else {
           if (this.options.oneListGroup) {
@@ -38198,7 +38398,7 @@ Builder.prototype.j2x = function(jObj, level) {
           attrStr += this.buildAttrPairStr(Ks[j], '' + jObj[key][Ks[j]]);
         }
       } else {
-        val += this.processTextOrObjNode(jObj[key], key, level)
+        val += this.processTextOrObjNode(jObj[key], key, level, ajPath)
       }
     }
   }
@@ -38213,8 +38413,8 @@ Builder.prototype.buildAttrPairStr = function(attrName, val){
   } else return ' ' + attrName + '="' + val + '"';
 }
 
-function processTextOrObjNode (object, key, level) {
-  const result = this.j2x(object, level + 1);
+function processTextOrObjNode (object, key, level, ajPath) {
+  const result = this.j2x(object, level + 1, ajPath.concat(key));
   if (object[this.options.textNodeName] !== undefined && Object.keys(object).length === 1) {
     return this.buildTextValNode(object[this.options.textNodeName], key, result.attrStr, level);
   } else {
@@ -38324,7 +38524,7 @@ module.exports = Builder;
 
 /***/ }),
 
-/***/ 9603:
+/***/ 4354:
 /***/ ((module) => {
 
 const EOL = "\n";
@@ -38466,10 +38666,10 @@ module.exports = toXml;
 
 /***/ }),
 
-/***/ 8778:
+/***/ 7573:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const util = __nccwpck_require__(3480);
+const util = __nccwpck_require__(4340);
 
 //TODO: handle comments
 function readDocType(xmlData, i){
@@ -38625,7 +38825,7 @@ module.exports = readDocType;
 
 /***/ }),
 
-/***/ 5922:
+/***/ 1405:
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -38679,16 +38879,17 @@ exports.defaultOptions = defaultOptions;
 
 /***/ }),
 
-/***/ 1076:
+/***/ 3028:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
 ///@ts-check
 
-const util = __nccwpck_require__(3480);
-const xmlNode = __nccwpck_require__(308);
-const readDocType = __nccwpck_require__(8778);
+const util = __nccwpck_require__(4340);
+const xmlNode = __nccwpck_require__(3555);
+const readDocType = __nccwpck_require__(7573);
 const toNumber = __nccwpck_require__(9578);
+const getIgnoreAttributesFn = __nccwpck_require__(3628)
 
 // const regx =
 //   '<((!\\[CDATA\\[([\\s\\S]*?)(]]>))|((NAME:)?(NAME))([^>]*)>|((\\/)(NAME)\\s*>))([^<]*)'
@@ -38737,6 +38938,7 @@ class OrderedObjParser{
     this.readStopNodeData = readStopNodeData;
     this.saveTextToParentTag = saveTextToParentTag;
     this.addChild = addChild;
+    this.ignoreAttributesFn = getIgnoreAttributesFn(this.options.ignoreAttributes)
   }
 
 }
@@ -38809,7 +39011,7 @@ function resolveNameSpace(tagname) {
 const attrsRegx = new RegExp('([^\\s=]+)\\s*(=\\s*([\'"])([\\s\\S]*?)\\3)?', 'gm');
 
 function buildAttributesMap(attrStr, jPath, tagName) {
-  if (!this.options.ignoreAttributes && typeof attrStr === 'string') {
+  if (this.options.ignoreAttributes !== true && typeof attrStr === 'string') {
     // attrStr = attrStr.replace(/\r?\n/g, ' ');
     //attrStr = attrStr || attrStr.trim();
 
@@ -38818,6 +39020,9 @@ function buildAttributesMap(attrStr, jPath, tagName) {
     const attrs = {};
     for (let i = 0; i < len; i++) {
       const attrName = this.resolveNameSpace(matches[i][1]);
+      if (this.ignoreAttributesFn(attrName, jPath)) {
+        continue
+      }
       let oldVal = matches[i][4];
       let aName = this.options.attributeNamePrefix + attrName;
       if (attrName.length) {
@@ -39287,13 +39492,13 @@ module.exports = OrderedObjParser;
 
 /***/ }),
 
-/***/ 897:
+/***/ 4120:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { buildOptions} = __nccwpck_require__(5922);
-const OrderedObjParser = __nccwpck_require__(1076);
-const { prettify} = __nccwpck_require__(9872);
-const validator = __nccwpck_require__(8128);
+const { buildOptions} = __nccwpck_require__(1405);
+const OrderedObjParser = __nccwpck_require__(3028);
+const { prettify} = __nccwpck_require__(4036);
+const validator = __nccwpck_require__(1876);
 
 class XMLParser{
     
@@ -39351,7 +39556,7 @@ module.exports = XMLParser;
 
 /***/ }),
 
-/***/ 9872:
+/***/ 4036:
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -39471,7 +39676,7 @@ exports.prettify = prettify;
 
 /***/ }),
 
-/***/ 308:
+/***/ 3555:
 /***/ ((module) => {
 
 
@@ -39551,7 +39756,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HttpProxyAgent = void 0;
 const net = __importStar(__nccwpck_require__(1808));
 const tls = __importStar(__nccwpck_require__(4404));
-const debug_1 = __importDefault(__nccwpck_require__(4684));
+const debug_1 = __importDefault(__nccwpck_require__(9329));
 const events_1 = __nccwpck_require__(2361);
 const agent_base_1 = __nccwpck_require__(8247);
 const url_1 = __nccwpck_require__(7310);
@@ -39706,7 +39911,7 @@ exports.HttpsProxyAgent = void 0;
 const net = __importStar(__nccwpck_require__(1808));
 const tls = __importStar(__nccwpck_require__(4404));
 const assert_1 = __importDefault(__nccwpck_require__(9491));
-const debug_1 = __importDefault(__nccwpck_require__(4684));
+const debug_1 = __importDefault(__nccwpck_require__(9329));
 const agent_base_1 = __nccwpck_require__(8247);
 const url_1 = __nccwpck_require__(7310);
 const parse_proxy_response_1 = __nccwpck_require__(7372);
@@ -39861,7 +40066,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseProxyResponse = void 0;
-const debug_1 = __importDefault(__nccwpck_require__(4684));
+const debug_1 = __importDefault(__nccwpck_require__(9329));
 const debug = (0, debug_1.default)('https-proxy-agent:parse-proxy-response');
 function parseProxyResponse(socket) {
     return new Promise((resolve, reject) => {
@@ -40913,7 +41118,7 @@ function regExpEscape (s) {
 
 /***/ }),
 
-/***/ 5717:
+/***/ 158:
 /***/ ((module) => {
 
 /**
@@ -40941,7 +41146,7 @@ var y = d * 365.25;
  * @api public
  */
 
-module.exports = function(val, options) {
+module.exports = function (val, options) {
   options = options || {};
   var type = typeof val;
   if (type === 'string' && val.length > 0) {
@@ -43054,7 +43259,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 9236:
+/***/ 1772:
 /***/ ((module) => {
 
 /******************************************************************************
@@ -43103,6 +43308,7 @@ var __classPrivateFieldIn;
 var __createBinding;
 var __addDisposableResource;
 var __disposeResources;
+var __rewriteRelativeImportExtension;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof define === "function" && define.amd) {
@@ -43370,10 +43576,19 @@ var __disposeResources;
         o["default"] = v;
     };
 
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+
     __importStar = function (mod) {
         if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
         __setModuleDefault(result, mod);
         return result;
     };
@@ -43454,6 +43669,15 @@ var __disposeResources;
         return next();
     };
 
+    __rewriteRelativeImportExtension = function (path, preserveJsx) {
+        if (typeof path === "string" && /^\.\.?\//.test(path)) {
+            return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+                return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+            });
+        }
+        return path;
+    };
+
     exporter("__extends", __extends);
     exporter("__assign", __assign);
     exporter("__rest", __rest);
@@ -43485,7 +43709,10 @@ var __disposeResources;
     exporter("__classPrivateFieldIn", __classPrivateFieldIn);
     exporter("__addDisposableResource", __addDisposableResource);
     exporter("__disposeResources", __disposeResources);
+    exporter("__rewriteRelativeImportExtension", __rewriteRelativeImportExtension);
 });
+
+0 && (0);
 
 
 /***/ }),
@@ -65882,221 +66109,6 @@ exports.getUserAgent = getUserAgent;
 
 /***/ }),
 
-/***/ 8493:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-var v1 = __nccwpck_require__(1311);
-var v4 = __nccwpck_require__(7191);
-
-var uuid = v4;
-uuid.v1 = v1;
-uuid.v4 = v4;
-
-module.exports = uuid;
-
-
-/***/ }),
-
-/***/ 2937:
-/***/ ((module) => {
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]], '-',
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]],
-    bth[buf[i++]], bth[buf[i++]]
-  ]).join('');
-}
-
-module.exports = bytesToUuid;
-
-
-/***/ }),
-
-/***/ 5403:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-// Unique ID creation requires a high quality random # generator.  In node.js
-// this is pretty straight-forward - we use the crypto API.
-
-var crypto = __nccwpck_require__(6113);
-
-module.exports = function nodeRNG() {
-  return crypto.randomBytes(16);
-};
-
-
-/***/ }),
-
-/***/ 1311:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-var rng = __nccwpck_require__(5403);
-var bytesToUuid = __nccwpck_require__(2937);
-
-// **`v1()` - Generate time-based UUID**
-//
-// Inspired by https://github.com/LiosK/UUID.js
-// and http://docs.python.org/library/uuid.html
-
-var _nodeId;
-var _clockseq;
-
-// Previous uuid creation time
-var _lastMSecs = 0;
-var _lastNSecs = 0;
-
-// See https://github.com/uuidjs/uuid for API details
-function v1(options, buf, offset) {
-  var i = buf && offset || 0;
-  var b = buf || [];
-
-  options = options || {};
-  var node = options.node || _nodeId;
-  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
-
-  // node and clockseq need to be initialized to random values if they're not
-  // specified.  We do this lazily to minimize issues related to insufficient
-  // system entropy.  See #189
-  if (node == null || clockseq == null) {
-    var seedBytes = rng();
-    if (node == null) {
-      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-      node = _nodeId = [
-        seedBytes[0] | 0x01,
-        seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]
-      ];
-    }
-    if (clockseq == null) {
-      // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
-    }
-  }
-
-  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
-  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
-
-  // Per 4.2.1.2, use count of uuid's generated during the current clock
-  // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
-
-  // Time since last uuid creation (in msecs)
-  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
-
-  // Per 4.2.1.2, Bump clockseq on clock regression
-  if (dt < 0 && options.clockseq === undefined) {
-    clockseq = clockseq + 1 & 0x3fff;
-  }
-
-  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-  // time interval
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-    nsecs = 0;
-  }
-
-  // Per 4.2.1.2 Throw error if too many uuids are requested
-  if (nsecs >= 10000) {
-    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
-  }
-
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq;
-
-  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
-  msecs += 12219292800000;
-
-  // `time_low`
-  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-  b[i++] = tl >>> 24 & 0xff;
-  b[i++] = tl >>> 16 & 0xff;
-  b[i++] = tl >>> 8 & 0xff;
-  b[i++] = tl & 0xff;
-
-  // `time_mid`
-  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
-  b[i++] = tmh >>> 8 & 0xff;
-  b[i++] = tmh & 0xff;
-
-  // `time_high_and_version`
-  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
-  b[i++] = tmh >>> 16 & 0xff;
-
-  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-  b[i++] = clockseq >>> 8 | 0x80;
-
-  // `clock_seq_low`
-  b[i++] = clockseq & 0xff;
-
-  // `node`
-  for (var n = 0; n < 6; ++n) {
-    b[i + n] = node[n];
-  }
-
-  return buf ? buf : bytesToUuid(b);
-}
-
-module.exports = v1;
-
-
-/***/ }),
-
-/***/ 7191:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-var rng = __nccwpck_require__(5403);
-var bytesToUuid = __nccwpck_require__(2937);
-
-function v4(options, buf, offset) {
-  var i = buf && offset || 0;
-
-  if (typeof(options) == 'string') {
-    buf = options === 'binary' ? new Array(16) : null;
-    options = null;
-  }
-  options = options || {};
-
-  var rnds = options.random || (options.rng || rng)();
-
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    for (var ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
-    }
-  }
-
-  return buf || bytesToUuid(rnds);
-}
-
-module.exports = v4;
-
-
-/***/ }),
-
 /***/ 7338:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -67071,12 +67083,12 @@ Object.defineProperty(exports, "AbortError", ({ enumerable: true, get: function 
 
 /***/ }),
 
-/***/ 8935:
+/***/ 7877:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AzureKeyCredential = void 0;
 /**
@@ -67119,15 +67131,16 @@ exports.AzureKeyCredential = AzureKeyCredential;
 
 /***/ }),
 
-/***/ 6058:
+/***/ 5525:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isNamedKeyCredential = exports.AzureNamedKeyCredential = void 0;
-const core_util_1 = __nccwpck_require__(8143);
+exports.AzureNamedKeyCredential = void 0;
+exports.isNamedKeyCredential = isNamedKeyCredential;
+const core_util_1 = __nccwpck_require__(1910);
 /**
  * A static name/key-based credential that supports updating
  * the underlying name and key values.
@@ -67187,20 +67200,20 @@ function isNamedKeyCredential(credential) {
         typeof credential.key === "string" &&
         typeof credential.name === "string");
 }
-exports.isNamedKeyCredential = isNamedKeyCredential;
 //# sourceMappingURL=azureNamedKeyCredential.js.map
 
 /***/ }),
 
-/***/ 6512:
+/***/ 1446:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isSASCredential = exports.AzureSASCredential = void 0;
-const core_util_1 = __nccwpck_require__(8143);
+exports.AzureSASCredential = void 0;
+exports.isSASCredential = isSASCredential;
+const core_util_1 = __nccwpck_require__(1910);
 /**
  * A static-signature-based credential that supports updating
  * the underlying signature value.
@@ -67248,44 +67261,41 @@ exports.AzureSASCredential = AzureSASCredential;
 function isSASCredential(credential) {
     return ((0, core_util_1.isObjectWithProperties)(credential, ["signature"]) && typeof credential.signature === "string");
 }
-exports.isSASCredential = isSASCredential;
 //# sourceMappingURL=azureSASCredential.js.map
 
 /***/ }),
 
-/***/ 9334:
+/***/ 3728:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isTokenCredential = exports.isSASCredential = exports.AzureSASCredential = exports.isNamedKeyCredential = exports.AzureNamedKeyCredential = exports.isKeyCredential = exports.AzureKeyCredential = void 0;
-var azureKeyCredential_js_1 = __nccwpck_require__(8935);
+var azureKeyCredential_js_1 = __nccwpck_require__(7877);
 Object.defineProperty(exports, "AzureKeyCredential", ({ enumerable: true, get: function () { return azureKeyCredential_js_1.AzureKeyCredential; } }));
-var keyCredential_js_1 = __nccwpck_require__(3921);
+var keyCredential_js_1 = __nccwpck_require__(4770);
 Object.defineProperty(exports, "isKeyCredential", ({ enumerable: true, get: function () { return keyCredential_js_1.isKeyCredential; } }));
-var azureNamedKeyCredential_js_1 = __nccwpck_require__(6058);
+var azureNamedKeyCredential_js_1 = __nccwpck_require__(5525);
 Object.defineProperty(exports, "AzureNamedKeyCredential", ({ enumerable: true, get: function () { return azureNamedKeyCredential_js_1.AzureNamedKeyCredential; } }));
 Object.defineProperty(exports, "isNamedKeyCredential", ({ enumerable: true, get: function () { return azureNamedKeyCredential_js_1.isNamedKeyCredential; } }));
-var azureSASCredential_js_1 = __nccwpck_require__(6512);
+var azureSASCredential_js_1 = __nccwpck_require__(1446);
 Object.defineProperty(exports, "AzureSASCredential", ({ enumerable: true, get: function () { return azureSASCredential_js_1.AzureSASCredential; } }));
 Object.defineProperty(exports, "isSASCredential", ({ enumerable: true, get: function () { return azureSASCredential_js_1.isSASCredential; } }));
-var tokenCredential_js_1 = __nccwpck_require__(8045);
+var tokenCredential_js_1 = __nccwpck_require__(9089);
 Object.defineProperty(exports, "isTokenCredential", ({ enumerable: true, get: function () { return tokenCredential_js_1.isTokenCredential; } }));
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 3921:
+/***/ 4770:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isKeyCredential = void 0;
-const core_util_1 = __nccwpck_require__(8143);
+exports.isKeyCredential = isKeyCredential;
+const core_util_1 = __nccwpck_require__(1910);
 /**
  * Tests an object to determine whether it implements KeyCredential.
  *
@@ -67294,19 +67304,36 @@ const core_util_1 = __nccwpck_require__(8143);
 function isKeyCredential(credential) {
     return (0, core_util_1.isObjectWithProperties)(credential, ["key"]) && typeof credential.key === "string";
 }
-exports.isKeyCredential = isKeyCredential;
 //# sourceMappingURL=keyCredential.js.map
 
 /***/ }),
 
-/***/ 8045:
+/***/ 9089:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isTokenCredential = void 0;
+exports.isBearerToken = isBearerToken;
+exports.isPopToken = isPopToken;
+exports.isTokenCredential = isTokenCredential;
+/**
+ * @internal
+ * @param accessToken - Access token
+ * @returns Whether a token is bearer type or not
+ */
+function isBearerToken(accessToken) {
+    return !accessToken.tokenType || accessToken.tokenType === "Bearer";
+}
+/**
+ * @internal
+ * @param accessToken - Access token
+ * @returns Whether a token is Pop token or not
+ */
+function isPopToken(accessToken) {
+    return accessToken.tokenType === "pop";
+}
 /**
  * Tests an object to determine whether it implements TokenCredential.
  *
@@ -67323,7 +67350,6 @@ function isTokenCredential(credential) {
         typeof castCredential.getToken === "function" &&
         (castCredential.signRequest === undefined || castCredential.getToken.length > 0));
 }
-exports.isTokenCredential = isTokenCredential;
 //# sourceMappingURL=tokenCredential.js.map
 
 /***/ }),
@@ -67589,7 +67615,7 @@ exports.decodeStringToString = decodeStringToString;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.deserializationPolicy = exports.deserializationPolicyName = void 0;
 const interfaces_js_1 = __nccwpck_require__(5915);
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 const serializer_js_1 = __nccwpck_require__(8293);
 const operationHelpers_js_1 = __nccwpck_require__(164);
 const defaultJsonContentTypes = ["application/json", "text/json"];
@@ -67829,7 +67855,7 @@ async function parse(jsonContentTypes, xmlContentTypes, operationResponse, opts,
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getCachedDefaultHttpClient = void 0;
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 let cachedHttpClient;
 function getCachedDefaultHttpClient() {
     if (!cachedHttpClient) {
@@ -68072,7 +68098,7 @@ exports.getOperationRequestInfo = getOperationRequestInfo;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createClientPipeline = void 0;
 const deserializationPolicy_js_1 = __nccwpck_require__(9430);
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 const serializationPolicy_js_1 = __nccwpck_require__(7709);
 /**
  * Creates a new Pipeline for use with a Service Client.
@@ -68272,7 +68298,7 @@ function prepareXMLRootList(obj, elementName, xmlNamespaceKey, xmlNamespace) {
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MapperTypeNames = exports.createSerializer = void 0;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 const base64 = tslib_1.__importStar(__nccwpck_require__(447));
 const interfaces_js_1 = __nccwpck_require__(5915);
 const utils_js_1 = __nccwpck_require__(382);
@@ -69205,7 +69231,7 @@ exports.MapperTypeNames = {
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ServiceClient = void 0;
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 const pipeline_js_1 = __nccwpck_require__(8381);
 const utils_js_1 = __nccwpck_require__(382);
 const httpClientCache_js_1 = __nccwpck_require__(9509);
@@ -69757,7 +69783,7 @@ exports.flattenResponse = flattenResponse;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ExtendedServiceClient = void 0;
 const disableKeepAlivePolicy_js_1 = __nccwpck_require__(5268);
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 const core_client_1 = __nccwpck_require__(2026);
 const response_js_1 = __nccwpck_require__(4023);
 /**
@@ -69965,7 +69991,7 @@ exports.createRequestPolicyFactoryPolicy = createRequestPolicyFactoryPolicy;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.toPipelineResponse = exports.toCompatResponse = void 0;
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 const util_js_1 = __nccwpck_require__(4912);
 const originalResponse = Symbol("Original FullOperationResponse");
 /**
@@ -70036,7 +70062,7 @@ exports.toPipelineResponse = toPipelineResponse;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HttpHeaders = exports.toHttpHeadersLike = exports.toWebResourceLike = exports.toPipelineRequest = void 0;
-const core_rest_pipeline_1 = __nccwpck_require__(7314);
+const core_rest_pipeline_1 = __nccwpck_require__(2631);
 // We use a custom symbol to cache a reference to the original request without
 // exposing it on the public interface.
 const originalRequestSymbol = Symbol("Original PipelineRequest");
@@ -70607,7 +70633,7 @@ exports.pollHttpOperation = pollHttpOperation;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createHttpPoller = void 0;
 const operation_js_1 = __nccwpck_require__(6562);
-const poller_js_1 = __nccwpck_require__(269);
+const poller_js_1 = __nccwpck_require__(2233);
 /**
  * Creates a poller that can be used to poll a long-running operation.
  * @param lro - Description of the long-running operation
@@ -70660,7 +70686,7 @@ exports.createHttpPoller = createHttpPoller;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createHttpPoller = void 0;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 var poller_js_1 = __nccwpck_require__(8969);
 Object.defineProperty(exports, "createHttpPoller", ({ enumerable: true, get: function () { return poller_js_1.createHttpPoller; } }));
 /**
@@ -71465,7 +71491,7 @@ exports.pollOperation = pollOperation;
 
 /***/ }),
 
-/***/ 269:
+/***/ 2233:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
@@ -71475,7 +71501,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.buildCreatePoller = void 0;
 const operation_js_1 = __nccwpck_require__(5258);
 const constants_js_1 = __nccwpck_require__(474);
-const core_util_1 = __nccwpck_require__(8143);
+const core_util_1 = __nccwpck_require__(1910);
 const createStateProxy = () => ({
     /**
      * The state at this point is created to be of type OperationState<TResult>.
@@ -71645,41 +71671,41 @@ exports.buildCreatePoller = buildCreatePoller;
 
 /***/ }),
 
-/***/ 5631:
+/***/ 1486:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DEFAULT_RETRY_POLICY_COUNT = exports.SDK_VERSION = void 0;
-exports.SDK_VERSION = "1.16.3";
+exports.SDK_VERSION = "1.18.0";
 exports.DEFAULT_RETRY_POLICY_COUNT = 3;
 //# sourceMappingURL=constants.js.map
 
 /***/ }),
 
-/***/ 6881:
+/***/ 8998:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createPipelineFromOptions = createPipelineFromOptions;
-const logPolicy_js_1 = __nccwpck_require__(8383);
-const pipeline_js_1 = __nccwpck_require__(4191);
-const redirectPolicy_js_1 = __nccwpck_require__(2960);
-const userAgentPolicy_js_1 = __nccwpck_require__(8254);
-const multipartPolicy_js_1 = __nccwpck_require__(8807);
-const decompressResponsePolicy_js_1 = __nccwpck_require__(9716);
-const defaultRetryPolicy_js_1 = __nccwpck_require__(6451);
-const formDataPolicy_js_1 = __nccwpck_require__(5204);
-const core_util_1 = __nccwpck_require__(8143);
-const proxyPolicy_js_1 = __nccwpck_require__(6360);
-const setClientRequestIdPolicy_js_1 = __nccwpck_require__(1334);
-const tlsPolicy_js_1 = __nccwpck_require__(8422);
-const tracingPolicy_js_1 = __nccwpck_require__(6105);
+const logPolicy_js_1 = __nccwpck_require__(8495);
+const pipeline_js_1 = __nccwpck_require__(105);
+const redirectPolicy_js_1 = __nccwpck_require__(662);
+const userAgentPolicy_js_1 = __nccwpck_require__(206);
+const multipartPolicy_js_1 = __nccwpck_require__(3354);
+const decompressResponsePolicy_js_1 = __nccwpck_require__(5690);
+const defaultRetryPolicy_js_1 = __nccwpck_require__(6665);
+const formDataPolicy_js_1 = __nccwpck_require__(5754);
+const core_util_1 = __nccwpck_require__(1910);
+const proxyPolicy_js_1 = __nccwpck_require__(4088);
+const setClientRequestIdPolicy_js_1 = __nccwpck_require__(9775);
+const tlsPolicy_js_1 = __nccwpck_require__(6927);
+const tracingPolicy_js_1 = __nccwpck_require__(9959);
 /**
  * Create a new pipeline with a default set of customizable policies.
  * @param options - Options to configure a custom pipeline.
@@ -71717,15 +71743,15 @@ function createPipelineFromOptions(options) {
 
 /***/ }),
 
-/***/ 1936:
+/***/ 2184:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createDefaultHttpClient = createDefaultHttpClient;
-const nodeHttpClient_js_1 = __nccwpck_require__(4093);
+const nodeHttpClient_js_1 = __nccwpck_require__(9244);
 /**
  * Create the correct HttpClient for the current environment.
  */
@@ -71736,12 +71762,12 @@ function createDefaultHttpClient() {
 
 /***/ }),
 
-/***/ 3488:
+/***/ 5265:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createHttpHeaders = createHttpHeaders;
 function normalizeName(name) {
@@ -71834,93 +71860,93 @@ function createHttpHeaders(rawHeaders) {
 
 /***/ }),
 
-/***/ 7314:
+/***/ 2631:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createFileFromStream = exports.createFile = exports.auxiliaryAuthenticationHeaderPolicyName = exports.auxiliaryAuthenticationHeaderPolicy = exports.ndJsonPolicyName = exports.ndJsonPolicy = exports.bearerTokenAuthenticationPolicyName = exports.bearerTokenAuthenticationPolicy = exports.formDataPolicyName = exports.formDataPolicy = exports.tlsPolicyName = exports.tlsPolicy = exports.userAgentPolicyName = exports.userAgentPolicy = exports.defaultRetryPolicy = exports.tracingPolicyName = exports.tracingPolicy = exports.retryPolicy = exports.throttlingRetryPolicyName = exports.throttlingRetryPolicy = exports.systemErrorRetryPolicyName = exports.systemErrorRetryPolicy = exports.redirectPolicyName = exports.redirectPolicy = exports.getDefaultProxySettings = exports.proxyPolicyName = exports.proxyPolicy = exports.multipartPolicyName = exports.multipartPolicy = exports.logPolicyName = exports.logPolicy = exports.setClientRequestIdPolicyName = exports.setClientRequestIdPolicy = exports.exponentialRetryPolicyName = exports.exponentialRetryPolicy = exports.decompressResponsePolicyName = exports.decompressResponsePolicy = exports.isRestError = exports.RestError = exports.createPipelineRequest = exports.createHttpHeaders = exports.createDefaultHttpClient = exports.createPipelineFromOptions = exports.createEmptyPipeline = void 0;
-var pipeline_js_1 = __nccwpck_require__(4191);
+var pipeline_js_1 = __nccwpck_require__(105);
 Object.defineProperty(exports, "createEmptyPipeline", ({ enumerable: true, get: function () { return pipeline_js_1.createEmptyPipeline; } }));
-var createPipelineFromOptions_js_1 = __nccwpck_require__(6881);
+var createPipelineFromOptions_js_1 = __nccwpck_require__(8998);
 Object.defineProperty(exports, "createPipelineFromOptions", ({ enumerable: true, get: function () { return createPipelineFromOptions_js_1.createPipelineFromOptions; } }));
-var defaultHttpClient_js_1 = __nccwpck_require__(1936);
+var defaultHttpClient_js_1 = __nccwpck_require__(2184);
 Object.defineProperty(exports, "createDefaultHttpClient", ({ enumerable: true, get: function () { return defaultHttpClient_js_1.createDefaultHttpClient; } }));
-var httpHeaders_js_1 = __nccwpck_require__(3488);
+var httpHeaders_js_1 = __nccwpck_require__(5265);
 Object.defineProperty(exports, "createHttpHeaders", ({ enumerable: true, get: function () { return httpHeaders_js_1.createHttpHeaders; } }));
-var pipelineRequest_js_1 = __nccwpck_require__(3375);
+var pipelineRequest_js_1 = __nccwpck_require__(8740);
 Object.defineProperty(exports, "createPipelineRequest", ({ enumerable: true, get: function () { return pipelineRequest_js_1.createPipelineRequest; } }));
-var restError_js_1 = __nccwpck_require__(6985);
+var restError_js_1 = __nccwpck_require__(177);
 Object.defineProperty(exports, "RestError", ({ enumerable: true, get: function () { return restError_js_1.RestError; } }));
 Object.defineProperty(exports, "isRestError", ({ enumerable: true, get: function () { return restError_js_1.isRestError; } }));
-var decompressResponsePolicy_js_1 = __nccwpck_require__(9716);
+var decompressResponsePolicy_js_1 = __nccwpck_require__(5690);
 Object.defineProperty(exports, "decompressResponsePolicy", ({ enumerable: true, get: function () { return decompressResponsePolicy_js_1.decompressResponsePolicy; } }));
 Object.defineProperty(exports, "decompressResponsePolicyName", ({ enumerable: true, get: function () { return decompressResponsePolicy_js_1.decompressResponsePolicyName; } }));
-var exponentialRetryPolicy_js_1 = __nccwpck_require__(2233);
+var exponentialRetryPolicy_js_1 = __nccwpck_require__(6183);
 Object.defineProperty(exports, "exponentialRetryPolicy", ({ enumerable: true, get: function () { return exponentialRetryPolicy_js_1.exponentialRetryPolicy; } }));
 Object.defineProperty(exports, "exponentialRetryPolicyName", ({ enumerable: true, get: function () { return exponentialRetryPolicy_js_1.exponentialRetryPolicyName; } }));
-var setClientRequestIdPolicy_js_1 = __nccwpck_require__(1334);
+var setClientRequestIdPolicy_js_1 = __nccwpck_require__(9775);
 Object.defineProperty(exports, "setClientRequestIdPolicy", ({ enumerable: true, get: function () { return setClientRequestIdPolicy_js_1.setClientRequestIdPolicy; } }));
 Object.defineProperty(exports, "setClientRequestIdPolicyName", ({ enumerable: true, get: function () { return setClientRequestIdPolicy_js_1.setClientRequestIdPolicyName; } }));
-var logPolicy_js_1 = __nccwpck_require__(8383);
+var logPolicy_js_1 = __nccwpck_require__(8495);
 Object.defineProperty(exports, "logPolicy", ({ enumerable: true, get: function () { return logPolicy_js_1.logPolicy; } }));
 Object.defineProperty(exports, "logPolicyName", ({ enumerable: true, get: function () { return logPolicy_js_1.logPolicyName; } }));
-var multipartPolicy_js_1 = __nccwpck_require__(8807);
+var multipartPolicy_js_1 = __nccwpck_require__(3354);
 Object.defineProperty(exports, "multipartPolicy", ({ enumerable: true, get: function () { return multipartPolicy_js_1.multipartPolicy; } }));
 Object.defineProperty(exports, "multipartPolicyName", ({ enumerable: true, get: function () { return multipartPolicy_js_1.multipartPolicyName; } }));
-var proxyPolicy_js_1 = __nccwpck_require__(6360);
+var proxyPolicy_js_1 = __nccwpck_require__(4088);
 Object.defineProperty(exports, "proxyPolicy", ({ enumerable: true, get: function () { return proxyPolicy_js_1.proxyPolicy; } }));
 Object.defineProperty(exports, "proxyPolicyName", ({ enumerable: true, get: function () { return proxyPolicy_js_1.proxyPolicyName; } }));
 Object.defineProperty(exports, "getDefaultProxySettings", ({ enumerable: true, get: function () { return proxyPolicy_js_1.getDefaultProxySettings; } }));
-var redirectPolicy_js_1 = __nccwpck_require__(2960);
+var redirectPolicy_js_1 = __nccwpck_require__(662);
 Object.defineProperty(exports, "redirectPolicy", ({ enumerable: true, get: function () { return redirectPolicy_js_1.redirectPolicy; } }));
 Object.defineProperty(exports, "redirectPolicyName", ({ enumerable: true, get: function () { return redirectPolicy_js_1.redirectPolicyName; } }));
-var systemErrorRetryPolicy_js_1 = __nccwpck_require__(8009);
+var systemErrorRetryPolicy_js_1 = __nccwpck_require__(863);
 Object.defineProperty(exports, "systemErrorRetryPolicy", ({ enumerable: true, get: function () { return systemErrorRetryPolicy_js_1.systemErrorRetryPolicy; } }));
 Object.defineProperty(exports, "systemErrorRetryPolicyName", ({ enumerable: true, get: function () { return systemErrorRetryPolicy_js_1.systemErrorRetryPolicyName; } }));
-var throttlingRetryPolicy_js_1 = __nccwpck_require__(3297);
+var throttlingRetryPolicy_js_1 = __nccwpck_require__(7045);
 Object.defineProperty(exports, "throttlingRetryPolicy", ({ enumerable: true, get: function () { return throttlingRetryPolicy_js_1.throttlingRetryPolicy; } }));
 Object.defineProperty(exports, "throttlingRetryPolicyName", ({ enumerable: true, get: function () { return throttlingRetryPolicy_js_1.throttlingRetryPolicyName; } }));
-var retryPolicy_js_1 = __nccwpck_require__(3261);
+var retryPolicy_js_1 = __nccwpck_require__(2457);
 Object.defineProperty(exports, "retryPolicy", ({ enumerable: true, get: function () { return retryPolicy_js_1.retryPolicy; } }));
-var tracingPolicy_js_1 = __nccwpck_require__(6105);
+var tracingPolicy_js_1 = __nccwpck_require__(9959);
 Object.defineProperty(exports, "tracingPolicy", ({ enumerable: true, get: function () { return tracingPolicy_js_1.tracingPolicy; } }));
 Object.defineProperty(exports, "tracingPolicyName", ({ enumerable: true, get: function () { return tracingPolicy_js_1.tracingPolicyName; } }));
-var defaultRetryPolicy_js_1 = __nccwpck_require__(6451);
+var defaultRetryPolicy_js_1 = __nccwpck_require__(6665);
 Object.defineProperty(exports, "defaultRetryPolicy", ({ enumerable: true, get: function () { return defaultRetryPolicy_js_1.defaultRetryPolicy; } }));
-var userAgentPolicy_js_1 = __nccwpck_require__(8254);
+var userAgentPolicy_js_1 = __nccwpck_require__(206);
 Object.defineProperty(exports, "userAgentPolicy", ({ enumerable: true, get: function () { return userAgentPolicy_js_1.userAgentPolicy; } }));
 Object.defineProperty(exports, "userAgentPolicyName", ({ enumerable: true, get: function () { return userAgentPolicy_js_1.userAgentPolicyName; } }));
-var tlsPolicy_js_1 = __nccwpck_require__(8422);
+var tlsPolicy_js_1 = __nccwpck_require__(6927);
 Object.defineProperty(exports, "tlsPolicy", ({ enumerable: true, get: function () { return tlsPolicy_js_1.tlsPolicy; } }));
 Object.defineProperty(exports, "tlsPolicyName", ({ enumerable: true, get: function () { return tlsPolicy_js_1.tlsPolicyName; } }));
-var formDataPolicy_js_1 = __nccwpck_require__(5204);
+var formDataPolicy_js_1 = __nccwpck_require__(5754);
 Object.defineProperty(exports, "formDataPolicy", ({ enumerable: true, get: function () { return formDataPolicy_js_1.formDataPolicy; } }));
 Object.defineProperty(exports, "formDataPolicyName", ({ enumerable: true, get: function () { return formDataPolicy_js_1.formDataPolicyName; } }));
-var bearerTokenAuthenticationPolicy_js_1 = __nccwpck_require__(8050);
+var bearerTokenAuthenticationPolicy_js_1 = __nccwpck_require__(7474);
 Object.defineProperty(exports, "bearerTokenAuthenticationPolicy", ({ enumerable: true, get: function () { return bearerTokenAuthenticationPolicy_js_1.bearerTokenAuthenticationPolicy; } }));
 Object.defineProperty(exports, "bearerTokenAuthenticationPolicyName", ({ enumerable: true, get: function () { return bearerTokenAuthenticationPolicy_js_1.bearerTokenAuthenticationPolicyName; } }));
-var ndJsonPolicy_js_1 = __nccwpck_require__(1970);
+var ndJsonPolicy_js_1 = __nccwpck_require__(7680);
 Object.defineProperty(exports, "ndJsonPolicy", ({ enumerable: true, get: function () { return ndJsonPolicy_js_1.ndJsonPolicy; } }));
 Object.defineProperty(exports, "ndJsonPolicyName", ({ enumerable: true, get: function () { return ndJsonPolicy_js_1.ndJsonPolicyName; } }));
-var auxiliaryAuthenticationHeaderPolicy_js_1 = __nccwpck_require__(5864);
+var auxiliaryAuthenticationHeaderPolicy_js_1 = __nccwpck_require__(3799);
 Object.defineProperty(exports, "auxiliaryAuthenticationHeaderPolicy", ({ enumerable: true, get: function () { return auxiliaryAuthenticationHeaderPolicy_js_1.auxiliaryAuthenticationHeaderPolicy; } }));
 Object.defineProperty(exports, "auxiliaryAuthenticationHeaderPolicyName", ({ enumerable: true, get: function () { return auxiliaryAuthenticationHeaderPolicy_js_1.auxiliaryAuthenticationHeaderPolicyName; } }));
-var file_js_1 = __nccwpck_require__(8990);
+var file_js_1 = __nccwpck_require__(6828);
 Object.defineProperty(exports, "createFile", ({ enumerable: true, get: function () { return file_js_1.createFile; } }));
 Object.defineProperty(exports, "createFileFromStream", ({ enumerable: true, get: function () { return file_js_1.createFileFromStream; } }));
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 5666:
+/***/ 2137:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.logger = void 0;
 const logger_1 = __nccwpck_require__(2208);
@@ -71929,40 +71955,49 @@ exports.logger = (0, logger_1.createClientLogger)("core-rest-pipeline");
 
 /***/ }),
 
-/***/ 4093:
+/***/ 9244:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getBodyLength = getBodyLength;
 exports.createNodeHttpClient = createNodeHttpClient;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 const http = tslib_1.__importStar(__nccwpck_require__(8849));
 const https = tslib_1.__importStar(__nccwpck_require__(2286));
 const zlib = tslib_1.__importStar(__nccwpck_require__(5628));
 const node_stream_1 = __nccwpck_require__(4492);
 const abort_controller_1 = __nccwpck_require__(5964);
-const httpHeaders_js_1 = __nccwpck_require__(3488);
-const restError_js_1 = __nccwpck_require__(6985);
-const log_js_1 = __nccwpck_require__(5666);
+const httpHeaders_js_1 = __nccwpck_require__(5265);
+const restError_js_1 = __nccwpck_require__(177);
+const log_js_1 = __nccwpck_require__(2137);
 const DEFAULT_TLS_SETTINGS = {};
 function isReadableStream(body) {
     return body && typeof body.pipe === "function";
 }
 function isStreamComplete(stream) {
+    if (stream.readable === false) {
+        return Promise.resolve();
+    }
     return new Promise((resolve) => {
-        stream.on("close", resolve);
-        stream.on("end", resolve);
-        stream.on("error", resolve);
+        const handler = () => {
+            resolve();
+            stream.removeListener("close", handler);
+            stream.removeListener("end", handler);
+            stream.removeListener("error", handler);
+        };
+        stream.on("close", handler);
+        stream.on("end", handler);
+        stream.on("error", handler);
     });
 }
 function isArrayBuffer(body) {
     return body && typeof body.byteLength === "number";
 }
 class ReportTransform extends node_stream_1.Transform {
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     _transform(chunk, _encoding, callback) {
         this.push(chunk);
         this.loadedBytes += chunk.length;
@@ -72272,12 +72307,12 @@ function createNodeHttpClient() {
 
 /***/ }),
 
-/***/ 4191:
+/***/ 105:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createEmptyPipeline = createEmptyPipeline;
 const ValidPhaseNames = new Set(["Deserialize", "Serialize", "Retry", "Sign"]);
@@ -72543,16 +72578,16 @@ function createEmptyPipeline() {
 
 /***/ }),
 
-/***/ 3375:
+/***/ 8740:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createPipelineRequest = createPipelineRequest;
-const httpHeaders_js_1 = __nccwpck_require__(3488);
-const core_util_1 = __nccwpck_require__(8143);
+const httpHeaders_js_1 = __nccwpck_require__(5265);
+const core_util_1 = __nccwpck_require__(1910);
 class PipelineRequestImpl {
     constructor(options) {
         var _a, _b, _c, _d, _e, _f, _g;
@@ -72588,17 +72623,17 @@ function createPipelineRequest(options) {
 
 /***/ }),
 
-/***/ 5864:
+/***/ 3799:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.auxiliaryAuthenticationHeaderPolicyName = void 0;
 exports.auxiliaryAuthenticationHeaderPolicy = auxiliaryAuthenticationHeaderPolicy;
-const tokenCycler_js_1 = __nccwpck_require__(7902);
-const log_js_1 = __nccwpck_require__(5666);
+const tokenCycler_js_1 = __nccwpck_require__(2003);
+const log_js_1 = __nccwpck_require__(2137);
 /**
  * The programmatic identifier of the auxiliaryAuthenticationHeaderPolicy.
  */
@@ -72661,29 +72696,55 @@ function auxiliaryAuthenticationHeaderPolicy(options) {
 
 /***/ }),
 
-/***/ 8050:
+/***/ 7474:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.bearerTokenAuthenticationPolicyName = void 0;
 exports.bearerTokenAuthenticationPolicy = bearerTokenAuthenticationPolicy;
-const tokenCycler_js_1 = __nccwpck_require__(7902);
-const log_js_1 = __nccwpck_require__(5666);
+exports.parseChallenges = parseChallenges;
+const tokenCycler_js_1 = __nccwpck_require__(2003);
+const log_js_1 = __nccwpck_require__(2137);
+const restError_js_1 = __nccwpck_require__(177);
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
 exports.bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
 /**
+ * Try to send the given request.
+ *
+ * When a response is received, returns a tuple of the response received and, if the response was received
+ * inside a thrown RestError, the RestError that was thrown.
+ *
+ * Otherwise, if an error was thrown while sending the request that did not provide an underlying response, it
+ * will be rethrown.
+ */
+async function trySendRequest(request, next) {
+    try {
+        return [await next(request), undefined];
+    }
+    catch (e) {
+        if ((0, restError_js_1.isRestError)(e) && e.response) {
+            return [e.response, e];
+        }
+        else {
+            throw e;
+        }
+    }
+}
+/**
  * Default authorize request handler
  */
 async function defaultAuthorizeRequest(options) {
     const { scopes, getAccessToken, request } = options;
+    // Enable CAE true by default
     const getTokenOptions = {
         abortSignal: request.abortSignal,
         tracingOptions: request.tracingOptions,
+        enableCae: true,
     };
     const accessToken = await getAccessToken(scopes, getTokenOptions);
     if (accessToken) {
@@ -72694,12 +72755,26 @@ async function defaultAuthorizeRequest(options) {
  * We will retrieve the challenge only if the response status code was 401,
  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
  */
-function getChallenge(response) {
-    const challenge = response.headers.get("WWW-Authenticate");
-    if (response.status === 401 && challenge) {
-        return challenge;
+function isChallengeResponse(response) {
+    return response.status === 401 && response.headers.has("WWW-Authenticate");
+}
+/**
+ * Re-authorize the request for CAE challenge.
+ * The response containing the challenge is `options.response`.
+ * If this method returns true, the underlying request will be sent once again.
+ */
+async function authorizeRequestOnCaeChallenge(onChallengeOptions, caeClaims) {
+    var _a;
+    const { scopes } = onChallengeOptions;
+    const accessToken = await onChallengeOptions.getAccessToken(scopes, {
+        enableCae: true,
+        claims: caeClaims,
+    });
+    if (!accessToken) {
+        return false;
     }
-    return;
+    onChallengeOptions.request.headers.set("Authorization", `${(_a = accessToken.tokenType) !== null && _a !== void 0 ? _a : "Bearer"} ${accessToken.token}`);
+    return true;
 }
 /**
  * A policy that can request a token from a TokenCredential implementation and
@@ -72709,7 +72784,10 @@ function bearerTokenAuthenticationPolicy(options) {
     var _a;
     const { credential, scopes, challengeCallbacks } = options;
     const logger = options.logger || log_js_1.logger;
-    const callbacks = Object.assign({ authorizeRequest: (_a = challengeCallbacks === null || challengeCallbacks === void 0 ? void 0 : challengeCallbacks.authorizeRequest) !== null && _a !== void 0 ? _a : defaultAuthorizeRequest, authorizeRequestOnChallenge: challengeCallbacks === null || challengeCallbacks === void 0 ? void 0 : challengeCallbacks.authorizeRequestOnChallenge }, challengeCallbacks);
+    const callbacks = {
+        authorizeRequest: (_a = challengeCallbacks === null || challengeCallbacks === void 0 ? void 0 : challengeCallbacks.authorizeRequest) !== null && _a !== void 0 ? _a : defaultAuthorizeRequest,
+        authorizeRequestOnChallenge: challengeCallbacks === null || challengeCallbacks === void 0 ? void 0 : challengeCallbacks.authorizeRequestOnChallenge,
+    };
     // This function encapsulates the entire process of reliably retrieving the token
     // The options are left out of the public API until there's demand to configure this.
     // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
@@ -72744,26 +72822,71 @@ function bearerTokenAuthenticationPolicy(options) {
             });
             let response;
             let error;
-            try {
-                response = await next(request);
-            }
-            catch (err) {
-                error = err;
-                response = err.response;
-            }
-            if (callbacks.authorizeRequestOnChallenge &&
-                (response === null || response === void 0 ? void 0 : response.status) === 401 &&
-                getChallenge(response)) {
-                // processes challenge
-                const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
-                    scopes: Array.isArray(scopes) ? scopes : [scopes],
-                    request,
-                    response,
-                    getAccessToken,
-                    logger,
-                });
-                if (shouldSendRequest) {
-                    return next(request);
+            let shouldSendRequest;
+            [response, error] = await trySendRequest(request, next);
+            if (isChallengeResponse(response)) {
+                let claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate"));
+                // Handle CAE by default when receive CAE claim
+                if (claims) {
+                    let parsedClaim;
+                    // Return the response immediately if claims is not a valid base64 encoded string
+                    try {
+                        parsedClaim = atob(claims);
+                    }
+                    catch (e) {
+                        logger.warning(`The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`);
+                        return response;
+                    }
+                    shouldSendRequest = await authorizeRequestOnCaeChallenge({
+                        scopes: Array.isArray(scopes) ? scopes : [scopes],
+                        response,
+                        request,
+                        getAccessToken,
+                        logger,
+                    }, parsedClaim);
+                    // Send updated request and handle response for RestError
+                    if (shouldSendRequest) {
+                        [response, error] = await trySendRequest(request, next);
+                    }
+                }
+                else if (callbacks.authorizeRequestOnChallenge) {
+                    // Handle custom challenges when client provides custom callback
+                    shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+                        scopes: Array.isArray(scopes) ? scopes : [scopes],
+                        request,
+                        response,
+                        getAccessToken,
+                        logger,
+                    });
+                    // Send updated request and handle response for RestError
+                    if (shouldSendRequest) {
+                        [response, error] = await trySendRequest(request, next);
+                    }
+                    // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
+                    if (isChallengeResponse(response)) {
+                        claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate"));
+                        if (claims) {
+                            let parsedClaim;
+                            try {
+                                parsedClaim = atob(claims);
+                            }
+                            catch (e) {
+                                logger.warning(`The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`);
+                                return response;
+                            }
+                            shouldSendRequest = await authorizeRequestOnCaeChallenge({
+                                scopes: Array.isArray(scopes) ? scopes : [scopes],
+                                response,
+                                request,
+                                getAccessToken,
+                                logger,
+                            }, parsedClaim);
+                            // Send updated request and handle response for RestError
+                            if (shouldSendRequest) {
+                                [response, error] = await trySendRequest(request, next);
+                            }
+                        }
+                    }
                 }
             }
             if (error) {
@@ -72775,16 +72898,59 @@ function bearerTokenAuthenticationPolicy(options) {
         },
     };
 }
+/**
+ * Converts: `Bearer a="b", c="d", Pop e="f", g="h"`.
+ * Into: `[ { scheme: 'Bearer', params: { a: 'b', c: 'd' } }, { scheme: 'Pop', params: { e: 'f', g: 'h' } } ]`.
+ *
+ * @internal
+ */
+function parseChallenges(challenges) {
+    // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c=d`
+    // The challenge regex captures parameteres with either quotes values or unquoted values
+    const challengeRegex = /(\w+)\s+((?:\w+=(?:"[^"]*"|[^,]*),?\s*)+)/g;
+    // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
+    // CAE challenge always have quoted parameters. For more reference, https://learn.microsoft.com/entra/identity-platform/claims-challenge
+    const paramRegex = /(\w+)="([^"]*)"/g;
+    const parsedChallenges = [];
+    let match;
+    // Iterate over each challenge match
+    while ((match = challengeRegex.exec(challenges)) !== null) {
+        const scheme = match[1];
+        const paramsString = match[2];
+        const params = {};
+        let paramMatch;
+        // Iterate over each parameter match
+        while ((paramMatch = paramRegex.exec(paramsString)) !== null) {
+            params[paramMatch[1]] = paramMatch[2];
+        }
+        parsedChallenges.push({ scheme, params });
+    }
+    return parsedChallenges;
+}
+/**
+ * Parse a pipeline response and look for a CAE challenge with "Bearer" scheme
+ * Return the value in the header without parsing the challenge
+ * @internal
+ */
+function getCaeChallengeClaims(challenges) {
+    var _a;
+    if (!challenges) {
+        return;
+    }
+    // Find all challenges present in the header
+    const parsedChallenges = parseChallenges(challenges);
+    return (_a = parsedChallenges.find((x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims")) === null || _a === void 0 ? void 0 : _a.params.claims;
+}
 //# sourceMappingURL=bearerTokenAuthenticationPolicy.js.map
 
 /***/ }),
 
-/***/ 9716:
+/***/ 5690:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.decompressResponsePolicyName = void 0;
 exports.decompressResponsePolicy = decompressResponsePolicy;
@@ -72812,19 +72978,19 @@ function decompressResponsePolicy() {
 
 /***/ }),
 
-/***/ 6451:
+/***/ 6665:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.defaultRetryPolicyName = void 0;
 exports.defaultRetryPolicy = defaultRetryPolicy;
-const exponentialRetryStrategy_js_1 = __nccwpck_require__(3901);
-const throttlingRetryStrategy_js_1 = __nccwpck_require__(6922);
-const retryPolicy_js_1 = __nccwpck_require__(3261);
-const constants_js_1 = __nccwpck_require__(5631);
+const exponentialRetryStrategy_js_1 = __nccwpck_require__(2978);
+const throttlingRetryStrategy_js_1 = __nccwpck_require__(2498);
+const retryPolicy_js_1 = __nccwpck_require__(2457);
+const constants_js_1 = __nccwpck_require__(1486);
 /**
  * Name of the {@link defaultRetryPolicy}
  */
@@ -72848,18 +73014,18 @@ function defaultRetryPolicy(options = {}) {
 
 /***/ }),
 
-/***/ 2233:
+/***/ 6183:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.exponentialRetryPolicyName = void 0;
 exports.exponentialRetryPolicy = exponentialRetryPolicy;
-const exponentialRetryStrategy_js_1 = __nccwpck_require__(3901);
-const retryPolicy_js_1 = __nccwpck_require__(3261);
-const constants_js_1 = __nccwpck_require__(5631);
+const exponentialRetryStrategy_js_1 = __nccwpck_require__(2978);
+const retryPolicy_js_1 = __nccwpck_require__(2457);
+const constants_js_1 = __nccwpck_require__(1486);
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
  */
@@ -72880,17 +73046,17 @@ function exponentialRetryPolicy(options = {}) {
 
 /***/ }),
 
-/***/ 5204:
+/***/ 5754:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.formDataPolicyName = void 0;
 exports.formDataPolicy = formDataPolicy;
-const core_util_1 = __nccwpck_require__(8143);
-const httpHeaders_js_1 = __nccwpck_require__(3488);
+const core_util_1 = __nccwpck_require__(1910);
+const httpHeaders_js_1 = __nccwpck_require__(5265);
 /**
  * The programmatic identifier of the formDataPolicy.
  */
@@ -72986,17 +73152,17 @@ async function prepareFormData(formData, request) {
 
 /***/ }),
 
-/***/ 8383:
+/***/ 8495:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.logPolicyName = void 0;
 exports.logPolicy = logPolicy;
-const log_js_1 = __nccwpck_require__(5666);
-const sanitizer_js_1 = __nccwpck_require__(8464);
+const log_js_1 = __nccwpck_require__(2137);
+const sanitizer_js_1 = __nccwpck_require__(8029);
 /**
  * The programmatic identifier of the logPolicy.
  */
@@ -73030,18 +73196,18 @@ function logPolicy(options = {}) {
 
 /***/ }),
 
-/***/ 8807:
+/***/ 3354:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.multipartPolicyName = void 0;
 exports.multipartPolicy = multipartPolicy;
-const core_util_1 = __nccwpck_require__(8143);
-const concat_js_1 = __nccwpck_require__(2694);
-const typeGuards_js_1 = __nccwpck_require__(7734);
+const core_util_1 = __nccwpck_require__(1910);
+const concat_js_1 = __nccwpck_require__(1859);
+const typeGuards_js_1 = __nccwpck_require__(6284);
 function generateBoundary() {
     return `----AzSDKFormBoundary${(0, core_util_1.randomUUID)()}`;
 }
@@ -73151,12 +73317,12 @@ function multipartPolicy() {
 
 /***/ }),
 
-/***/ 1970:
+/***/ 7680:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ndJsonPolicyName = void 0;
 exports.ndJsonPolicy = ndJsonPolicy;
@@ -73186,12 +73352,12 @@ function ndJsonPolicy() {
 
 /***/ }),
 
-/***/ 6360:
+/***/ 4088:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.globalNoProxyList = exports.proxyPolicyName = void 0;
 exports.loadNoProxy = loadNoProxy;
@@ -73199,7 +73365,7 @@ exports.getDefaultProxySettings = getDefaultProxySettings;
 exports.proxyPolicy = proxyPolicy;
 const https_proxy_agent_1 = __nccwpck_require__(2838);
 const http_proxy_agent_1 = __nccwpck_require__(6628);
-const log_js_1 = __nccwpck_require__(5666);
+const log_js_1 = __nccwpck_require__(2137);
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
 const ALL_PROXY = "ALL_PROXY";
@@ -73317,7 +73483,7 @@ function getUrlFromProxySettings(settings) {
     try {
         parsedProxyUrl = new URL(settings.host);
     }
-    catch (_error) {
+    catch (_a) {
         throw new Error(`Expecting a valid host string in proxy settings, but found "${settings.host}".`);
     }
     parsedProxyUrl.port = String(settings.port);
@@ -73389,12 +73555,12 @@ function proxyPolicy(proxySettings, options) {
 
 /***/ }),
 
-/***/ 2960:
+/***/ 662:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.redirectPolicyName = void 0;
 exports.redirectPolicy = redirectPolicy;
@@ -73451,18 +73617,18 @@ async function handleRedirect(next, response, maxRetries, currentRetries = 0) {
 
 /***/ }),
 
-/***/ 3261:
+/***/ 2457:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.retryPolicy = retryPolicy;
-const helpers_js_1 = __nccwpck_require__(7714);
+const helpers_js_1 = __nccwpck_require__(1806);
 const logger_1 = __nccwpck_require__(2208);
 const abort_controller_1 = __nccwpck_require__(5964);
-const constants_js_1 = __nccwpck_require__(5631);
+const constants_js_1 = __nccwpck_require__(1486);
 const retryPolicyLogger = (0, logger_1.createClientLogger)("core-rest-pipeline retryPolicy");
 /**
  * The programmatic identifier of the retryPolicy.
@@ -73566,12 +73732,12 @@ function retryPolicy(strategies, options = { maxRetries: constants_js_1.DEFAULT_
 
 /***/ }),
 
-/***/ 1334:
+/***/ 9775:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setClientRequestIdPolicyName = void 0;
 exports.setClientRequestIdPolicy = setClientRequestIdPolicy;
@@ -73600,18 +73766,18 @@ function setClientRequestIdPolicy(requestIdHeaderName = "x-ms-client-request-id"
 
 /***/ }),
 
-/***/ 8009:
+/***/ 863:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.systemErrorRetryPolicyName = void 0;
 exports.systemErrorRetryPolicy = systemErrorRetryPolicy;
-const exponentialRetryStrategy_js_1 = __nccwpck_require__(3901);
-const retryPolicy_js_1 = __nccwpck_require__(3261);
-const constants_js_1 = __nccwpck_require__(5631);
+const exponentialRetryStrategy_js_1 = __nccwpck_require__(2978);
+const retryPolicy_js_1 = __nccwpck_require__(2457);
+const constants_js_1 = __nccwpck_require__(1486);
 /**
  * Name of the {@link systemErrorRetryPolicy}
  */
@@ -73637,18 +73803,18 @@ function systemErrorRetryPolicy(options = {}) {
 
 /***/ }),
 
-/***/ 3297:
+/***/ 7045:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.throttlingRetryPolicyName = void 0;
 exports.throttlingRetryPolicy = throttlingRetryPolicy;
-const throttlingRetryStrategy_js_1 = __nccwpck_require__(6922);
-const retryPolicy_js_1 = __nccwpck_require__(3261);
-const constants_js_1 = __nccwpck_require__(5631);
+const throttlingRetryStrategy_js_1 = __nccwpck_require__(2498);
+const retryPolicy_js_1 = __nccwpck_require__(2457);
+const constants_js_1 = __nccwpck_require__(1486);
 /**
  * Name of the {@link throttlingRetryPolicy}
  */
@@ -73676,12 +73842,12 @@ function throttlingRetryPolicy(options = {}) {
 
 /***/ }),
 
-/***/ 8422:
+/***/ 6927:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.tlsPolicyName = void 0;
 exports.tlsPolicy = tlsPolicy;
@@ -73708,22 +73874,22 @@ function tlsPolicy(tlsSettings) {
 
 /***/ }),
 
-/***/ 6105:
+/***/ 9959:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.tracingPolicyName = void 0;
 exports.tracingPolicy = tracingPolicy;
-const core_tracing_1 = __nccwpck_require__(7423);
-const constants_js_1 = __nccwpck_require__(5631);
-const userAgent_js_1 = __nccwpck_require__(8478);
-const log_js_1 = __nccwpck_require__(5666);
-const core_util_1 = __nccwpck_require__(8143);
-const restError_js_1 = __nccwpck_require__(6985);
-const sanitizer_js_1 = __nccwpck_require__(8464);
+const core_tracing_1 = __nccwpck_require__(3810);
+const constants_js_1 = __nccwpck_require__(1486);
+const userAgent_js_1 = __nccwpck_require__(5175);
+const log_js_1 = __nccwpck_require__(2137);
+const core_util_1 = __nccwpck_require__(1910);
+const restError_js_1 = __nccwpck_require__(177);
+const sanitizer_js_1 = __nccwpck_require__(8029);
 /**
  * The programmatic identifier of the tracingPolicy.
  */
@@ -73743,8 +73909,8 @@ function tracingPolicy(options = {}) {
     return {
         name: exports.tracingPolicyName,
         async sendRequest(request, next) {
-            var _a, _b;
-            if (!tracingClient || !((_a = request.tracingOptions) === null || _a === void 0 ? void 0 : _a.tracingContext)) {
+            var _a;
+            if (!tracingClient) {
                 return next(request);
             }
             const userAgent = await userAgentPromise;
@@ -73757,7 +73923,7 @@ function tracingPolicy(options = {}) {
             if (userAgent) {
                 spanAttributes["http.user_agent"] = userAgent;
             }
-            const { span, tracingContext } = (_b = tryCreateSpan(tracingClient, request, spanAttributes)) !== null && _b !== void 0 ? _b : {};
+            const { span, tracingContext } = (_a = tryCreateSpan(tracingClient, request, spanAttributes)) !== null && _a !== void 0 ? _a : {};
             if (!span || !tracingContext) {
                 return next(request);
             }
@@ -73845,16 +74011,16 @@ function tryProcessResponse(span, response) {
 
 /***/ }),
 
-/***/ 8254:
+/***/ 206:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.userAgentPolicyName = void 0;
 exports.userAgentPolicy = userAgentPolicy;
-const userAgent_js_1 = __nccwpck_require__(8478);
+const userAgent_js_1 = __nccwpck_require__(5175);
 const UserAgentHeaderName = (0, userAgent_js_1.getUserAgentHeaderName)();
 /**
  * The programmatic identifier of the userAgentPolicy.
@@ -73881,18 +74047,18 @@ function userAgentPolicy(options = {}) {
 
 /***/ }),
 
-/***/ 6985:
+/***/ 177:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RestError = void 0;
 exports.isRestError = isRestError;
-const core_util_1 = __nccwpck_require__(8143);
-const inspect_js_1 = __nccwpck_require__(1838);
-const sanitizer_js_1 = __nccwpck_require__(8464);
+const core_util_1 = __nccwpck_require__(1910);
+const inspect_js_1 = __nccwpck_require__(3487);
+const sanitizer_js_1 = __nccwpck_require__(8029);
 const errorSanitizer = new sanitizer_js_1.Sanitizer();
 /**
  * A custom error type for failed pipeline requests.
@@ -73946,18 +74112,18 @@ function isRestError(e) {
 
 /***/ }),
 
-/***/ 3901:
+/***/ 2978:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.exponentialRetryStrategy = exponentialRetryStrategy;
 exports.isExponentialRetryResponse = isExponentialRetryResponse;
 exports.isSystemError = isSystemError;
-const core_util_1 = __nccwpck_require__(8143);
-const throttlingRetryStrategy_js_1 = __nccwpck_require__(6922);
+const core_util_1 = __nccwpck_require__(1910);
+const throttlingRetryStrategy_js_1 = __nccwpck_require__(2498);
 // intervals are in milliseconds
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
@@ -73970,7 +74136,6 @@ function exponentialRetryStrategy(options = {}) {
     var _a, _b;
     const retryInterval = (_a = options.retryDelayInMs) !== null && _a !== void 0 ? _a : DEFAULT_CLIENT_RETRY_INTERVAL;
     const maxRetryInterval = (_b = options.maxRetryDelayInMs) !== null && _b !== void 0 ? _b : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
-    let retryAfterInMs = retryInterval;
     return {
         name: "exponentialRetryStrategy",
         retry({ retryCount, response, responseError }) {
@@ -73985,15 +74150,10 @@ function exponentialRetryStrategy(options = {}) {
             if (responseError && !matchedSystemError && !isExponential) {
                 return { errorToThrow: responseError };
             }
-            // Exponentially increase the delay each time
-            const exponentialDelay = retryAfterInMs * Math.pow(2, retryCount);
-            // Don't let the delay exceed the maximum
-            const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
-            // Allow the final value to have some "jitter" (within 50% of the delay size) so
-            // that retries across multiple clients don't occur simultaneously.
-            retryAfterInMs =
-                clampedExponentialDelay / 2 + (0, core_util_1.getRandomIntegerInclusive)(0, clampedExponentialDelay / 2);
-            return { retryAfterInMs };
+            return (0, core_util_1.calculateRetryDelay)(retryCount, {
+                retryDelayInMs: retryInterval,
+                maxRetryDelayInMs: maxRetryInterval,
+            });
         },
     };
 }
@@ -74027,16 +74187,16 @@ function isSystemError(err) {
 
 /***/ }),
 
-/***/ 6922:
+/***/ 2498:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isThrottlingRetryResponse = isThrottlingRetryResponse;
 exports.throttlingRetryStrategy = throttlingRetryStrategy;
-const helpers_js_1 = __nccwpck_require__(7714);
+const helpers_js_1 = __nccwpck_require__(1806);
 /**
  * The header that comes back from Azure services representing
  * the amount of time (minimum) to wait to retry (in seconds or timestamp after which we can retry).
@@ -74082,7 +74242,7 @@ function getRetryAfterInMs(response) {
         // negative diff would mean a date in the past, so retry asap with 0 milliseconds
         return Number.isFinite(diff) ? Math.max(0, diff) : undefined;
     }
-    catch (e) {
+    catch (_a) {
         return undefined;
     }
 }
@@ -74111,18 +74271,18 @@ function throttlingRetryStrategy() {
 
 /***/ }),
 
-/***/ 2694:
+/***/ 1859:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.concat = concat;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 const node_stream_1 = __nccwpck_require__(4492);
-const typeGuards_js_1 = __nccwpck_require__(7734);
-const file_js_1 = __nccwpck_require__(8990);
+const typeGuards_js_1 = __nccwpck_require__(6284);
+const file_js_1 = __nccwpck_require__(6828);
 function streamAsyncIterator() {
     return tslib_1.__asyncGenerator(this, arguments, function* streamAsyncIterator_1() {
         const reader = this.getReader();
@@ -74208,18 +74368,18 @@ async function concat(sources) {
 
 /***/ }),
 
-/***/ 8990:
+/***/ 6828:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getRawContent = getRawContent;
 exports.createFileFromStream = createFileFromStream;
 exports.createFile = createFile;
-const core_util_1 = __nccwpck_require__(8143);
-const typeGuards_js_1 = __nccwpck_require__(7734);
+const core_util_1 = __nccwpck_require__(1910);
+const typeGuards_js_1 = __nccwpck_require__(6284);
 const unimplementedMethods = {
     arrayBuffer: () => {
         throw new Error("Not implemented");
@@ -74315,12 +74475,12 @@ function createFile(content, name, options = {}) {
 
 /***/ }),
 
-/***/ 7714:
+/***/ 1806:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.delay = delay;
 exports.parseHeaderValueAsNumber = parseHeaderValueAsNumber;
@@ -74383,12 +74543,12 @@ function parseHeaderValueAsNumber(response, headerName) {
 
 /***/ }),
 
-/***/ 1838:
+/***/ 3487:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.custom = void 0;
 const node_util_1 = __nccwpck_require__(7261);
@@ -74397,15 +74557,15 @@ exports.custom = node_util_1.inspect.custom;
 
 /***/ }),
 
-/***/ 8464:
+/***/ 8029:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Sanitizer = void 0;
-const core_util_1 = __nccwpck_require__(8143);
+const core_util_1 = __nccwpck_require__(1910);
 const RedactedString = "REDACTED";
 // Make sure this list is up-to-date with the one under core/logger/Readme#Keyconcepts
 const defaultAllowedHeaderNames = [
@@ -74546,16 +74706,16 @@ exports.Sanitizer = Sanitizer;
 
 /***/ }),
 
-/***/ 7902:
+/***/ 2003:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DEFAULT_CYCLER_OPTIONS = void 0;
 exports.createTokenCycler = createTokenCycler;
-const helpers_js_1 = __nccwpck_require__(7714);
+const helpers_js_1 = __nccwpck_require__(1806);
 // Default options for the cycler if none are provided
 exports.DEFAULT_CYCLER_OPTIONS = {
     forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
@@ -74636,8 +74796,13 @@ function createTokenCycler(credential, tokenCyclerOptions) {
          */
         get shouldRefresh() {
             var _a;
-            return (!cycler.isRefreshing &&
-                ((_a = token === null || token === void 0 ? void 0 : token.expiresOnTimestamp) !== null && _a !== void 0 ? _a : 0) - options.refreshWindowInMs < Date.now());
+            if (cycler.isRefreshing) {
+                return false;
+            }
+            if ((token === null || token === void 0 ? void 0 : token.refreshAfterTimestamp) && token.refreshAfterTimestamp < Date.now()) {
+                return true;
+            }
+            return ((_a = token === null || token === void 0 ? void 0 : token.expiresOnTimestamp) !== null && _a !== void 0 ? _a : 0) - options.refreshWindowInMs < Date.now();
         },
         /**
          * Produces true if the cycler MUST refresh (null or nearly-expired
@@ -74713,12 +74878,12 @@ function createTokenCycler(credential, tokenCyclerOptions) {
 
 /***/ }),
 
-/***/ 7734:
+/***/ 6284:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isNodeReadableStream = isNodeReadableStream;
 exports.isWebReadableStream = isWebReadableStream;
@@ -74742,17 +74907,17 @@ function isBlob(x) {
 
 /***/ }),
 
-/***/ 8478:
+/***/ 5175:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getUserAgentHeaderName = getUserAgentHeaderName;
 exports.getUserAgentValue = getUserAgentValue;
-const userAgentPlatform_js_1 = __nccwpck_require__(5886);
-const constants_js_1 = __nccwpck_require__(5631);
+const userAgentPlatform_js_1 = __nccwpck_require__(4347);
+const constants_js_1 = __nccwpck_require__(1486);
 function getUserAgentString(telemetryInfo) {
     const parts = [];
     for (const [key, value] of telemetryInfo) {
@@ -74782,16 +74947,16 @@ async function getUserAgentValue(prefix) {
 
 /***/ }),
 
-/***/ 5886:
+/***/ 4347:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getHeaderName = getHeaderName;
 exports.setPlatformSpecificData = setPlatformSpecificData;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 const os = tslib_1.__importStar(__nccwpck_require__(612));
 const process = tslib_1.__importStar(__nccwpck_require__(7742));
 /**
@@ -74822,32 +74987,35 @@ async function setPlatformSpecificData(map) {
 
 /***/ }),
 
-/***/ 7423:
+/***/ 3810:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createTracingClient = exports.useInstrumenter = void 0;
-var instrumenter_js_1 = __nccwpck_require__(4746);
+var instrumenter_js_1 = __nccwpck_require__(6912);
 Object.defineProperty(exports, "useInstrumenter", ({ enumerable: true, get: function () { return instrumenter_js_1.useInstrumenter; } }));
-var tracingClient_js_1 = __nccwpck_require__(1291);
+var tracingClient_js_1 = __nccwpck_require__(5450);
 Object.defineProperty(exports, "createTracingClient", ({ enumerable: true, get: function () { return tracingClient_js_1.createTracingClient; } }));
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 4746:
+/***/ 6912:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getInstrumenter = exports.useInstrumenter = exports.createDefaultInstrumenter = exports.createDefaultTracingSpan = void 0;
-const tracingContext_js_1 = __nccwpck_require__(2402);
-const state_js_1 = __nccwpck_require__(3133);
+exports.createDefaultTracingSpan = createDefaultTracingSpan;
+exports.createDefaultInstrumenter = createDefaultInstrumenter;
+exports.useInstrumenter = useInstrumenter;
+exports.getInstrumenter = getInstrumenter;
+const tracingContext_js_1 = __nccwpck_require__(7419);
+const state_js_1 = __nccwpck_require__(9926);
 function createDefaultTracingSpan() {
     return {
         end: () => {
@@ -74863,9 +75031,11 @@ function createDefaultTracingSpan() {
         setStatus: () => {
             // noop
         },
+        addEvent: () => {
+            // noop
+        },
     };
 }
-exports.createDefaultTracingSpan = createDefaultTracingSpan;
 function createDefaultInstrumenter() {
     return {
         createRequestHeaders: () => {
@@ -74885,7 +75055,6 @@ function createDefaultInstrumenter() {
         },
     };
 }
-exports.createDefaultInstrumenter = createDefaultInstrumenter;
 /**
  * Extends the Azure SDK with support for a given instrumenter implementation.
  *
@@ -74894,7 +75063,6 @@ exports.createDefaultInstrumenter = createDefaultInstrumenter;
 function useInstrumenter(instrumenter) {
     state_js_1.state.instrumenterImplementation = instrumenter;
 }
-exports.useInstrumenter = useInstrumenter;
 /**
  * Gets the currently set instrumenter, a No-Op instrumenter by default.
  *
@@ -74906,17 +75074,16 @@ function getInstrumenter() {
     }
     return state_js_1.state.instrumenterImplementation;
 }
-exports.getInstrumenter = getInstrumenter;
 //# sourceMappingURL=instrumenter.js.map
 
 /***/ }),
 
-/***/ 3133:
+/***/ 9926:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.state = void 0;
 /**
@@ -74931,16 +75098,16 @@ exports.state = {
 
 /***/ }),
 
-/***/ 1291:
+/***/ 5450:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createTracingClient = void 0;
-const instrumenter_js_1 = __nccwpck_require__(4746);
-const tracingContext_js_1 = __nccwpck_require__(2402);
+exports.createTracingClient = createTracingClient;
+const instrumenter_js_1 = __nccwpck_require__(6912);
+const tracingContext_js_1 = __nccwpck_require__(7419);
 /**
  * Creates a new tracing client.
  *
@@ -75010,19 +75177,19 @@ function createTracingClient(options) {
         createRequestHeaders,
     };
 }
-exports.createTracingClient = createTracingClient;
 //# sourceMappingURL=tracingClient.js.map
 
 /***/ }),
 
-/***/ 2402:
+/***/ 7419:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.TracingContextImpl = exports.createTracingContext = exports.knownContextKeys = void 0;
+exports.TracingContextImpl = exports.knownContextKeys = void 0;
+exports.createTracingContext = createTracingContext;
 /** @internal */
 exports.knownContextKeys = {
     span: Symbol.for("@azure/core-tracing span"),
@@ -75045,7 +75212,6 @@ function createTracingContext(options = {}) {
     }
     return context;
 }
-exports.createTracingContext = createTracingContext;
 /** @internal */
 class TracingContextImpl {
     constructor(initialContext) {
@@ -75073,12 +75239,12 @@ exports.TracingContextImpl = TracingContextImpl;
 
 /***/ }),
 
-/***/ 3736:
+/***/ 2521:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.cancelablePromiseRace = cancelablePromiseRace;
 /**
@@ -75103,12 +75269,12 @@ async function cancelablePromiseRace(abortablePromiseBuilders, options) {
 
 /***/ }),
 
-/***/ 3095:
+/***/ 8978:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.uint8ArrayToString = uint8ArrayToString;
 exports.stringToUint8Array = stringToUint8Array;
@@ -75134,12 +75300,12 @@ function stringToUint8Array(value, format) {
 
 /***/ }),
 
-/***/ 5083:
+/***/ 2185:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isReactNative = exports.isNodeRuntime = exports.isNode = exports.isNodeLike = exports.isBun = exports.isDeno = exports.isWebWorker = exports.isBrowser = void 0;
@@ -75190,12 +75356,12 @@ exports.isReactNative = typeof navigator !== "undefined" && (navigator === null 
 
 /***/ }),
 
-/***/ 5361:
+/***/ 533:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createAbortablePromise = createAbortablePromise;
 const abort_controller_1 = __nccwpck_require__(5964);
@@ -75241,15 +75407,17 @@ function createAbortablePromise(buildPromise, options) {
 
 /***/ }),
 
-/***/ 7030:
+/***/ 3986:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.delay = delay;
-const createAbortablePromise_js_1 = __nccwpck_require__(5361);
+exports.calculateRetryDelay = calculateRetryDelay;
+const createAbortablePromise_js_1 = __nccwpck_require__(533);
+const random_js_1 = __nccwpck_require__(2234);
 const StandardAbortMessage = "The delay was aborted.";
 /**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
@@ -75268,20 +75436,36 @@ function delay(timeInMs, options) {
         abortErrorMsg: abortErrorMsg !== null && abortErrorMsg !== void 0 ? abortErrorMsg : StandardAbortMessage,
     });
 }
+/**
+ * Calculates the delay interval for retry attempts using exponential delay with jitter.
+ * @param retryAttempt - The current retry attempt number.
+ * @param config - The exponential retry configuration.
+ * @returns An object containing the calculated retry delay.
+ */
+function calculateRetryDelay(retryAttempt, config) {
+    // Exponentially increase the delay each time
+    const exponentialDelay = config.retryDelayInMs * Math.pow(2, retryAttempt);
+    // Don't let the delay exceed the maximum
+    const clampedDelay = Math.min(config.maxRetryDelayInMs, exponentialDelay);
+    // Allow the final value to have some "jitter" (within 50% of the delay size) so
+    // that retries across multiple clients don't occur simultaneously.
+    const retryAfterInMs = clampedDelay / 2 + (0, random_js_1.getRandomIntegerInclusive)(0, clampedDelay / 2);
+    return { retryAfterInMs };
+}
 //# sourceMappingURL=delay.js.map
 
 /***/ }),
 
-/***/ 2280:
+/***/ 8338:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isError = isError;
 exports.getErrorMessage = getErrorMessage;
-const object_js_1 = __nccwpck_require__(7844);
+const object_js_1 = __nccwpck_require__(8444);
 /**
  * Typeguard for an error object shape (has name and message)
  * @param e - Something caught by a catch clause.
@@ -75324,37 +75508,38 @@ function getErrorMessage(e) {
 
 /***/ }),
 
-/***/ 8143:
+/***/ 1910:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.stringToUint8Array = exports.uint8ArrayToString = exports.isWebWorker = exports.isReactNative = exports.isDeno = exports.isNodeRuntime = exports.isNodeLike = exports.isNode = exports.isBun = exports.isBrowser = exports.randomUUID = exports.objectHasProperty = exports.isObjectWithProperties = exports.isDefined = exports.computeSha256Hmac = exports.computeSha256Hash = exports.getErrorMessage = exports.isError = exports.isObject = exports.getRandomIntegerInclusive = exports.createAbortablePromise = exports.cancelablePromiseRace = exports.delay = void 0;
-var delay_js_1 = __nccwpck_require__(7030);
+exports.stringToUint8Array = exports.uint8ArrayToString = exports.isWebWorker = exports.isReactNative = exports.isDeno = exports.isNodeRuntime = exports.isNodeLike = exports.isNode = exports.isBun = exports.isBrowser = exports.randomUUID = exports.objectHasProperty = exports.isObjectWithProperties = exports.isDefined = exports.computeSha256Hmac = exports.computeSha256Hash = exports.getErrorMessage = exports.isError = exports.isObject = exports.getRandomIntegerInclusive = exports.createAbortablePromise = exports.cancelablePromiseRace = exports.calculateRetryDelay = exports.delay = void 0;
+var delay_js_1 = __nccwpck_require__(3986);
 Object.defineProperty(exports, "delay", ({ enumerable: true, get: function () { return delay_js_1.delay; } }));
-var aborterUtils_js_1 = __nccwpck_require__(3736);
+Object.defineProperty(exports, "calculateRetryDelay", ({ enumerable: true, get: function () { return delay_js_1.calculateRetryDelay; } }));
+var aborterUtils_js_1 = __nccwpck_require__(2521);
 Object.defineProperty(exports, "cancelablePromiseRace", ({ enumerable: true, get: function () { return aborterUtils_js_1.cancelablePromiseRace; } }));
-var createAbortablePromise_js_1 = __nccwpck_require__(5361);
+var createAbortablePromise_js_1 = __nccwpck_require__(533);
 Object.defineProperty(exports, "createAbortablePromise", ({ enumerable: true, get: function () { return createAbortablePromise_js_1.createAbortablePromise; } }));
-var random_js_1 = __nccwpck_require__(9566);
+var random_js_1 = __nccwpck_require__(2234);
 Object.defineProperty(exports, "getRandomIntegerInclusive", ({ enumerable: true, get: function () { return random_js_1.getRandomIntegerInclusive; } }));
-var object_js_1 = __nccwpck_require__(7844);
+var object_js_1 = __nccwpck_require__(8444);
 Object.defineProperty(exports, "isObject", ({ enumerable: true, get: function () { return object_js_1.isObject; } }));
-var error_js_1 = __nccwpck_require__(2280);
+var error_js_1 = __nccwpck_require__(8338);
 Object.defineProperty(exports, "isError", ({ enumerable: true, get: function () { return error_js_1.isError; } }));
 Object.defineProperty(exports, "getErrorMessage", ({ enumerable: true, get: function () { return error_js_1.getErrorMessage; } }));
-var sha256_js_1 = __nccwpck_require__(7931);
+var sha256_js_1 = __nccwpck_require__(5775);
 Object.defineProperty(exports, "computeSha256Hash", ({ enumerable: true, get: function () { return sha256_js_1.computeSha256Hash; } }));
 Object.defineProperty(exports, "computeSha256Hmac", ({ enumerable: true, get: function () { return sha256_js_1.computeSha256Hmac; } }));
-var typeGuards_js_1 = __nccwpck_require__(1467);
+var typeGuards_js_1 = __nccwpck_require__(1465);
 Object.defineProperty(exports, "isDefined", ({ enumerable: true, get: function () { return typeGuards_js_1.isDefined; } }));
 Object.defineProperty(exports, "isObjectWithProperties", ({ enumerable: true, get: function () { return typeGuards_js_1.isObjectWithProperties; } }));
 Object.defineProperty(exports, "objectHasProperty", ({ enumerable: true, get: function () { return typeGuards_js_1.objectHasProperty; } }));
-var uuidUtils_js_1 = __nccwpck_require__(9057);
+var uuidUtils_js_1 = __nccwpck_require__(2809);
 Object.defineProperty(exports, "randomUUID", ({ enumerable: true, get: function () { return uuidUtils_js_1.randomUUID; } }));
-var checkEnvironment_js_1 = __nccwpck_require__(5083);
+var checkEnvironment_js_1 = __nccwpck_require__(2185);
 Object.defineProperty(exports, "isBrowser", ({ enumerable: true, get: function () { return checkEnvironment_js_1.isBrowser; } }));
 Object.defineProperty(exports, "isBun", ({ enumerable: true, get: function () { return checkEnvironment_js_1.isBun; } }));
 Object.defineProperty(exports, "isNode", ({ enumerable: true, get: function () { return checkEnvironment_js_1.isNode; } }));
@@ -75363,19 +75548,19 @@ Object.defineProperty(exports, "isNodeRuntime", ({ enumerable: true, get: functi
 Object.defineProperty(exports, "isDeno", ({ enumerable: true, get: function () { return checkEnvironment_js_1.isDeno; } }));
 Object.defineProperty(exports, "isReactNative", ({ enumerable: true, get: function () { return checkEnvironment_js_1.isReactNative; } }));
 Object.defineProperty(exports, "isWebWorker", ({ enumerable: true, get: function () { return checkEnvironment_js_1.isWebWorker; } }));
-var bytesEncoding_js_1 = __nccwpck_require__(3095);
+var bytesEncoding_js_1 = __nccwpck_require__(8978);
 Object.defineProperty(exports, "uint8ArrayToString", ({ enumerable: true, get: function () { return bytesEncoding_js_1.uint8ArrayToString; } }));
 Object.defineProperty(exports, "stringToUint8Array", ({ enumerable: true, get: function () { return bytesEncoding_js_1.stringToUint8Array; } }));
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 7844:
+/***/ 8444:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isObject = isObject;
 /**
@@ -75393,12 +75578,12 @@ function isObject(input) {
 
 /***/ }),
 
-/***/ 9566:
+/***/ 2234:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getRandomIntegerInclusive = getRandomIntegerInclusive;
 /**
@@ -75423,12 +75608,12 @@ function getRandomIntegerInclusive(min, max) {
 
 /***/ }),
 
-/***/ 7931:
+/***/ 5775:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.computeSha256Hmac = computeSha256Hmac;
 exports.computeSha256Hash = computeSha256Hash;
@@ -75455,12 +75640,12 @@ async function computeSha256Hash(content, encoding) {
 
 /***/ }),
 
-/***/ 1467:
+/***/ 1465:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isDefined = isDefined;
 exports.isObjectWithProperties = isObjectWithProperties;
@@ -75500,12 +75685,12 @@ function objectHasProperty(thing, property) {
 
 /***/ }),
 
-/***/ 9057:
+/***/ 2809:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.randomUUID = randomUUID;
@@ -75526,30 +75711,30 @@ function randomUUID() {
 
 /***/ }),
 
-/***/ 5182:
+/***/ 9542:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.XML_CHARKEY = exports.XML_ATTRKEY = exports.parseXML = exports.stringifyXML = void 0;
-var xml_js_1 = __nccwpck_require__(5795);
+var xml_js_1 = __nccwpck_require__(9805);
 Object.defineProperty(exports, "stringifyXML", ({ enumerable: true, get: function () { return xml_js_1.stringifyXML; } }));
 Object.defineProperty(exports, "parseXML", ({ enumerable: true, get: function () { return xml_js_1.parseXML; } }));
-var xml_common_js_1 = __nccwpck_require__(8917);
+var xml_common_js_1 = __nccwpck_require__(9161);
 Object.defineProperty(exports, "XML_ATTRKEY", ({ enumerable: true, get: function () { return xml_common_js_1.XML_ATTRKEY; } }));
 Object.defineProperty(exports, "XML_CHARKEY", ({ enumerable: true, get: function () { return xml_common_js_1.XML_CHARKEY; } }));
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ 8917:
+/***/ 9161:
 /***/ ((__unused_webpack_module, exports) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.XML_CHARKEY = exports.XML_ATTRKEY = void 0;
 /**
@@ -75564,17 +75749,17 @@ exports.XML_CHARKEY = "_";
 
 /***/ }),
 
-/***/ 5795:
+/***/ 9805:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.stringifyXML = stringifyXML;
 exports.parseXML = parseXML;
-const fast_xml_parser_1 = __nccwpck_require__(3601);
-const xml_common_js_1 = __nccwpck_require__(8917);
+const fast_xml_parser_1 = __nccwpck_require__(5542);
+const xml_common_js_1 = __nccwpck_require__(9161);
 function getCommonOptions(options) {
     var _a;
     return {
@@ -75749,7 +75934,7 @@ exports.AzureLogger = void 0;
 exports.setLogLevel = setLogLevel;
 exports.getLogLevel = getLogLevel;
 exports.createClientLogger = createClientLogger;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 const debug_js_1 = tslib_1.__importDefault(__nccwpck_require__(8630));
 const registeredLoggers = new Set();
 const logLevelFromEnv = (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
@@ -75857,7 +76042,7 @@ function isAzureLogLevel(logLevel) {
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.log = log;
-const tslib_1 = __nccwpck_require__(9236);
+const tslib_1 = __nccwpck_require__(1772);
 const node_os_1 = __nccwpck_require__(612);
 const node_util_1 = tslib_1.__importDefault(__nccwpck_require__(7261));
 const process = tslib_1.__importStar(__nccwpck_require__(7742));
@@ -77488,7 +77673,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "O": () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(4949);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5715);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9093);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(5942);
 // src/index.ts
@@ -77567,7 +77752,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 4949:
+/***/ 5715:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -77599,13 +77784,13 @@ var external_node_zlib_ = __nccwpck_require__(5628);
 const external_node_crypto_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:crypto");
 ;// CONCATENATED MODULE: external "node:dns/promises"
 const external_node_dns_promises_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:dns/promises");
-// EXTERNAL MODULE: ./node_modules/.pnpm/@actions+cache@3.2.4/node_modules/@actions/cache/lib/cache.js
-var cache = __nccwpck_require__(6878);
+// EXTERNAL MODULE: ./node_modules/.pnpm/@actions+cache@3.3.0/node_modules/@actions/cache/lib/cache.js
+var cache = __nccwpck_require__(5591);
 ;// CONCATENATED MODULE: external "node:child_process"
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@4280bc94c9545f31ccf08001cc16f20ccb91b770_4q7gpbzpftzcqas42ud7gqm62a/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@3b8b6d7f42f7ad467dd6f769913ac162731507c6_zyyp43hnb6ntsa3uuj6xwkpjiq/node_modules/detsys-ts/dist/index.js
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
