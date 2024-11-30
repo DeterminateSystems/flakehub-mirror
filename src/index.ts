@@ -8,6 +8,36 @@ const BRANCH_REGEX = new RegExp(
   /^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/,
 );
 
+const STABLE_TAG_NAME_REFS: { [key: string]: string } = {
+  "15.09": "tags/15.09",
+  "16.03": "tags/16.03",
+  "16.09": "tags/16.09",
+  "17.03": "tags/17.03",
+  "17.09": "tags/17.09",
+  "18.03": "tags/18.03",
+  "18.09": "tags/18.09",
+  "19.03": "tags/19.03",
+  "19.09": "tags/19.09",
+  "20.03": "tags/20.03",
+  "20.09": "tags/20.09",
+  "21.05": "tags/21.05",
+  "21.11": "tags/21.11",
+  "22.05": "tags/22.05",
+  "22.11": "tags/22.11",
+  "23.05": "tags/23.05",
+  "23.11": "tags/23.11",
+  "24.05": "tags/24.05",
+
+  // Release wiki process changed to create a `branch-off-yy.mm` tag at time of final release.
+  //
+  // Note:
+  // `yy.mm-beta` is the tag created at the start of preparing the release, where it branches off from master.
+  // `branch-off-yy.mm` is a surprising name, but is the pattern identified in the documentation.
+  //
+  // See: https://github.com/NixOS/release-wiki/pull/90
+  "24.11": "tags/branch-off-24.11",
+};
+
 class FlakeHubMirrorAction {
   private releaseBranch: string;
 
@@ -54,7 +84,13 @@ export async function getRollingMinor(
 
         const octokit = github.getOctokit(githubToken);
 
-        const expectedRef = `tags/${versionPart}`;
+        let expectedRef: string;
+        if (STABLE_TAG_NAME_REFS[versionPart]) {
+          expectedRef = STABLE_TAG_NAME_REFS[versionPart];
+        } else {
+          // See: https://github.com/NixOS/release-wiki/pull/90
+          expectedRef = `tags/branch-off-${versionPart}`;
+        }
 
         // Check that NixOS/nixpkgs has the tag `${versionPart}`, like a tag named `24.05` for the nixos-24.05 branch.
         try {
