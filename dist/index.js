@@ -74195,7 +74195,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(70);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2687);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9999);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2819);
 // src/index.ts
@@ -74307,7 +74307,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 70:
+/***/ 2687:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -74345,7 +74345,7 @@ var cache = __nccwpck_require__(5500);
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@c54767c24f0861de794605b03ed5604546d4a337_u4ojjep6fczseh3vgd4mkrn7em/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@bbdef961988d15c82ae95b390c07c035a24a2c98_nli6hkoczywwxgdzhv2prvssca/node_modules/detsys-ts/dist/index.js
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
