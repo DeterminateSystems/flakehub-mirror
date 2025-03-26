@@ -118,6 +118,10 @@ jobs:
             branch: nixos-24.11
             rolling-minor: 2411
 
+          - repo: NixOS/nixpkgs
+            branch: nixos-25.05
+            rolling-minor: 2505
+
           - repo: nix-community/home-manager
             branch: release-24.05
             rolling-minor: 2405
