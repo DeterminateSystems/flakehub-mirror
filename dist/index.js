@@ -80510,7 +80510,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3641);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(6227);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9999);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2819);
 // src/index.ts
@@ -80622,7 +80622,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 3641:
+/***/ 6227:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -80660,7 +80660,7 @@ var cache = __nccwpck_require__(7389);
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@38df301720b69972f084538dd44c181269f264b0_hrkui372z63w5lu7fvybdhrsby/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@8d9725c4856301321cd2508f5b8725cfb99366e2_fdev4auzlvbywtzbbq2infymuu/node_modules/detsys-ts/dist/index.js
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -80888,16 +80888,24 @@ function stringifyError(e) {
 
 
 var START_SLOP_SECONDS = 5;
-async function collectBacktraces(prefixes, startTimestampMs) {
+async function collectBacktraces(prefixes, programNameDenyList, startTimestampMs) {
   if (isMacOS) {
-    return await collectBacktracesMacOS(prefixes, startTimestampMs);
+    return await collectBacktracesMacOS(
+      prefixes,
+      programNameDenyList,
+      startTimestampMs
+    );
   }
   if (isLinux) {
-    return await collectBacktracesSystemd(prefixes, startTimestampMs);
+    return await collectBacktracesSystemd(
+      prefixes,
+      programNameDenyList,
+      startTimestampMs
+    );
   }
   return /* @__PURE__ */ new Map();
 }
-async function collectBacktracesMacOS(prefixes, startTimestampMs) {
+async function collectBacktracesMacOS(prefixes, programNameDenyList, startTimestampMs) {
   const backtraces = /* @__PURE__ */ new Map();
   try {
     const { stdout: logJson } = await exec2.getExecOutput(
@@ -80940,6 +80948,10 @@ async function collectBacktracesMacOS(prefixes, startTimestampMs) {
     const fileNames = (await readdir(dir)).filter((fileName) => {
       return prefixes.some((prefix) => fileName.startsWith(prefix));
     }).filter((fileName) => {
+      return !programNameDenyList.some(
+        (programName) => fileName.startsWith(`${programName}_${(/* @__PURE__ */ new Date()).getFullYear()}`)
+      );
+    }).filter((fileName) => {
       return !fileName.endsWith(".diag");
     });
     const doGzip = promisify2(gzip);
@@ -80963,7 +80975,7 @@ async function collectBacktracesMacOS(prefixes, startTimestampMs) {
   }
   return backtraces;
 }
-async function collectBacktracesSystemd(prefixes, startTimestampMs) {
+async function collectBacktracesSystemd(prefixes, programNameDenyList, startTimestampMs) {
   const sinceSeconds = Math.ceil((Date.now() - startTimestampMs) / 1e3) + START_SLOP_SECONDS;
   const backtraces = /* @__PURE__ */ new Map();
   const coredumps = [];
@@ -80985,7 +80997,7 @@ async function collectBacktracesSystemd(prefixes, startTimestampMs) {
         if (typeof sussyObject.exe == "string" && typeof sussyObject.pid == "number") {
           const execParts = sussyObject.exe.split("/");
           const binaryName = execParts[execParts.length - 1];
-          if (prefixes.some((prefix) => binaryName.startsWith(prefix))) {
+          if (prefixes.some((prefix) => binaryName.startsWith(prefix)) && !programNameDenyList.includes(binaryName)) {
             coredumps.push({
               exe: sussyObject.exe,
               pid: sussyObject.pid
@@ -81553,6 +81565,7 @@ var STATE_KEY_CROSS_PHASE_ID = "detsys_cross_phase_id";
 var STATE_BACKTRACE_START_TIMESTAMP = "detsys_backtrace_start_timestamp";
 var DIAGNOSTIC_ENDPOINT_TIMEOUT_MS = 1e4;
 var CHECK_IN_ENDPOINT_TIMEOUT_MS = 1e3;
+var PROGRAM_NAME_CRASH_DENY_LIST = (/* unused pure expression or super */ null && (["nix-expr-tests"]));
 var DetSysAction = class {
   determineExecutionPhase() {
     const currentPhase = actionsCore8.getState(STATE_KEY_EXECUTION_PHASE);
@@ -82100,6 +82113,7 @@ var DetSysAction = class {
       }
       const backtraces = await collectBacktraces(
         this.actionOptions.binaryNamePrefixes,
+        this.actionOptions.binaryNamesDenyList,
         parseInt(actionsCore8.getState(STATE_BACKTRACE_START_TIMESTAMP))
       );
       actionsCore8.debug(`Backtraces identified: ${backtraces.size}`);
@@ -82244,7 +82258,8 @@ function makeOptionsConfident(actionOptions) {
       "nix",
       "determinate-nixd",
       actionOptions.name
-    ]
+    ],
+    binaryNamesDenyList: actionOptions.binaryNamePrefixes ?? PROGRAM_NAME_CRASH_DENY_LIST
   };
   actionsCore8.debug("idslib options:");
   actionsCore8.debug(JSON.stringify(finalOpts, void 0, 2));
