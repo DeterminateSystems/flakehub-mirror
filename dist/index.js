@@ -80510,7 +80510,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(9419);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2113);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9999);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2819);
 // src/index.ts
@@ -80622,7 +80622,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 9419:
+/***/ 2113:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -80660,7 +80660,7 @@ var cache = __nccwpck_require__(7389);
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@03533d37dcd46f34d9e99385e665615b221a30d9_b5pw57rm3cyajl6hbsaouss3oa/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@07c7fc924119a8d9879c1c164ae593049d47f648_fqzregs55b5c7gstiytpiaimke/node_modules/detsys-ts/dist/index.js
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -80949,7 +80949,7 @@ async function collectBacktracesMacOS(prefixes, programNameDenyList, startTimest
       return prefixes.some((prefix) => fileName.startsWith(prefix));
     }).filter((fileName) => {
       return !programNameDenyList.some(
-        (programName) => fileName.startsWith(`${programName}_${(/* @__PURE__ */ new Date()).getFullYear()}`)
+        (programName) => fileName.startsWith(programName)
       );
     }).filter((fileName) => {
       return !fileName.endsWith(".diag");
