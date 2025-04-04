@@ -13,14 +13,14 @@ dependencies:
     version: 6.0.0
   detsys-ts:
     specifier: github:DeterminateSystems/detsys-ts
-    version: github.com/DeterminateSystems/detsys-ts/79634332de50a2cde17cf8d6fe41258af3d4bedf
+    version: github.com/DeterminateSystems/detsys-ts/dc7c6d9c7a5d2db79ddc6eccf57d5fc09a391347
 
 devDependencies:
   '@trivago/prettier-plugin-sort-imports':
     specifier: ^4.3.0
     version: 4.3.0(prettier@3.5.3)
   '@types/node':
-    specifier: ^20.17.28
+    specifier: ^20.17.30
     version: 20.17.30
   '@typescript-eslint/eslint-plugin':
     specifier: ^7.18.0
@@ -41,7 +41,7 @@ devDependencies:
     specifier: ^2.31.0
     version: 2.31.0(@typescript-eslint/parser@7.18.0)(eslint-import-resolver-typescript@3.10.0)(eslint@8.57.1)
   eslint-plugin-prettier:
-    specifier: ^5.2.5
+    specifier: ^5.2.6
     version: 5.2.6(eslint-config-prettier@10.1.1)(eslint@8.57.1)(prettier@3.5.3)
   prettier:
     specifier: ^3.5.3
@@ -4546,8 +4546,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/DeterminateSystems/detsys-ts/79634332de50a2cde17cf8d6fe41258af3d4bedf:
-    resolution: {tarball: https://codeload.github.com/DeterminateSystems/detsys-ts/tar.gz/79634332de50a2cde17cf8d6fe41258af3d4bedf}
+  github.com/DeterminateSystems/detsys-ts/dc7c6d9c7a5d2db79ddc6eccf57d5fc09a391347:
+    resolution: {tarball: https://codeload.github.com/DeterminateSystems/detsys-ts/tar.gz/dc7c6d9c7a5d2db79ddc6eccf57d5fc09a391347}
     name: detsys-ts
     version: 1.0.0
     dependencies:
