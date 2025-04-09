@@ -93,6 +93,10 @@ jobs:
             branch: master
           - repo: nix-community/poetry2nix
             branch: master
+          - repo: nix-darwin/nix-darwin
+            branch: master
+            too-big: true
+            run-on: UbuntuLatest32Cores128G
           - repo: nixified-ai/flake
             branch: master
           - repo: NixOS/nixpkgs
@@ -117,6 +121,12 @@ jobs:
           - repo: NixOS/nixpkgs
             branch: nixos-24.11
             rolling-minor: 2411
+
+          - repo: nix-darwin/nix-darwin
+            branch: nix-darwin-24.11
+            rolling-minor: 2411
+            too-big: true
+            run-on: UbuntuLatest32Cores128G
 
           - repo: nix-community/home-manager
             branch: release-24.05
