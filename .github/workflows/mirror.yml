@@ -71,7 +71,7 @@ jobs:
             branch: master
           - repo: cole-h/nixos-config
             branch: darwin
-          - repo: danth/stylix
+          - repo: nix-community/stylix
             branch: master
           - repo: DeterminateSystems/nix-netboot-serve
             branch: main
