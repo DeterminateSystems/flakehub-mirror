@@ -109,6 +109,13 @@ jobs:
             branch: main
           - repo: zhaofengli/attic
             branch: main
+          # Python
+          - repo: pyproject-nix/pyproject.nix
+            branch: master
+          - repo: pyproject-nix/uv2nix
+            branch: master
+          - repo: pyproject-nix/build-system-pkgs
+            branch: master
 
           # Pulled out of the alpha-sorted list, since they're handled special
           # in the rapid, fast-acting update handling.
