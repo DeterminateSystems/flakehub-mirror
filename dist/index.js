@@ -80547,7 +80547,9 @@ var STABLE_TAG_NAME_REFS = {
   // `branch-off-yy.mm` is a surprising name, but is the pattern identified in the documentation.
   //
   // See: https://github.com/NixOS/release-wiki/pull/90
-  "24.11": "tags/branch-off-24.11"
+  "24.11": "tags/branch-off-24.11",
+  // It appears that https://github.com/NixOS/release-wiki/pull/90 was not followed for 25.05
+  "25.05": "tags/25.05"
 };
 var FlakeHubMirrorAction = class {
   constructor() {
