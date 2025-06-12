@@ -4987,7 +4987,7 @@ exports.Context = Context;
 
 /***/ }),
 
-/***/ 2999:
+/***/ 5380:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -38871,7 +38871,7 @@ var reflection_binary_writer_1 = __nccwpck_require__(7581);
 Object.defineProperty(exports, "ReflectionBinaryWriter", ({ enumerable: true, get: function () { return reflection_binary_writer_1.ReflectionBinaryWriter; } }));
 var reflection_json_reader_1 = __nccwpck_require__(8792);
 Object.defineProperty(exports, "ReflectionJsonReader", ({ enumerable: true, get: function () { return reflection_json_reader_1.ReflectionJsonReader; } }));
-var reflection_json_writer_1 = __nccwpck_require__(5380);
+var reflection_json_writer_1 = __nccwpck_require__(2999);
 Object.defineProperty(exports, "ReflectionJsonWriter", ({ enumerable: true, get: function () { return reflection_json_writer_1.ReflectionJsonWriter; } }));
 var reflection_contains_message_type_1 = __nccwpck_require__(2532);
 Object.defineProperty(exports, "containsMessageType", ({ enumerable: true, get: function () { return reflection_contains_message_type_1.containsMessageType; } }));
@@ -39045,7 +39045,7 @@ const message_type_contract_1 = __nccwpck_require__(7867);
 const reflection_info_1 = __nccwpck_require__(4576);
 const reflection_type_check_1 = __nccwpck_require__(5217);
 const reflection_json_reader_1 = __nccwpck_require__(8792);
-const reflection_json_writer_1 = __nccwpck_require__(5380);
+const reflection_json_writer_1 = __nccwpck_require__(2999);
 const reflection_binary_reader_1 = __nccwpck_require__(7505);
 const reflection_binary_writer_1 = __nccwpck_require__(7581);
 const reflection_create_1 = __nccwpck_require__(8884);
@@ -40744,7 +40744,7 @@ exports.ReflectionJsonReader = ReflectionJsonReader;
 
 /***/ }),
 
-/***/ 5380:
+/***/ 2999:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
@@ -41721,7 +41721,7 @@ function range(a, b, str) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var register = __nccwpck_require__(9056);
-var addHook = __nccwpck_require__(676);
+var addHook = __nccwpck_require__(3533);
 var removeHook = __nccwpck_require__(7177);
 
 // bind with array of arguments: https://stackoverflow.com/a/21792913
@@ -41785,7 +41785,7 @@ module.exports.Collection = Hook.Collection;
 
 /***/ }),
 
-/***/ 676:
+/***/ 3533:
 /***/ ((module) => {
 
 module.exports = addHook;
@@ -42755,7 +42755,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __nccwpck_require__(1953);
+	const supportsColor = __nccwpck_require__(5545);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -43014,21 +43014,6 @@ class Deprecation extends Error {
 }
 
 exports.Deprecation = Deprecation;
-
-
-/***/ }),
-
-/***/ 1330:
-/***/ ((module) => {
-
-
-
-module.exports = (flag, argv = process.argv) => {
-	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
-	const position = argv.indexOf(prefix + flag);
-	const terminatorPosition = argv.indexOf('--');
-	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
-};
 
 
 /***/ }),
@@ -46298,148 +46283,6 @@ function coerce (version, options) {
     '.' + (match[3] || '0') +
     '.' + (match[4] || '0'), options)
 }
-
-
-/***/ }),
-
-/***/ 1953:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-
-const os = __nccwpck_require__(857);
-const tty = __nccwpck_require__(2018);
-const hasFlag = __nccwpck_require__(1330);
-
-const {env} = process;
-
-let forceColor;
-if (hasFlag('no-color') ||
-	hasFlag('no-colors') ||
-	hasFlag('color=false') ||
-	hasFlag('color=never')) {
-	forceColor = 0;
-} else if (hasFlag('color') ||
-	hasFlag('colors') ||
-	hasFlag('color=true') ||
-	hasFlag('color=always')) {
-	forceColor = 1;
-}
-
-if ('FORCE_COLOR' in env) {
-	if (env.FORCE_COLOR === 'true') {
-		forceColor = 1;
-	} else if (env.FORCE_COLOR === 'false') {
-		forceColor = 0;
-	} else {
-		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
-	}
-}
-
-function translateLevel(level) {
-	if (level === 0) {
-		return false;
-	}
-
-	return {
-		level,
-		hasBasic: true,
-		has256: level >= 2,
-		has16m: level >= 3
-	};
-}
-
-function supportsColor(haveStream, streamIsTTY) {
-	if (forceColor === 0) {
-		return 0;
-	}
-
-	if (hasFlag('color=16m') ||
-		hasFlag('color=full') ||
-		hasFlag('color=truecolor')) {
-		return 3;
-	}
-
-	if (hasFlag('color=256')) {
-		return 2;
-	}
-
-	if (haveStream && !streamIsTTY && forceColor === undefined) {
-		return 0;
-	}
-
-	const min = forceColor || 0;
-
-	if (env.TERM === 'dumb') {
-		return min;
-	}
-
-	if (process.platform === 'win32') {
-		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
-		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
-		const osRelease = os.release().split('.');
-		if (
-			Number(osRelease[0]) >= 10 &&
-			Number(osRelease[2]) >= 10586
-		) {
-			return Number(osRelease[2]) >= 14931 ? 3 : 2;
-		}
-
-		return 1;
-	}
-
-	if ('CI' in env) {
-		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
-			return 1;
-		}
-
-		return min;
-	}
-
-	if ('TEAMCITY_VERSION' in env) {
-		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
-	}
-
-	if (env.COLORTERM === 'truecolor') {
-		return 3;
-	}
-
-	if ('TERM_PROGRAM' in env) {
-		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-		switch (env.TERM_PROGRAM) {
-			case 'iTerm.app':
-				return version >= 3 ? 3 : 2;
-			case 'Apple_Terminal':
-				return 2;
-			// No default
-		}
-	}
-
-	if (/-256(color)?$/i.test(env.TERM)) {
-		return 2;
-	}
-
-	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-		return 1;
-	}
-
-	if ('COLORTERM' in env) {
-		return 1;
-	}
-
-	return min;
-}
-
-function getSupportLevel(stream) {
-	const level = supportsColor(stream, stream && stream.isTTY);
-	return translateLevel(level);
-}
-
-module.exports = {
-	supportsColor: getSupportLevel,
-	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
-	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
-};
 
 
 /***/ }),
@@ -69342,6 +69185,14 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 5545:
+/***/ ((module) => {
+
+module.exports = eval("require")("supports-color");
+
+
+/***/ }),
+
 /***/ 2613:
 /***/ ((module) => {
 
@@ -72444,7 +72295,7 @@ exports.toHttpHeadersLike = exports.convertHttpClient = exports.disableKeepAlive
  */
 var extendedClient_js_1 = __nccwpck_require__(7828);
 Object.defineProperty(exports, "ExtendedServiceClient", ({ enumerable: true, get: function () { return extendedClient_js_1.ExtendedServiceClient; } }));
-var requestPolicyFactoryPolicy_js_1 = __nccwpck_require__(3533);
+var requestPolicyFactoryPolicy_js_1 = __nccwpck_require__(676);
 Object.defineProperty(exports, "requestPolicyFactoryPolicyName", ({ enumerable: true, get: function () { return requestPolicyFactoryPolicy_js_1.requestPolicyFactoryPolicyName; } }));
 Object.defineProperty(exports, "createRequestPolicyFactoryPolicy", ({ enumerable: true, get: function () { return requestPolicyFactoryPolicy_js_1.createRequestPolicyFactoryPolicy; } }));
 Object.defineProperty(exports, "HttpPipelineLogLevel", ({ enumerable: true, get: function () { return requestPolicyFactoryPolicy_js_1.HttpPipelineLogLevel; } }));
@@ -72488,7 +72339,7 @@ function pipelineContainsDisableKeepAlivePolicy(pipeline) {
 
 /***/ }),
 
-/***/ 3533:
+/***/ 676:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 
@@ -76372,7 +76223,7 @@ var delay_js_1 = __nccwpck_require__(8384);
 Object.defineProperty(exports, "delay", ({ enumerable: true, get: function () { return delay_js_1.delay; } }));
 var error_js_1 = __nccwpck_require__(8645);
 Object.defineProperty(exports, "getErrorMessage", ({ enumerable: true, get: function () { return error_js_1.getErrorMessage; } }));
-var typeGuards_js_1 = __nccwpck_require__(5041);
+var typeGuards_js_1 = __nccwpck_require__(7422);
 Object.defineProperty(exports, "isDefined", ({ enumerable: true, get: function () { return typeGuards_js_1.isDefined; } }));
 Object.defineProperty(exports, "isObjectWithProperties", ({ enumerable: true, get: function () { return typeGuards_js_1.isObjectWithProperties; } }));
 Object.defineProperty(exports, "objectHasProperty", ({ enumerable: true, get: function () { return typeGuards_js_1.objectHasProperty; } }));
@@ -76502,7 +76353,7 @@ function stringToUint8Array(value, format) {
 
 /***/ }),
 
-/***/ 5041:
+/***/ 7422:
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -82533,17 +82384,15 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1836);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(9999);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2999);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(9999);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5380);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(5041);
 // src/index.ts
 
 
 
 var OUTPUT_KEY = "minorVersion";
-var BRANCH_REGEX = new RegExp(
-  /^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/
-);
+var BRANCH_REGEX = new RegExp(/^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/);
 var STABLE_TAG_NAME_REFS = {
   "15.09": "tags/15.09",
   "16.03": "tags/16.03",
@@ -82574,17 +82423,17 @@ var STABLE_TAG_NAME_REFS = {
 };
 var FlakeHubMirrorAction = class {
   constructor() {
-    this.releaseBranch = detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .inputs */ .QL.getString("release-branch");
+    this.releaseBranch = detsys_ts__WEBPACK_IMPORTED_MODULE_2__/* .inputs */ .QL.getString("release-branch");
   }
   async execute() {
-    _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(
       `Calculating the minor version for branch ${this.releaseBranch}`
     );
     try {
       const minorVersion = await getRollingMinor(this.releaseBranch);
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__.setOutput(OUTPUT_KEY, minorVersion);
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput(OUTPUT_KEY, minorVersion);
     } catch (e) {
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__.setFailed(`flakehub-mirror failed: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .M5)(e)}`);
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`flakehub-mirror failed: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_2__/* .stringifyError */ .M5)(e)}`);
     }
   }
 };
@@ -82603,7 +82452,7 @@ async function getRollingMinor(branch, testMode = false) {
             "GitHub token not found; should be provided by GITHUB_TOKEN environment variable"
           );
         }
-        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_2__.getOctokit(githubToken);
+        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(githubToken);
         let expectedRef;
         if (STABLE_TAG_NAME_REFS[versionPart]) {
           expectedRef = STABLE_TAG_NAME_REFS[versionPart];
@@ -82618,12 +82467,12 @@ async function getRollingMinor(branch, testMode = false) {
           });
         } catch (e) {
           throw new Error(
-            `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .M5)(e)}`
+            `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${(0,detsys_ts__WEBPACK_IMPORTED_MODULE_2__/* .stringifyError */ .M5)(e)}`
           );
         }
       }
       const minorVersion = versionPart === "unstable" ? "1" : versionPart.replace(".", "");
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Minor version part: ${minorVersion}`);
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Minor version part: ${minorVersion}`);
       return minorVersion;
     } else {
       throw new Error(
@@ -82645,7 +82494,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 1836:
+/***/ 5041:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -82681,7 +82530,7 @@ var cache = __nccwpck_require__(7389);
 var external_child_process_ = __nccwpck_require__(5317);
 // EXTERNAL MODULE: external "path"
 var external_path_ = __nccwpck_require__(6928);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@4bf247b1cb6b057abe94721ea1bfa131618e2b7f_qygv7jy5hm2oenc72q37xutlhi/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+4bf247b1cb6b0_899dee36fab1a7a5a0a73b5c7f54c4f3/node_modules/detsys-ts/dist/index.js
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
   for (var name in all)
