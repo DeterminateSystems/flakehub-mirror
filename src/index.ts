@@ -36,6 +36,8 @@ const STABLE_TAG_NAME_REFS: { [key: string]: string } = {
   //
   // See: https://github.com/NixOS/release-wiki/pull/90
   "24.11": "tags/branch-off-24.11",
+  // It appears that https://github.com/NixOS/release-wiki/pull/90 was not followed for 25.05
+  "25.05": "tags/25.05",
 };
 
 class FlakeHubMirrorAction {
@@ -88,7 +90,7 @@ export async function getRollingMinor(
         if (STABLE_TAG_NAME_REFS[versionPart]) {
           expectedRef = STABLE_TAG_NAME_REFS[versionPart];
         } else {
-          // See: https://github.com/NixOS/release-wiki/pull/90
+          // See: https://github.com/NixOS/release-wiki/pull/90 which is still current policy
           expectedRef = `tags/branch-off-${versionPart}`;
         }
 
