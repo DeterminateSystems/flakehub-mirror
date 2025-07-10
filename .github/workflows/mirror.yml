@@ -25,6 +25,7 @@ jobs:
           - nerdypepper/statix
           - nix-community/disko
           - nix-community/lanzaboote
+          - nix-community/nh
           - nix-community/nix-direnv
           - nix-community/nix-eval-jobs
           - nix-community/nixd
