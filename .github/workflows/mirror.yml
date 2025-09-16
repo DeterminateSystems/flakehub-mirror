@@ -106,6 +106,8 @@ jobs:
             branch: master
           - repo: numtide/flake-utils
             branch: main
+          - repo: numtide/treefmt-nix
+            branch: main
           - repo: oxalica/rust-overlay
             branch: master
           - repo: ryantm/nixpkgs-update
