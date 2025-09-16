@@ -23,7 +23,7 @@ jobs:
       - name: Run ESLint
         run: nix develop --command pnpm run lint
       - name: Run Vitest test suite
-        run: nix develop --command pnpm test
+        run: nix develop --command pnpm run test
       - name: Build using tsup
         run: nix develop --command pnpm run build
       - name: Package using ncc
