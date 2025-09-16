@@ -17187,7 +17187,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 44468:
+/***/ 21830:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /* eslint-env browser */
@@ -17447,7 +17447,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __nccwpck_require__(31163)(exports);
+module.exports = __nccwpck_require__(73465)(exports);
 
 const {formatters} = module.exports;
 
@@ -17466,7 +17466,7 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ 31163:
+/***/ 73465:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
@@ -17765,7 +17765,7 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ 69592:
+/***/ 73462:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 /**
@@ -17774,15 +17774,15 @@ module.exports = setup;
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
-	module.exports = __nccwpck_require__(44468);
+	module.exports = __nccwpck_require__(21830);
 } else {
-	module.exports = __nccwpck_require__(73606);
+	module.exports = __nccwpck_require__(82732);
 }
 
 
 /***/ }),
 
-/***/ 73606:
+/***/ 82732:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /**
@@ -18024,7 +18024,7 @@ function init(debug) {
 	}
 }
 
-module.exports = __nccwpck_require__(31163)(exports);
+module.exports = __nccwpck_require__(73465)(exports);
 
 const {formatters} = module.exports;
 
@@ -18128,7 +18128,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HttpProxyAgent = void 0;
 const net = __importStar(__nccwpck_require__(69278));
 const tls = __importStar(__nccwpck_require__(64756));
-const debug_1 = __importDefault(__nccwpck_require__(69592));
+const debug_1 = __importDefault(__nccwpck_require__(73462));
 const events_1 = __nccwpck_require__(24434);
 const agent_base_1 = __nccwpck_require__(83249);
 const url_1 = __nccwpck_require__(87016);
@@ -18283,7 +18283,7 @@ exports.HttpsProxyAgent = void 0;
 const net = __importStar(__nccwpck_require__(69278));
 const tls = __importStar(__nccwpck_require__(64756));
 const assert_1 = __importDefault(__nccwpck_require__(42613));
-const debug_1 = __importDefault(__nccwpck_require__(69592));
+const debug_1 = __importDefault(__nccwpck_require__(73462));
 const agent_base_1 = __nccwpck_require__(83249);
 const url_1 = __nccwpck_require__(87016);
 const parse_proxy_response_1 = __nccwpck_require__(94832);
@@ -18443,7 +18443,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseProxyResponse = void 0;
-const debug_1 = __importDefault(__nccwpck_require__(69592));
+const debug_1 = __importDefault(__nccwpck_require__(73462));
 const debug = (0, debug_1.default)('https-proxy-agent:parse-proxy-response');
 function parseProxyResponse(socket) {
     return new Promise((resolve, reject) => {
@@ -86860,7 +86860,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(74260);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(86653);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(59999);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(75380);
 // src/index.ts
@@ -86974,7 +86974,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 74260:
+/***/ 86653:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -86986,7 +86986,7 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 // UNUSED EXPORTS: DetSysAction, IdsHost, platform
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@285768c0d657f9709cb689893f12895c36923093_cngml3t4vgzjn3j3wi7rabjnki/node_modules/detsys-ts/dist/chunk-CTAAG5j7.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+285768c0d657f_c9f3de82f778b67727761493310aa570/node_modules/detsys-ts/dist/chunk-CTAAG5j7.js
 //#region rolldown:runtime
 var __defProp = Object.defineProperty;
 var __export = (all) => {
@@ -87026,7 +87026,7 @@ var cache = __nccwpck_require__(95291);
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/github.com+DeterminateSystems+detsys-ts@285768c0d657f9709cb689893f12895c36923093_cngml3t4vgzjn3j3wi7rabjnki/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+285768c0d657f_c9f3de82f778b67727761493310aa570/node_modules/detsys-ts/dist/index.js
 
 
 

@@ -2,30 +2,36 @@
 {
   description = "Development environment for the flakehub-mirror Action";
 
-  inputs = {
-    flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2405.*";
-  };
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
 
-  outputs = { self, flake-schemas, nixpkgs }:
+  outputs =
+    { self, ... }@inputs:
     let
-      supportedSystems = [ "x86_64-linux" "aarch64-darwin" "aarch64-linux" "x86_64-darwin" ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
-      });
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+      forEachSupportedSystem =
+        f:
+        inputs.nixpkgs.lib.genAttrs supportedSystems (
+          system: f { pkgs = import inputs.nixpkgs { inherit system; }; }
+        );
     in
     {
-      inherit (flake-schemas) schemas;
+      formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt-rfc-style);
 
-      devShells = forEachSupportedSystem ({ pkgs }: {
-        default = pkgs.mkShell {
-          packages = with pkgs; [
-            nodejs_latest
-            nixpkgs-fmt
-            nodePackages_latest.pnpm
-            nodePackages_latest.typescript-language-server
-          ];
-        };
-      });
+      devShells = forEachSupportedSystem (
+        { pkgs }:
+        {
+          default = pkgs.mkShell {
+            packages = with pkgs; [
+              nodejs_latest
+              nodePackages_latest.pnpm
+              nodePackages_latest.typescript-language-server
+              self.formatter.${system}
+            ];
+          };
+        }
+      );
     };
 }
