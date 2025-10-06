@@ -74,6 +74,8 @@ jobs:
             branch: darwin
           - repo: nix-community/stylix
             branch: master
+          - repo: nix-community/nixpkgs-terraform-providers-bin
+            branch: master
           - repo: DeterminateSystems/nix-netboot-serve
             branch: main
           - repo: Gerschtli/nix-formatter-pack
