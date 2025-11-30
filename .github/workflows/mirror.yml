@@ -138,6 +138,10 @@ jobs:
             branch: nixos-25.05
             rolling-minor: 2505
 
+          - repo: NixOS/nixpkgs
+            branch: nixos-25.11
+            rolling-minor: 2511
+
           - repo: nix-darwin/nix-darwin
             branch: nix-darwin-24.11
             rolling-minor: 2411
@@ -161,6 +165,12 @@ jobs:
           - repo: nix-community/home-manager
             branch: release-25.05
             rolling-minor: 2505
+            too-big: true
+            run-on: UbuntuLatest32Cores128G
+
+          - repo: nix-community/home-manager
+            branch: release-25.11
+            rolling-minor: 2511
             too-big: true
             run-on: UbuntuLatest32Cores128G
 
