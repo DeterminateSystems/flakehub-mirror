@@ -87034,7 +87034,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(66675);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(66619);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(16966);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(84903);
 // src/index.ts
@@ -87148,7 +87148,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 66675:
+/***/ 66619:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -87160,7 +87160,7 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 // UNUSED EXPORTS: DetSysAction, IdsHost, platform
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+0e3d1accf3c5d_aa38a39e788116141d1cc07d19597dcf/node_modules/detsys-ts/dist/chunk-Bp6m_JJh.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+cb28f5861548d_4d7cb91a8bb951e8650e0a4f49003168/node_modules/detsys-ts/dist/chunk-Bp6m_JJh.js
 //#region rolldown:runtime
 var __defProp = Object.defineProperty;
 var __export = (all) => {
@@ -87200,7 +87200,7 @@ var cache = __nccwpck_require__(31866);
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+0e3d1accf3c5d_aa38a39e788116141d1cc07d19597dcf/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+cb28f5861548d_4d7cb91a8bb951e8650e0a4f49003168/node_modules/detsys-ts/dist/index.js
 
 
 
