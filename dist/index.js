@@ -87034,7 +87034,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(66619);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(79490);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(16966);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(84903);
 // src/index.ts
@@ -87148,7 +87148,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 66619:
+/***/ 79490:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -87160,15 +87160,20 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 // UNUSED EXPORTS: DetSysAction, IdsHost, platform
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+cb28f5861548d_4d7cb91a8bb951e8650e0a4f49003168/node_modules/detsys-ts/dist/chunk-Bp6m_JJh.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+437297ec87a5c_f77ae93d0b8e94959106721d1a5ddd76/node_modules/detsys-ts/dist/chunk-C6wwvPpM.mjs
 //#region rolldown:runtime
 var __defProp = Object.defineProperty;
-var __export = (all) => {
+var __export = (all, symbols) => {
 	let target = {};
-	for (var name in all) __defProp(target, name, {
-		get: all[name],
-		enumerable: true
-	});
+	for (var name in all) {
+		__defProp(target, name, {
+			get: all[name],
+			enumerable: true
+		});
+	}
+	if (symbols) {
+		__defProp(target, Symbol.toStringTag, { value: "Module" });
+	}
 	return target;
 };
 
@@ -87200,7 +87205,7 @@ var cache = __nccwpck_require__(31866);
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+cb28f5861548d_4d7cb91a8bb951e8650e0a4f49003168/node_modules/detsys-ts/dist/index.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+437297ec87a5c_f77ae93d0b8e94959106721d1a5ddd76/node_modules/detsys-ts/dist/index.mjs
 
 
 
@@ -87220,6 +87225,16 @@ const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(impo
 
 
 //#region src/linux-release-info.ts
+/*!
+* linux-release-info
+* Get Linux release info (distribution name, version, arch, release, etc.)
+* from '/etc/os-release' or '/usr/lib/os-release' files and from native os
+* module. On Windows and Darwin platforms it only returns common node os module
+* info (platform, hostname, release, and arch)
+*
+* Licensed under MIT
+* Copyright (c) 2018-2020 [Samuel Carreira]
+*/
 const readFileAsync = (0,external_node_util_.promisify)(external_node_fs_.readFile);
 const linuxReleaseInfoOptionsDefaults = {
 	mode: "async",
@@ -87428,6 +87443,10 @@ function stringifyError(e) {
 
 //#endregion
 //#region src/backtrace.ts
+/**
+* @packageDocumentation
+* Collects backtraces for executables for diagnostics
+*/
 const START_SLOP_SECONDS = 5;
 async function collectBacktraces(prefixes, programNameDenyList, startTimestampMs) {
 	if (isMacOS) return await collectBacktracesMacOS(prefixes, programNameDenyList, startTimestampMs);
@@ -87608,6 +87627,10 @@ function hashEnvironmentVariables(prefix, variables) {
 
 //#endregion
 //#region src/ids-host.ts
+/**
+* @packageDocumentation
+* Identifies and discovers backend servers for install.determinate.systems
+*/
 const DEFAULT_LOOKUP = "_detsys_ids._tcp.install.determinate.systems.";
 const ALLOWED_SUFFIXES = (/* unused pure expression or super */ null && ([".install.determinate.systems", ".install.detsys.dev"]));
 const DEFAULT_IDS_HOST = "https://install.determinate.systems";
@@ -87769,6 +87792,10 @@ function weightedRandom(records) {
 
 //#endregion
 //#region src/inputs.ts
+/**
+* @packageDocumentation
+* Helpers for getting values from an Action's configuration.
+*/
 var inputs_exports = /* @__PURE__ */ __export({
 	getArrayOfStrings: () => getArrayOfStrings,
 	getArrayOfStringsOrNull: () => getArrayOfStringsOrNull,
@@ -87856,6 +87883,10 @@ const getStringOrUndefined = (name) => {
 
 //#endregion
 //#region src/platform.ts
+/**
+* @packageDocumentation
+* Helpers for determining system attributes of the current runner.
+*/
 var platform_exports = /* @__PURE__ */ __export({
 	getArchOs: () => getArchOs,
 	getNixPlatform: () => getNixPlatform
@@ -87916,6 +87947,10 @@ function noisilyGetInput(suffix, legacyPrefix) {
 
 //#endregion
 //#region src/index.ts
+/**
+* @packageDocumentation
+* Determinate Systems' TypeScript library for creating GitHub Actions logic.
+*/
 const pkgVersion = "1.0";
 const EVENT_BACKTRACES = "backtrace";
 const EVENT_EXCEPTION = "exception";
@@ -87951,7 +87986,7 @@ const PROGRAM_NAME_CRASH_DENY_LIST = (/* unused pure expression or super */ null
 ]));
 const determinateStateDir = "/var/lib/determinate";
 const determinateIdentityFile = external_node_path_namespaceObject.join(determinateStateDir, "identity.json");
-const isRoot = external_node_os_.userInfo().uid === 0;
+const isRoot = typeof process.geteuid === "function" && process.geteuid() === 0;
 /** Create the Determinate state directory by escalating via sudo */
 async function sudoEnsureDeterminateStateDir() {
 	const code = await exec$1.exec("sudo", [
@@ -88548,7 +88583,7 @@ function makeOptionsConfident(actionOptions) {
 
 //#endregion
 
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.mjs.map
 
 /***/ }),
 
