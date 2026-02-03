@@ -31,6 +31,7 @@ jobs:
           - nix-community/nixd
           - nix-community/nixpkgs-fmt
           - NixOS/nix
+          - NixOS/patchelf
           - vlinkz/nix-software-center
           - zhaofengli/colmena
     runs-on: ubuntu-latest
