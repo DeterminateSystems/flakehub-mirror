@@ -14108,7 +14108,7 @@ exports.parseProxyResponse = parseProxyResponse;
 
 /***/ }),
 
-/***/ 9613:
+/***/ 2152:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 module.exports = minimatch
@@ -14924,8 +14924,8 @@ Minimatch.prototype._matchGlobstar = function (file, pattern, partial, fileIndex
   }
 
   var head = pattern.slice(patternIndex, firstgs)
-  var body = pattern.slice(firstgs + 1, lastgs)
-  var tail = pattern.slice(lastgs + 1)
+  var body = partial ? pattern.slice(firstgs + 1) : pattern.slice(firstgs + 1, lastgs)
+  var tail = partial ? [] : pattern.slice(lastgs + 1)
 
   // check the head
   if (head.length) {
@@ -14969,7 +14969,7 @@ Minimatch.prototype._matchGlobstar = function (file, pattern, partial, fileIndex
         return false
       }
     }
-    return sawSome
+    return partial || sawSome
   }
 
   // split body into segments at each GLOBSTAR
@@ -15049,7 +15049,7 @@ Minimatch.prototype._matchGlobStarBodySections = function (
     }
     fileIndex++
   }
-  return null
+  return partial || null
 }
 
 Minimatch.prototype._matchOne = function (file, pattern, partial, fileIndex, patternIndex) {
@@ -69912,7 +69912,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5953);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2894);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(6966);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7284);
 // src/index.ts
@@ -70026,7 +70026,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 5953:
+/***/ 2894:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -70223,7 +70223,7 @@ __nccwpck_require__.d(mappers_namespaceObject, {
   UserDelegationKey: () => (UserDelegationKey)
 });
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+d0fa3dbd59ce2_9536438dfabe7eed0bddd804767aeb78/node_modules/detsys-ts/dist/chunk-DQk6qfdC.mjs
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+a621ba724bb21_b99831fe724c127e3272a0cd18309173/node_modules/detsys-ts/dist/chunk-DQk6qfdC.mjs
 //#region \0rolldown/runtime.js
 var __defProp = Object.defineProperty;
 var __exportAll = (all, no_symbols) => {
@@ -73493,8 +73493,8 @@ function partialMatch(patterns, itemPath) {
     return patterns.some(x => !x.negate && x.partialMatch(itemPath));
 }
 //# sourceMappingURL=internal-pattern-helper.js.map
-// EXTERNAL MODULE: ./node_modules/.pnpm/minimatch@3.1.4/node_modules/minimatch/minimatch.js
-var minimatch = __nccwpck_require__(9613);
+// EXTERNAL MODULE: ./node_modules/.pnpm/minimatch@3.1.5/node_modules/minimatch/minimatch.js
+var minimatch = __nccwpck_require__(2152);
 ;// CONCATENATED MODULE: ./node_modules/.pnpm/@actions+glob@0.6.1/node_modules/@actions/glob/lib/internal-path.js
 
 
@@ -116122,7 +116122,7 @@ function saveCacheV2(paths_1, key_1, options_1) {
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+d0fa3dbd59ce2_9536438dfabe7eed0bddd804767aeb78/node_modules/detsys-ts/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+a621ba724bb21_b99831fe724c127e3272a0cd18309173/node_modules/detsys-ts/dist/index.mjs
 
 
 
@@ -116557,15 +116557,16 @@ const DEFAULT_TIMEOUT = 1e4;
 * Host information for install.determinate.systems.
 */
 var IdsHost = class {
-	constructor(idsProjectName, diagnosticsSuffix, runtimeDiagnosticsUrl) {
+	constructor(idsProjectName, diagnosticsSuffix, runtimeDiagnosticsUrl, timeout = DEFAULT_TIMEOUT) {
 		this.idsProjectName = idsProjectName;
 		this.diagnosticsSuffix = diagnosticsSuffix;
 		this.runtimeDiagnosticsUrl = runtimeDiagnosticsUrl;
 		this.client = void 0;
+		this.timeout = timeout;
 	}
 	async getGot(recordFailoverCallback) {
 		if (this.client === void 0) this.client = got.extend({
-			timeout: { request: DEFAULT_TIMEOUT },
+			timeout: { request: this.timeout },
 			retry: {
 				limit: Math.max((await this.getUrlsByPreference()).length, 3),
 				methods: ["GET", "HEAD"]
@@ -116720,6 +116721,7 @@ var inputs_exports = /* @__PURE__ */ __exportAll({
 	getBoolOrUndefined: () => getBoolOrUndefined,
 	getMultilineStringOrNull: () => getMultilineStringOrNull,
 	getNumberOrNull: () => getNumberOrNull,
+	getNumberOrUndefined: () => getNumberOrUndefined,
 	getString: () => getString,
 	getStringOrNull: () => getStringOrNull,
 	getStringOrUndefined: () => getStringOrUndefined,
@@ -116774,6 +116776,14 @@ const getNumberOrNull = (name) => {
 	const value = getInput(name);
 	if (value === "") return null;
 	else return Number(value);
+};
+/**
+* Get a Number input from the Action's configuration by name, or undefined if it is unset.
+*/
+const getNumberOrUndefined = (name) => {
+	const value = getStringOrUndefined(name);
+	if (value === void 0) return;
+	return Number(value);
 };
 /**
 * Get a string input from the Action's configuration.
@@ -116942,7 +116952,7 @@ var DetSysAction = class {
 	}
 	constructor(actionOptions) {
 		this.actionOptions = makeOptionsConfident(actionOptions);
-		this.idsHost = new IdsHost(this.actionOptions.idsProjectName, actionOptions.diagnosticsSuffix, process.env["INPUT_DIAGNOSTIC-ENDPOINT"]);
+		this.idsHost = new IdsHost(this.actionOptions.idsProjectName, actionOptions.diagnosticsSuffix, process.env["INPUT_DIAGNOSTIC-ENDPOINT"], getNumberOrUndefined("timeout-request"));
 		this.exceptionAttachments = /* @__PURE__ */ new Map();
 		this.nixStoreTrust = "unknown";
 		this.strictMode = getBool("_internal-strict-mode");
