@@ -14108,7 +14108,7 @@ exports.parseProxyResponse = parseProxyResponse;
 
 /***/ }),
 
-/***/ 6039:
+/***/ 9613:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 module.exports = minimatch
@@ -14255,6 +14255,8 @@ function Minimatch (pattern, options) {
   }
 
   this.options = options
+  this.maxGlobstarRecursion = options.maxGlobstarRecursion !== undefined
+    ? options.maxGlobstarRecursion : 200
   this.set = []
   this.pattern = pattern
   this.regexp = null
@@ -14502,6 +14504,9 @@ function parse (pattern, isSub) {
           re += c
           continue
         }
+
+        // coalesce consecutive non-globstar * characters
+        if (c === '*' && stateChar === '*') continue
 
         // if we already have a stateChar, then it means
         // that there was something like ** or +? in there.
@@ -14897,19 +14902,163 @@ Minimatch.prototype.match = function match (f, partial) {
 // out of pattern, then that's fine, as long as all
 // the parts match.
 Minimatch.prototype.matchOne = function (file, pattern, partial) {
-  var options = this.options
+  if (pattern.indexOf(GLOBSTAR) !== -1) {
+    return this._matchGlobstar(file, pattern, partial, 0, 0)
+  }
+  return this._matchOne(file, pattern, partial, 0, 0)
+}
 
-  this.debug('matchOne',
-    { 'this': this, file: file, pattern: pattern })
+Minimatch.prototype._matchGlobstar = function (file, pattern, partial, fileIndex, patternIndex) {
+  var i
 
-  this.debug('matchOne', file.length, pattern.length)
+  // find first globstar from patternIndex
+  var firstgs = -1
+  for (i = patternIndex; i < pattern.length; i++) {
+    if (pattern[i] === GLOBSTAR) { firstgs = i; break }
+  }
 
-  for (var fi = 0,
-      pi = 0,
-      fl = file.length,
-      pl = pattern.length
-      ; (fi < fl) && (pi < pl)
-      ; fi++, pi++) {
+  // find last globstar
+  var lastgs = -1
+  for (i = pattern.length - 1; i >= 0; i--) {
+    if (pattern[i] === GLOBSTAR) { lastgs = i; break }
+  }
+
+  var head = pattern.slice(patternIndex, firstgs)
+  var body = pattern.slice(firstgs + 1, lastgs)
+  var tail = pattern.slice(lastgs + 1)
+
+  // check the head
+  if (head.length) {
+    var fileHead = file.slice(fileIndex, fileIndex + head.length)
+    if (!this._matchOne(fileHead, head, partial, 0, 0)) {
+      return false
+    }
+    fileIndex += head.length
+  }
+
+  // check the tail
+  var fileTailMatch = 0
+  if (tail.length) {
+    if (tail.length + fileIndex > file.length) return false
+
+    var tailStart = file.length - tail.length
+    if (this._matchOne(file, tail, partial, tailStart, 0)) {
+      fileTailMatch = tail.length
+    } else {
+      // affordance for stuff like a/**/* matching a/b/
+      if (file[file.length - 1] !== '' ||
+          fileIndex + tail.length === file.length) {
+        return false
+      }
+      tailStart--
+      if (!this._matchOne(file, tail, partial, tailStart, 0)) {
+        return false
+      }
+      fileTailMatch = tail.length + 1
+    }
+  }
+
+  // if body is empty (single ** between head and tail)
+  if (!body.length) {
+    var sawSome = !!fileTailMatch
+    for (i = fileIndex; i < file.length - fileTailMatch; i++) {
+      var f = String(file[i])
+      sawSome = true
+      if (f === '.' || f === '..' ||
+          (!this.options.dot && f.charAt(0) === '.')) {
+        return false
+      }
+    }
+    return sawSome
+  }
+
+  // split body into segments at each GLOBSTAR
+  var bodySegments = [[[], 0]]
+  var currentBody = bodySegments[0]
+  var nonGsParts = 0
+  var nonGsPartsSums = [0]
+  for (var bi = 0; bi < body.length; bi++) {
+    var b = body[bi]
+    if (b === GLOBSTAR) {
+      nonGsPartsSums.push(nonGsParts)
+      currentBody = [[], 0]
+      bodySegments.push(currentBody)
+    } else {
+      currentBody[0].push(b)
+      nonGsParts++
+    }
+  }
+
+  var idx = bodySegments.length - 1
+  var fileLength = file.length - fileTailMatch
+  for (var si = 0; si < bodySegments.length; si++) {
+    bodySegments[si][1] = fileLength -
+      (nonGsPartsSums[idx--] + bodySegments[si][0].length)
+  }
+
+  return !!this._matchGlobStarBodySections(
+    file, bodySegments, fileIndex, 0, partial, 0, !!fileTailMatch
+  )
+}
+
+// return false for "nope, not matching"
+// return null for "not matching, cannot keep trying"
+Minimatch.prototype._matchGlobStarBodySections = function (
+  file, bodySegments, fileIndex, bodyIndex, partial, globStarDepth, sawTail
+) {
+  var bs = bodySegments[bodyIndex]
+  if (!bs) {
+    // just make sure there are no bad dots
+    for (var i = fileIndex; i < file.length; i++) {
+      sawTail = true
+      var f = file[i]
+      if (f === '.' || f === '..' ||
+          (!this.options.dot && f.charAt(0) === '.')) {
+        return false
+      }
+    }
+    return sawTail
+  }
+
+  var body = bs[0]
+  var after = bs[1]
+  while (fileIndex <= after) {
+    var m = this._matchOne(
+      file.slice(0, fileIndex + body.length),
+      body,
+      partial,
+      fileIndex,
+      0
+    )
+    // if limit exceeded, no match. intentional false negative,
+    // acceptable break in correctness for security.
+    if (m && globStarDepth < this.maxGlobstarRecursion) {
+      var sub = this._matchGlobStarBodySections(
+        file, bodySegments,
+        fileIndex + body.length, bodyIndex + 1,
+        partial, globStarDepth + 1, sawTail
+      )
+      if (sub !== false) {
+        return sub
+      }
+    }
+    var f = file[fileIndex]
+    if (f === '.' || f === '..' ||
+        (!this.options.dot && f.charAt(0) === '.')) {
+      return false
+    }
+    fileIndex++
+  }
+  return null
+}
+
+Minimatch.prototype._matchOne = function (file, pattern, partial, fileIndex, patternIndex) {
+  var fi, pi, fl, pl
+  for (
+    fi = fileIndex, pi = patternIndex, fl = file.length, pl = pattern.length
+    ; (fi < fl) && (pi < pl)
+    ; fi++, pi++
+  ) {
     this.debug('matchOne loop')
     var p = pattern[pi]
     var f = file[fi]
@@ -14919,87 +15068,7 @@ Minimatch.prototype.matchOne = function (file, pattern, partial) {
     // should be impossible.
     // some invalid regexp stuff in the set.
     /* istanbul ignore if */
-    if (p === false) return false
-
-    if (p === GLOBSTAR) {
-      this.debug('GLOBSTAR', [pattern, p, f])
-
-      // "**"
-      // a/**/b/**/c would match the following:
-      // a/b/x/y/z/c
-      // a/x/y/z/b/c
-      // a/b/x/b/x/c
-      // a/b/c
-      // To do this, take the rest of the pattern after
-      // the **, and see if it would match the file remainder.
-      // If so, return success.
-      // If not, the ** "swallows" a segment, and try again.
-      // This is recursively awful.
-      //
-      // a/**/b/**/c matching a/b/x/y/z/c
-      // - a matches a
-      // - doublestar
-      //   - matchOne(b/x/y/z/c, b/**/c)
-      //     - b matches b
-      //     - doublestar
-      //       - matchOne(x/y/z/c, c) -> no
-      //       - matchOne(y/z/c, c) -> no
-      //       - matchOne(z/c, c) -> no
-      //       - matchOne(c, c) yes, hit
-      var fr = fi
-      var pr = pi + 1
-      if (pr === pl) {
-        this.debug('** at the end')
-        // a ** at the end will just swallow the rest.
-        // We have found a match.
-        // however, it will not swallow /.x, unless
-        // options.dot is set.
-        // . and .. are *never* matched by **, for explosively
-        // exponential reasons.
-        for (; fi < fl; fi++) {
-          if (file[fi] === '.' || file[fi] === '..' ||
-            (!options.dot && file[fi].charAt(0) === '.')) return false
-        }
-        return true
-      }
-
-      // ok, let's see if we can swallow whatever we can.
-      while (fr < fl) {
-        var swallowee = file[fr]
-
-        this.debug('\nglobstar while', file, fr, pattern, pr, swallowee)
-
-        // XXX remove this slice.  Just pass the start index.
-        if (this.matchOne(file.slice(fr), pattern.slice(pr), partial)) {
-          this.debug('globstar found match!', fr, fl, swallowee)
-          // found a match.
-          return true
-        } else {
-          // can't swallow "." or ".." ever.
-          // can only swallow ".foo" when explicitly asked.
-          if (swallowee === '.' || swallowee === '..' ||
-            (!options.dot && swallowee.charAt(0) === '.')) {
-            this.debug('dot detected!', file, fr, pattern, pr)
-            break
-          }
-
-          // ** swallows a segment, and continue.
-          this.debug('globstar swallow a segment, and continue')
-          fr++
-        }
-      }
-
-      // no match was found.
-      // However, in partial mode, we can't say this is necessarily over.
-      // If there's more *pattern* left, then
-      /* istanbul ignore if */
-      if (partial) {
-        // ran out of file
-        this.debug('\n>>> no match, partial?', file, fr, pattern, pr)
-        if (fr === fl) return true
-      }
-      return false
-    }
+    if (p === false || p === GLOBSTAR) return false
 
     // something other than **
     // non-magic patterns just have to match exactly
@@ -15015,17 +15084,6 @@ Minimatch.prototype.matchOne = function (file, pattern, partial) {
 
     if (!hit) return false
   }
-
-  // Note: ending in / means that we'll get a final ""
-  // at the end of the pattern.  This can only match a
-  // corresponding "" at the end of the file.
-  // If the file ends in /, then it can only match a
-  // a pattern that ends in /, unless the pattern just
-  // doesn't have any more for it. But, a/b/ should *not*
-  // match "a/b/*", even though "" matches against the
-  // [^/]*? pattern, except in partial mode, where it might
-  // simply not be reached yet.
-  // However, a/b/ should still satisfy a/*
 
   // now either we fell off the end of the pattern, or we're done.
   if (fi === fl && pi === pl) {
@@ -15234,7 +15292,7 @@ function plural(ms, msAbs, n, name) {
 /***/ 6367:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var wrappy = __nccwpck_require__(1277)
+var wrappy = __nccwpck_require__(6039)
 module.exports = wrappy(once)
 module.exports.strict = wrappy(onceStrict)
 
@@ -67804,7 +67862,7 @@ exports.getUserAgent = getUserAgent;
 
 /***/ }),
 
-/***/ 1277:
+/***/ 6039:
 /***/ ((module) => {
 
 // Returns a wrapper function that returns a wrapped callback
@@ -69854,7 +69912,7 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(4687);
+/* harmony import */ var detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7441);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(6966);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7284);
 // src/index.ts
@@ -69968,7 +70026,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 4687:
+/***/ 7441:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -70165,7 +70223,7 @@ __nccwpck_require__.d(mappers_namespaceObject, {
   UserDelegationKey: () => (UserDelegationKey)
 });
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+f2d94964c763a_9de5226084d990375a7652083d9a009e/node_modules/detsys-ts/dist/chunk-DQk6qfdC.mjs
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+4c79919595167_db3c8dcb03af0fac4fd662eaa27fe900/node_modules/detsys-ts/dist/chunk-DQk6qfdC.mjs
 //#region \0rolldown/runtime.js
 var __defProp = Object.defineProperty;
 var __exportAll = (all, no_symbols) => {
@@ -73435,8 +73493,8 @@ function partialMatch(patterns, itemPath) {
     return patterns.some(x => !x.negate && x.partialMatch(itemPath));
 }
 //# sourceMappingURL=internal-pattern-helper.js.map
-// EXTERNAL MODULE: ./node_modules/.pnpm/minimatch@3.1.2/node_modules/minimatch/minimatch.js
-var minimatch = __nccwpck_require__(6039);
+// EXTERNAL MODULE: ./node_modules/.pnpm/minimatch@3.1.4/node_modules/minimatch/minimatch.js
+var minimatch = __nccwpck_require__(9613);
 ;// CONCATENATED MODULE: ./node_modules/.pnpm/@actions+glob@0.6.1/node_modules/@actions/glob/lib/internal-path.js
 
 
@@ -82598,7 +82656,7 @@ function convertHttpClient(requestPolicyClient) {
 
 
 //# sourceMappingURL=index.js.map
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-builder@1.0.0/node_modules/fast-xml-builder/src/orderedJs2Xml.js
 const EOL = "\n";
 
 /**
@@ -82619,10 +82677,21 @@ function arrToStr(arr, options, jPath, indentation) {
     let xmlStr = "";
     let isPreviousElementTag = false;
 
+
+    if (!Array.isArray(arr)) {
+        // Non-array values (e.g. string tag values) should be treated as text content
+        if (arr !== undefined && arr !== null) {
+            let text = arr.toString();
+            text = replaceEntitiesValue(text, options);
+            return text;
+        }
+        return "";
+    }
+
     for (let i = 0; i < arr.length; i++) {
         const tagObj = arr[i];
         const tagName = propName(tagObj);
-        if(tagName === undefined) continue;
+        if (tagName === undefined) continue;
 
         let newJPath = "";
         if (jPath.length === 0) newJPath = tagName
@@ -82693,7 +82762,7 @@ function propName(obj) {
     const keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
-        if(!obj.hasOwnProperty(key)) continue;
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
         if (key !== ":@") return key;
     }
 }
@@ -82702,7 +82771,7 @@ function attr_to_str(attrMap, options) {
     let attrStr = "";
     if (attrMap && !options.ignoreAttributes) {
         for (let attr in attrMap) {
-            if(!attrMap.hasOwnProperty(attr)) continue;
+            if (!Object.prototype.hasOwnProperty.call(attrMap, attr)) continue;
             let attrVal = options.attributeValueProcessor(attr, attrMap[attr]);
             attrVal = replaceEntitiesValue(attrVal, options);
             if (attrVal === true && options.suppressBooleanAttributes) {
@@ -82734,7 +82803,7 @@ function replaceEntitiesValue(textValue, options) {
     return textValue;
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/ignoreAttributes.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-builder@1.0.0/node_modules/fast-xml-builder/src/ignoreAttributes.js
 function getIgnoreAttributesFn(ignoreAttributes) {
     if (typeof ignoreAttributes === 'function') {
         return ignoreAttributes
@@ -82753,7 +82822,7 @@ function getIgnoreAttributesFn(ignoreAttributes) {
     }
     return () => false
 }
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-builder@1.0.0/node_modules/fast-xml-builder/src/fxb.js
 
 //parse Empty Node as self closing node
 
@@ -82770,10 +82839,10 @@ const defaultOptions = {
   suppressEmptyNode: false,
   suppressUnpairedNode: true,
   suppressBooleanAttributes: true,
-  tagValueProcessor: function(key, a) {
+  tagValueProcessor: function (key, a) {
     return a;
   },
-  attributeValueProcessor: function(attrName, a) {
+  attributeValueProcessor: function (attrName, a) {
     return a;
   },
   preserveOrder: false,
@@ -82796,7 +82865,7 @@ const defaultOptions = {
 function Builder(options) {
   this.options = Object.assign({}, defaultOptions, options);
   if (this.options.ignoreAttributes === true || this.options.attributesGroupName) {
-    this.isAttribute = function(/*a*/) {
+    this.isAttribute = function (/*a*/) {
       return false;
     };
   } else {
@@ -82812,7 +82881,7 @@ function Builder(options) {
     this.tagEndChar = '>\n';
     this.newLine = '\n';
   } else {
-    this.indentate = function() {
+    this.indentate = function () {
       return '';
     };
     this.tagEndChar = '>';
@@ -82820,25 +82889,25 @@ function Builder(options) {
   }
 }
 
-Builder.prototype.build = function(jObj) {
-  if(this.options.preserveOrder){
+Builder.prototype.build = function (jObj) {
+  if (this.options.preserveOrder) {
     return toXml(jObj, this.options);
-  }else {
-    if(Array.isArray(jObj) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1){
+  } else {
+    if (Array.isArray(jObj) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1) {
       jObj = {
-        [this.options.arrayNodeName] : jObj
+        [this.options.arrayNodeName]: jObj
       }
     }
     return this.j2x(jObj, 0, []).val;
   }
 };
 
-Builder.prototype.j2x = function(jObj, level, ajPath) {
+Builder.prototype.j2x = function (jObj, level, ajPath) {
   let attrStr = '';
   let val = '';
   const jPath = ajPath.join('.')
   for (let key in jObj) {
-    if(!Object.prototype.hasOwnProperty.call(jObj, key)) continue;
+    if (!Object.prototype.hasOwnProperty.call(jObj, key)) continue;
     if (typeof jObj[key] === 'undefined') {
       // supress undefined node only if it is not an attribute
       if (this.isAttribute(key)) {
@@ -82882,17 +82951,17 @@ Builder.prototype.j2x = function(jObj, level, ajPath) {
         if (typeof item === 'undefined') {
           // supress undefined node
         } else if (item === null) {
-          if(key[0] === "?") val += this.indentate(level) + '<' + key + '?' + this.tagEndChar;
+          if (key[0] === "?") val += this.indentate(level) + '<' + key + '?' + this.tagEndChar;
           else val += this.indentate(level) + '<' + key + '/' + this.tagEndChar;
           // val += this.indentate(level) + '<' + key + '/' + this.tagEndChar;
         } else if (typeof item === 'object') {
-          if(this.options.oneListGroup){
+          if (this.options.oneListGroup) {
             const result = this.j2x(item, level + 1, ajPath.concat(key));
             listTagVal += result.val;
             if (this.options.attributesGroupName && item.hasOwnProperty(this.options.attributesGroupName)) {
               listTagAttr += result.attrStr
             }
-          }else{
+          } else {
             listTagVal += this.processTextOrObjNode(item, key, level, ajPath)
           }
         } else {
@@ -82905,7 +82974,7 @@ Builder.prototype.j2x = function(jObj, level, ajPath) {
           }
         }
       }
-      if(this.options.oneListGroup){
+      if (this.options.oneListGroup) {
         listTagVal = this.buildObjectNode(listTagVal, key, listTagAttr, level);
       }
       val += listTagVal;
@@ -82922,10 +82991,10 @@ Builder.prototype.j2x = function(jObj, level, ajPath) {
       }
     }
   }
-  return {attrStr: attrStr, val: val};
+  return { attrStr: attrStr, val: val };
 };
 
-Builder.prototype.buildAttrPairStr = function(attrName, val){
+Builder.prototype.buildAttrPairStr = function (attrName, val) {
   val = this.options.attributeValueProcessor(attrName, '' + val);
   val = this.replaceEntitiesValue(val);
   if (this.options.suppressBooleanAttributes && val === "true") {
@@ -82933,7 +83002,7 @@ Builder.prototype.buildAttrPairStr = function(attrName, val){
   } else return ' ' + attrName + '="' + val + '"';
 }
 
-function processTextOrObjNode (object, key, level, ajPath) {
+function processTextOrObjNode(object, key, level, ajPath) {
   const result = this.j2x(object, level + 1, ajPath.concat(key));
   if (object[this.options.textNodeName] !== undefined && Object.keys(object).length === 1) {
     return this.buildTextValNode(object[this.options.textNodeName], key, result.attrStr, level);
@@ -82942,43 +83011,43 @@ function processTextOrObjNode (object, key, level, ajPath) {
   }
 }
 
-Builder.prototype.buildObjectNode = function(val, key, attrStr, level) {
-  if(val === ""){
-    if(key[0] === "?") return  this.indentate(level) + '<' + key + attrStr+ '?' + this.tagEndChar;
+Builder.prototype.buildObjectNode = function (val, key, attrStr, level) {
+  if (val === "") {
+    if (key[0] === "?") return this.indentate(level) + '<' + key + attrStr + '?' + this.tagEndChar;
     else {
       return this.indentate(level) + '<' + key + attrStr + this.closeTag(key) + this.tagEndChar;
     }
-  }else{
+  } else {
 
     let tagEndExp = '</' + key + this.tagEndChar;
     let piClosingChar = "";
-    
-    if(key[0] === "?") {
+
+    if (key[0] === "?") {
       piClosingChar = "?";
       tagEndExp = "";
     }
-  
+
     // attrStr is an empty string in case the attribute came as undefined or null
     if ((attrStr || attrStr === '') && val.indexOf('<') === -1) {
-      return ( this.indentate(level) + '<' +  key + attrStr + piClosingChar + '>' + val + tagEndExp );
+      return (this.indentate(level) + '<' + key + attrStr + piClosingChar + '>' + val + tagEndExp);
     } else if (this.options.commentPropName !== false && key === this.options.commentPropName && piClosingChar.length === 0) {
       return this.indentate(level) + `<!--${val}-->` + this.newLine;
-    }else {
+    } else {
       return (
         this.indentate(level) + '<' + key + attrStr + piClosingChar + this.tagEndChar +
         val +
-        this.indentate(level) + tagEndExp    );
+        this.indentate(level) + tagEndExp);
     }
   }
 }
 
-Builder.prototype.closeTag = function(key){
+Builder.prototype.closeTag = function (key) {
   let closeTag = "";
-  if(this.options.unpairedTags.indexOf(key) !== -1){ //unpaired
-    if(!this.options.suppressUnpairedNode) closeTag = "/"
-  }else if(this.options.suppressEmptyNode){ //empty
+  if (this.options.unpairedTags.indexOf(key) !== -1) { //unpaired
+    if (!this.options.suppressUnpairedNode) closeTag = "/"
+  } else if (this.options.suppressEmptyNode) { //empty
     closeTag = "/";
-  }else{
+  } else {
     closeTag = `></${key}`
   }
   return closeTag;
@@ -82988,38 +83057,38 @@ function buildEmptyObjNode(val, key, attrStr, level) {
   if (val !== '') {
     return this.buildObjectNode(val, key, attrStr, level);
   } else {
-    if(key[0] === "?") return  this.indentate(level) + '<' + key + attrStr+ '?' + this.tagEndChar;
+    if (key[0] === "?") return this.indentate(level) + '<' + key + attrStr + '?' + this.tagEndChar;
     else {
-      return  this.indentate(level) + '<' + key + attrStr + '/' + this.tagEndChar;
+      return this.indentate(level) + '<' + key + attrStr + '/' + this.tagEndChar;
       // return this.buildTagStr(level,key, attrStr);
     }
   }
 }
 
-Builder.prototype.buildTextValNode = function(val, key, attrStr, level) {
+Builder.prototype.buildTextValNode = function (val, key, attrStr, level) {
   if (this.options.cdataPropName !== false && key === this.options.cdataPropName) {
-    return this.indentate(level) + `<![CDATA[${val}]]>` +  this.newLine;
-  }else if (this.options.commentPropName !== false && key === this.options.commentPropName) {
-    return this.indentate(level) + `<!--${val}-->` +  this.newLine;
-  }else if(key[0] === "?") {//PI tag
-    return  this.indentate(level) + '<' + key + attrStr+ '?' + this.tagEndChar; 
-  }else{
+    return this.indentate(level) + `<![CDATA[${val}]]>` + this.newLine;
+  } else if (this.options.commentPropName !== false && key === this.options.commentPropName) {
+    return this.indentate(level) + `<!--${val}-->` + this.newLine;
+  } else if (key[0] === "?") {//PI tag
+    return this.indentate(level) + '<' + key + attrStr + '?' + this.tagEndChar;
+  } else {
     let textValue = this.options.tagValueProcessor(key, val);
     textValue = this.replaceEntitiesValue(textValue);
-  
-    if( textValue === ''){
+
+    if (textValue === '') {
       return this.indentate(level) + '<' + key + attrStr + this.closeTag(key) + this.tagEndChar;
-    }else{
+    } else {
       return this.indentate(level) + '<' + key + attrStr + '>' +
-         textValue +
+        textValue +
         '</' + key + this.tagEndChar;
     }
   }
 }
 
-Builder.prototype.replaceEntitiesValue = function(textValue){
-  if(textValue && textValue.length > 0 && this.options.processEntities){
-    for (let i=0; i<this.options.entities.length; i++) {
+Builder.prototype.replaceEntitiesValue = function (textValue) {
+  if (textValue && textValue.length > 0 && this.options.processEntities) {
+    for (let i = 0; i < this.options.entities.length; i++) {
       const entity = this.options.entities[i];
       textValue = textValue.replace(entity.regex, entity.val);
     }
@@ -83040,7 +83109,14 @@ function isAttribute(name /*, options*/) {
 }
 
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/util.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// Re-export from fast-xml-builder for backward compatibility
+
+/* harmony default export */ const json2xml = (Builder);
+
+// If there are any named exports you also want to re-export:
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/util.js
 
 
 const nameStartChar = ':A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD';
@@ -83064,7 +83140,7 @@ function getAllMatches(string, regex) {
   return matches;
 }
 
-const isName = function(string) {
+const isName = function (string) {
   const match = regexName.exec(string);
   return !(match === null || typeof match === 'undefined');
 }
@@ -83077,28 +83153,6 @@ function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
 
-/**
- * Copy all the properties of a into b.
- * @param {*} target
- * @param {*} a
- */
-function merge(target, a, arrayMode) {
-  if (a) {
-    const keys = Object.keys(a); // will return an array of own properties
-    const len = keys.length; //don't make it inline
-    for (let i = 0; i < len; i++) {
-      if (arrayMode === 'strict') {
-        target[keys[i]] = [ a[keys[i]] ];
-      } else {
-        target[keys[i]] = a[keys[i]];
-      }
-    }
-  }
-}
-/* exports.merge =function (b,a){
-  return Object.assign(b,a);
-} */
-
 function getValue(v) {
   if (exports.isExist(v)) {
     return v;
@@ -83107,9 +83161,7 @@ function getValue(v) {
   }
 }
 
-// const fakeCall = function(a) {return a;};
-// const fakeCallNoReturn = function() {};
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/validator.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/validator.js
 
 
 
@@ -83136,19 +83188,19 @@ function validate(xmlData, options) {
     // check for byte order mark (BOM)
     xmlData = xmlData.substr(1);
   }
-  
+
   for (let i = 0; i < xmlData.length; i++) {
 
-    if (xmlData[i] === '<' && xmlData[i+1] === '?') {
-      i+=2;
-      i = readPI(xmlData,i);
+    if (xmlData[i] === '<' && xmlData[i + 1] === '?') {
+      i += 2;
+      i = readPI(xmlData, i);
       if (i.err) return i;
-    }else if (xmlData[i] === '<') {
+    } else if (xmlData[i] === '<') {
       //starting of tag
       //read until you reach to '>' avoiding any '>' in attribute value
       let tagStartPos = i;
       i++;
-      
+
       if (xmlData[i] === '!') {
         i = readCommentAndCDATA(xmlData, i);
         continue;
@@ -83184,14 +83236,14 @@ function validate(xmlData, options) {
           if (tagName.trim().length === 0) {
             msg = "Invalid space after '<'.";
           } else {
-            msg = "Tag '"+tagName+"' is an invalid name.";
+            msg = "Tag '" + tagName + "' is an invalid name.";
           }
           return getErrorObject('InvalidTag', msg, getLineNumberForPosition(xmlData, i));
         }
 
         const result = readAttributeStr(xmlData, i);
         if (result === false) {
-          return getErrorObject('InvalidAttr', "Attributes for '"+tagName+"' have open quote.", getLineNumberForPosition(xmlData, i));
+          return getErrorObject('InvalidAttr', "Attributes for '" + tagName + "' have open quote.", getLineNumberForPosition(xmlData, i));
         }
         let attrStr = result.value;
         i = result.index;
@@ -83212,17 +83264,17 @@ function validate(xmlData, options) {
           }
         } else if (closingTag) {
           if (!result.tagClosed) {
-            return getErrorObject('InvalidTag', "Closing tag '"+tagName+"' doesn't have proper closing.", getLineNumberForPosition(xmlData, i));
+            return getErrorObject('InvalidTag', "Closing tag '" + tagName + "' doesn't have proper closing.", getLineNumberForPosition(xmlData, i));
           } else if (attrStr.trim().length > 0) {
-            return getErrorObject('InvalidTag', "Closing tag '"+tagName+"' can't have attributes or invalid starting.", getLineNumberForPosition(xmlData, tagStartPos));
+            return getErrorObject('InvalidTag', "Closing tag '" + tagName + "' can't have attributes or invalid starting.", getLineNumberForPosition(xmlData, tagStartPos));
           } else if (tags.length === 0) {
-            return getErrorObject('InvalidTag', "Closing tag '"+tagName+"' has not been opened.", getLineNumberForPosition(xmlData, tagStartPos));
+            return getErrorObject('InvalidTag', "Closing tag '" + tagName + "' has not been opened.", getLineNumberForPosition(xmlData, tagStartPos));
           } else {
             const otg = tags.pop();
             if (tagName !== otg.tagName) {
               let openPos = getLineNumberForPosition(xmlData, otg.tagStartPos);
               return getErrorObject('InvalidTag',
-                "Expected closing tag '"+otg.tagName+"' (opened in line "+openPos.line+", col "+openPos.col+") instead of closing tag '"+tagName+"'.",
+                "Expected closing tag '" + otg.tagName + "' (opened in line " + openPos.line + ", col " + openPos.col + ") instead of closing tag '" + tagName + "'.",
                 getLineNumberForPosition(xmlData, tagStartPos));
             }
 
@@ -83243,10 +83295,10 @@ function validate(xmlData, options) {
           //if the root level has been reached before ...
           if (reachedRoot === true) {
             return getErrorObject('InvalidXml', 'Multiple possible root nodes found.', getLineNumberForPosition(xmlData, i));
-          } else if(options.unpairedTags.indexOf(tagName) !== -1){
+          } else if (options.unpairedTags.indexOf(tagName) !== -1) {
             //don't push into stack
           } else {
-            tags.push({tagName, tagStartPos});
+            tags.push({ tagName, tagStartPos });
           }
           tagFound = true;
         }
@@ -83260,10 +83312,10 @@ function validate(xmlData, options) {
               i++;
               i = readCommentAndCDATA(xmlData, i);
               continue;
-            } else if (xmlData[i+1] === '?') {
+            } else if (xmlData[i + 1] === '?') {
               i = readPI(xmlData, ++i);
               if (i.err) return i;
-            } else{
+            } else {
               break;
             }
           } else if (xmlData[i] === '&') {
@@ -83271,7 +83323,7 @@ function validate(xmlData, options) {
             if (afterAmp == -1)
               return getErrorObject('InvalidChar', "char '&' is not expected.", getLineNumberForPosition(xmlData, i));
             i = afterAmp;
-          }else{
+          } else {
             if (reachedRoot === true && !isWhiteSpace(xmlData[i])) {
               return getErrorObject('InvalidXml', "Extra text at the end", getLineNumberForPosition(xmlData, i));
             }
@@ -83282,28 +83334,28 @@ function validate(xmlData, options) {
         }
       }
     } else {
-      if ( isWhiteSpace(xmlData[i])) {
+      if (isWhiteSpace(xmlData[i])) {
         continue;
       }
-      return getErrorObject('InvalidChar', "char '"+xmlData[i]+"' is not expected.", getLineNumberForPosition(xmlData, i));
+      return getErrorObject('InvalidChar', "char '" + xmlData[i] + "' is not expected.", getLineNumberForPosition(xmlData, i));
     }
   }
 
   if (!tagFound) {
     return getErrorObject('InvalidXml', 'Start tag expected.', 1);
-  }else if (tags.length == 1) {
-      return getErrorObject('InvalidTag', "Unclosed tag '"+tags[0].tagName+"'.", getLineNumberForPosition(xmlData, tags[0].tagStartPos));
-  }else if (tags.length > 0) {
-      return getErrorObject('InvalidXml', "Invalid '"+
-          JSON.stringify(tags.map(t => t.tagName), null, 4).replace(/\r?\n/g, '')+
-          "' found.", {line: 1, col: 1});
+  } else if (tags.length == 1) {
+    return getErrorObject('InvalidTag', "Unclosed tag '" + tags[0].tagName + "'.", getLineNumberForPosition(xmlData, tags[0].tagStartPos));
+  } else if (tags.length > 0) {
+    return getErrorObject('InvalidXml', "Invalid '" +
+      JSON.stringify(tags.map(t => t.tagName), null, 4).replace(/\r?\n/g, '') +
+      "' found.", { line: 1, col: 1 });
   }
 
   return true;
 };
 
-function isWhiteSpace(char){
-  return char === ' ' || char === '\t' || char === '\n'  || char === '\r';
+function isWhiteSpace(char) {
+  return char === ' ' || char === '\t' || char === '\n' || char === '\r';
 }
 /**
  * Read Processing insstructions and skip
@@ -83439,25 +83491,25 @@ function validateAttributeString(attrStr, options) {
   for (let i = 0; i < matches.length; i++) {
     if (matches[i][1].length === 0) {
       //nospace before attribute name: a="sd"b="saf"
-      return getErrorObject('InvalidAttr', "Attribute '"+matches[i][2]+"' has no space in starting.", getPositionFromMatch(matches[i]))
+      return getErrorObject('InvalidAttr', "Attribute '" + matches[i][2] + "' has no space in starting.", getPositionFromMatch(matches[i]))
     } else if (matches[i][3] !== undefined && matches[i][4] === undefined) {
-      return getErrorObject('InvalidAttr', "Attribute '"+matches[i][2]+"' is without value.", getPositionFromMatch(matches[i]));
+      return getErrorObject('InvalidAttr', "Attribute '" + matches[i][2] + "' is without value.", getPositionFromMatch(matches[i]));
     } else if (matches[i][3] === undefined && !options.allowBooleanAttributes) {
       //independent attribute: ab
-      return getErrorObject('InvalidAttr', "boolean attribute '"+matches[i][2]+"' is not allowed.", getPositionFromMatch(matches[i]));
+      return getErrorObject('InvalidAttr', "boolean attribute '" + matches[i][2] + "' is not allowed.", getPositionFromMatch(matches[i]));
     }
     /* else if(matches[i][6] === undefined){//attribute without value: ab=
                     return { err: { code:"InvalidAttr",msg:"attribute " + matches[i][2] + " has no value assigned."}};
                 } */
     const attrName = matches[i][2];
     if (!validateAttrName(attrName)) {
-      return getErrorObject('InvalidAttr', "Attribute '"+attrName+"' is an invalid name.", getPositionFromMatch(matches[i]));
+      return getErrorObject('InvalidAttr', "Attribute '" + attrName + "' is an invalid name.", getPositionFromMatch(matches[i]));
     }
-    if (!attrNames.hasOwnProperty(attrName)) {
+    if (!Object.prototype.hasOwnProperty.call(attrNames, attrName)) {
       //check for duplicate attribute.
       attrNames[attrName] = 1;
     } else {
-      return getErrorObject('InvalidAttr', "Attribute '"+attrName+"' is repeated.", getPositionFromMatch(matches[i]));
+      return getErrorObject('InvalidAttr', "Attribute '" + attrName + "' is repeated.", getPositionFromMatch(matches[i]));
     }
   }
 
@@ -83536,7 +83588,7 @@ function getPositionFromMatch(match) {
   return match.startIndex + match[1].length;
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/fxp.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/fxp.js
 
 
 
@@ -83547,7 +83599,7 @@ const XMLValidator = {
   validate: validate
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 const OptionsBuilder_defaultOptions = {
   preserveOrder: false,
   attributeNamePrefix: '@_',
@@ -83588,6 +83640,8 @@ const OptionsBuilder_defaultOptions = {
   },
   // skipEmptyListItem: false
   captureMetaData: false,
+  maxNestedTags: 100,
+  strictReservedNames: true,
 };
 
 /**
@@ -83634,7 +83688,7 @@ const buildOptions = function (options) {
   //console.debug(built.processEntities)
   return built;
 };
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 
 
 let METADATA_SYMBOL;
@@ -83645,23 +83699,23 @@ if (typeof Symbol !== "function") {
   METADATA_SYMBOL = Symbol("XML Node Metadata");
 }
 
-class XmlNode{
+class XmlNode {
   constructor(tagname) {
     this.tagname = tagname;
     this.child = []; //nested tags, text, cdata, comments in order
-    this[":@"] = {}; //attributes map
+    this[":@"] = Object.create(null); //attributes map
   }
-  add(key,val){
+  add(key, val) {
     // this.child.push( {name : key, val: val, isCdata: isCdata });
-    if(key === "__proto__") key = "#__proto__";
-    this.child.push( {[key]: val });
+    if (key === "__proto__") key = "#__proto__";
+    this.child.push({ [key]: val });
   }
   addChild(node, startIndex) {
-    if(node.tagname === "__proto__") node.tagname = "#__proto__";
-    if(node[":@"] && Object.keys(node[":@"]).length > 0){
-      this.child.push( { [node.tagname]: node.child, [":@"]: node[":@"] });
-    }else{
-      this.child.push( { [node.tagname]: node.child });
+    if (node.tagname === "__proto__") node.tagname = "#__proto__";
+    if (node[":@"] && Object.keys(node[":@"]).length > 0) {
+      this.child.push({ [node.tagname]: node.child, [":@"]: node[":@"] });
+    } else {
+      this.child.push({ [node.tagname]: node.child });
     }
     // if requested, add the startIndex
     if (startIndex !== undefined) {
@@ -83676,7 +83730,7 @@ class XmlNode{
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 
 
 class DocTypeReader {
@@ -83687,7 +83741,7 @@ class DocTypeReader {
 
     readDocType(xmlData, i) {
 
-        const entities = {};
+        const entities = Object.create(null);
         if (xmlData[i + 3] === 'O' &&
             xmlData[i + 4] === 'C' &&
             xmlData[i + 5] === 'T' &&
@@ -84198,7 +84252,26 @@ function parse_int(numStr, base){
     else if(window && window.parseInt) return window.parseInt(numStr, base);
     else throw new Error("parseInt, Number.parseInt, window.parseInt are not supported")
 }
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/ignoreAttributes.js
+function ignoreAttributes_getIgnoreAttributesFn(ignoreAttributes) {
+    if (typeof ignoreAttributes === 'function') {
+        return ignoreAttributes
+    }
+    if (Array.isArray(ignoreAttributes)) {
+        return (attrName) => {
+            for (const pattern of ignoreAttributes) {
+                if (typeof pattern === 'string' && attrName === pattern) {
+                    return true
+                }
+                if (pattern instanceof RegExp && pattern.test(attrName)) {
+                    return true
+                }
+            }
+        }
+    }
+    return () => false
+}
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 
 ///@ts-check
 
@@ -84255,7 +84328,7 @@ class OrderedObjParser {
     this.readStopNodeData = readStopNodeData;
     this.saveTextToParentTag = saveTextToParentTag;
     this.addChild = addChild;
-    this.ignoreAttributesFn = getIgnoreAttributesFn(this.options.ignoreAttributes)
+    this.ignoreAttributesFn = ignoreAttributes_getIgnoreAttributesFn(this.options.ignoreAttributes)
     this.entityExpansionCount = 0;
     this.currentExpandedLength = 0;
 
@@ -84364,6 +84437,7 @@ function buildAttributesMap(attrStr, jPath, tagName) {
           aName = this.options.transformAttributeName(aName);
         }
         if (aName === "__proto__") aName = "#__proto__";
+
         if (oldVal !== undefined) {
           if (this.options.trimValues) {
             oldVal = oldVal.trim();
@@ -84523,6 +84597,13 @@ const parseXml = function (xmlData) {
           tagName = newTagName;
         }
 
+        if (this.options.strictReservedNames &&
+          (tagName === this.options.commentPropName
+            || tagName === this.options.cdataPropName
+          )) {
+          throw new Error(`Invalid tag name: ${tagName}`);
+        }
+
         //save text as child node
         if (currentNode && textData) {
           if (currentNode.tagname !== '!xml') {
@@ -84607,9 +84688,23 @@ const parseXml = function (xmlData) {
             this.addChild(currentNode, childNode, jPath, startIndex);
             jPath = jPath.substr(0, jPath.lastIndexOf("."));
           }
+          else if(this.options.unpairedTags.indexOf(tagName) !== -1){//unpaired tag
+            const childNode = new XmlNode(tagName);
+            if(tagName !== tagExp && attrExpPresent){
+              childNode[":@"] = this.buildAttributesMap(tagExp, jPath);
+            }
+            this.addChild(currentNode, childNode, jPath, startIndex);
+            jPath = jPath.substr(0, jPath.lastIndexOf("."));
+            i = result.closeIndex;
+            // Continue to next iteration without changing currentNode
+            continue;
+          }
           //opening tag
           else {
             const childNode = new XmlNode(tagName);
+            if (this.tagsNodeStack.length > this.options.maxNestedTags) {
+              throw new Error("Maximum nested tags exceeded");
+            }
             this.tagsNodeStack.push(currentNode);
 
             if (tagName !== tagExp && attrExpPresent) {
@@ -84725,19 +84820,19 @@ const OrderedObjParser_replaceEntitiesValue = function (val, tagName, jPath) {
 }
 
 
-function saveTextToParentTag(textData, currentNode, jPath, isLeafNode) {
+function saveTextToParentTag(textData, parentNode, jPath, isLeafNode) {
   if (textData) { //store previously collected data as textNode
-    if (isLeafNode === undefined) isLeafNode = currentNode.child.length === 0
+    if (isLeafNode === undefined) isLeafNode = parentNode.child.length === 0
 
     textData = this.parseTextData(textData,
-      currentNode.tagname,
+      parentNode.tagname,
       jPath,
       false,
-      currentNode[":@"] ? Object.keys(currentNode[":@"]).length !== 0 : false,
+      parentNode[":@"] ? Object.keys(parentNode[":@"]).length !== 0 : false,
       isLeafNode);
 
     if (textData !== undefined && textData !== "")
-      currentNode.add(this.options.textNodeName, textData);
+      parentNode.add(this.options.textNodeName, textData);
     textData = "";
   }
   return textData;
@@ -84906,7 +85001,7 @@ function fromCodePoint(str, base, prefix) {
     return prefix + str + ";";
   }
 }
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 
 
 
@@ -84919,8 +85014,8 @@ const node2json_METADATA_SYMBOL = XmlNode.getMetaDataSymbol();
  * @param {any} options 
  * @returns 
  */
-function prettify(node, options){
-  return compress( node, options);
+function prettify(node, options) {
+  return compress(node, options);
 }
 
 /**
@@ -84930,78 +85025,82 @@ function prettify(node, options){
  * @param {string} jPath 
  * @returns object
  */
-function compress(arr, options, jPath){
+function compress(arr, options, jPath) {
   let text;
-  const compressedObj = {};
+  const compressedObj = {}; //This is intended to be a plain object
   for (let i = 0; i < arr.length; i++) {
     const tagObj = arr[i];
     const property = node2json_propName(tagObj);
     let newJpath = "";
-    if(jPath === undefined) newJpath = property;
+    if (jPath === undefined) newJpath = property;
     else newJpath = jPath + "." + property;
 
-    if(property === options.textNodeName){
-      if(text === undefined) text = tagObj[property];
+    if (property === options.textNodeName) {
+      if (text === undefined) text = tagObj[property];
       else text += "" + tagObj[property];
-    }else if(property === undefined){
+    } else if (property === undefined) {
       continue;
-    }else if(tagObj[property]){
-      
+    } else if (tagObj[property]) {
+
       let val = compress(tagObj[property], options, newJpath);
       const isLeaf = isLeafTag(val, options);
-      if (tagObj[node2json_METADATA_SYMBOL] !== undefined) {
-        val[node2json_METADATA_SYMBOL] = tagObj[node2json_METADATA_SYMBOL]; // copy over metadata
-      }
 
-      if(tagObj[":@"]){
-        assignAttributes( val, tagObj[":@"], newJpath, options);
-      }else if(Object.keys(val).length === 1 && val[options.textNodeName] !== undefined && !options.alwaysCreateTextNode){
+      if (tagObj[":@"]) {
+        assignAttributes(val, tagObj[":@"], newJpath, options);
+      } else if (Object.keys(val).length === 1 && val[options.textNodeName] !== undefined && !options.alwaysCreateTextNode) {
         val = val[options.textNodeName];
-      }else if(Object.keys(val).length === 0){
-        if(options.alwaysCreateTextNode) val[options.textNodeName] = "";
+      } else if (Object.keys(val).length === 0) {
+        if (options.alwaysCreateTextNode) val[options.textNodeName] = "";
         else val = "";
       }
 
-      if(compressedObj[property] !== undefined && compressedObj.hasOwnProperty(property)) {
-        if(!Array.isArray(compressedObj[property])) {
-            compressedObj[property] = [ compressedObj[property] ];
+      if (tagObj[node2json_METADATA_SYMBOL] !== undefined && typeof val === "object" && val !== null) {
+        val[node2json_METADATA_SYMBOL] = tagObj[node2json_METADATA_SYMBOL]; // copy over metadata
+      }
+
+
+      if (compressedObj[property] !== undefined && Object.prototype.hasOwnProperty.call(compressedObj, property)) {
+        if (!Array.isArray(compressedObj[property])) {
+          compressedObj[property] = [compressedObj[property]];
         }
         compressedObj[property].push(val);
-      }else{
+      } else {
         //TODO: if a node is not an array, then check if it should be an array
         //also determine if it is a leaf node
-        if (options.isArray(property, newJpath, isLeaf )) {
+        if (options.isArray(property, newJpath, isLeaf)) {
           compressedObj[property] = [val];
-        }else{
+        } else {
           compressedObj[property] = val;
         }
       }
     }
-    
+
   }
   // if(text && text.length > 0) compressedObj[options.textNodeName] = text;
-  if(typeof text === "string"){
-    if(text.length > 0) compressedObj[options.textNodeName] = text;
-  }else if(text !== undefined) compressedObj[options.textNodeName] = text;
+  if (typeof text === "string") {
+    if (text.length > 0) compressedObj[options.textNodeName] = text;
+  } else if (text !== undefined) compressedObj[options.textNodeName] = text;
+
+
   return compressedObj;
 }
 
-function node2json_propName(obj){
+function node2json_propName(obj) {
   const keys = Object.keys(obj);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    if(key !== ":@") return key;
+    if (key !== ":@") return key;
   }
 }
 
-function assignAttributes(obj, attrMap, jpath, options){
+function assignAttributes(obj, attrMap, jpath, options) {
   if (attrMap) {
     const keys = Object.keys(attrMap);
     const len = keys.length; //don't make it inline
     for (let i = 0; i < len; i++) {
       const atrrName = keys[i];
       if (options.isArray(atrrName, jpath + "." + atrrName, true, true)) {
-        obj[atrrName] = [ attrMap[atrrName] ];
+        obj[atrrName] = [attrMap[atrrName]];
       } else {
         obj[atrrName] = attrMap[atrrName];
       }
@@ -85009,10 +85108,10 @@ function assignAttributes(obj, attrMap, jpath, options){
   }
 }
 
-function isLeafTag(obj, options){
+function isLeafTag(obj, options) {
   const { textNodeName } = options;
   const propCount = Object.keys(obj).length;
-  
+
   if (propCount === 0) {
     return true;
   }
@@ -85027,44 +85126,44 @@ function isLeafTag(obj, options){
   return false;
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.3.6/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 
 
 
 
 
 
-class XMLParser{
-    
-    constructor(options){
+class XMLParser {
+
+    constructor(options) {
         this.externalEntities = {};
         this.options = buildOptions(options);
-        
+
     }
     /**
      * Parse XML dats to JS object 
      * @param {string|Uint8Array} xmlData 
      * @param {boolean|Object} validationOption 
      */
-    parse(xmlData,validationOption){
-        if(typeof xmlData !== "string" && xmlData.toString){
+    parse(xmlData, validationOption) {
+        if (typeof xmlData !== "string" && xmlData.toString) {
             xmlData = xmlData.toString();
-        }else if(typeof xmlData !== "string"){
+        } else if (typeof xmlData !== "string") {
             throw new Error("XML data is accepted in String or Bytes[] form.")
         }
-        
-        if( validationOption){
-            if(validationOption === true) validationOption = {}; //validate with default options
-            
+
+        if (validationOption) {
+            if (validationOption === true) validationOption = {}; //validate with default options
+
             const result = validate(xmlData, validationOption);
             if (result !== true) {
-              throw Error( `${result.err.msg}:${result.err.line}:${result.err.col}` )
+                throw Error(`${result.err.msg}:${result.err.line}:${result.err.col}`)
             }
-          }
+        }
         const orderedObjParser = new OrderedObjParser(this.options);
         orderedObjParser.addExternalEntities(this.externalEntities);
         const orderedResult = orderedObjParser.parseXml(xmlData);
-        if(this.options.preserveOrder || orderedResult === undefined) return orderedResult;
+        if (this.options.preserveOrder || orderedResult === undefined) return orderedResult;
         else return prettify(orderedResult, this.options);
     }
 
@@ -85073,14 +85172,14 @@ class XMLParser{
      * @param {string} key 
      * @param {string} value 
      */
-    addEntity(key, value){
-        if(value.indexOf("&") !== -1){
+    addEntity(key, value) {
+        if (value.indexOf("&") !== -1) {
             throw new Error("Entity value can't have '&'")
-        }else if(key.indexOf("&") !== -1 || key.indexOf(";") !== -1){
+        } else if (key.indexOf("&") !== -1 || key.indexOf(";") !== -1) {
             throw new Error("An entity must be set without '&' and ';'. Eg. use '#xD' for '&#xD;'")
-        }else if(value === "&"){
+        } else if (value === "&") {
             throw new Error("An entity with value '&' is not permitted");
-        }else{
+        } else {
             this.externalEntities[key] = value;
         }
     }
@@ -85141,7 +85240,7 @@ function getParserOptions(options = {}) {
  */
 function stringifyXML(obj, opts = {}) {
     const parserOptions = getSerializerOptions(opts);
-    const j2x = new Builder(parserOptions);
+    const j2x = new json2xml(parserOptions);
     const node = { [parserOptions.rootNodeName]: obj };
     const xmlData = j2x.build(node);
     return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xmlData}`.replace(/\n/g, "");
@@ -116023,7 +116122,7 @@ function saveCacheV2(paths_1, key_1, options_1) {
 const external_node_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:child_process");
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:path");
-;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+f2d94964c763a_9de5226084d990375a7652083d9a009e/node_modules/detsys-ts/dist/index.mjs
+;// CONCATENATED MODULE: ./node_modules/.pnpm/detsys-ts@https+++codeload.github.com+DeterminateSystems+detsys-ts+tar.gz+4c79919595167_db3c8dcb03af0fac4fd662eaa27fe900/node_modules/detsys-ts/dist/index.mjs
 
 
 
