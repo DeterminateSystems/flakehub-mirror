@@ -22,7 +22,7 @@ jobs:
       id-token: "write"
       contents: "read"
     steps:
-      - uses: "actions/checkout@v4"
+      - uses: "actions/checkout@v6"
       - name: (Nixpkgs only) Validate Nixpkgs version is stable
         if: ${{ inputs.repo == 'NixOS/nixpkgs' }}
         env:
@@ -30,7 +30,7 @@ jobs:
           INPUT_RELEASE-BRANCH: ${{ inputs.branch }}
         run: node "./dist/index.js"
 
-      - uses: "actions/checkout@v4"
+      - uses: "actions/checkout@v6"
         with:
           repository: ${{ inputs.repo }}
           ref: ${{ inputs.branch }}
