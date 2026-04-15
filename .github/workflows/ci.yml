@@ -45,4 +45,4 @@ jobs:
       - name: git status
         run: git status --porcelain=v1
       - name: Ensure no unstaged changes
-        run: git diff --exit-code
+        run: git diff --cached --exit-code
