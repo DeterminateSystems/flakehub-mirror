@@ -158,8 +158,12 @@ jobs:
             rolling-minor: 2505
 
           - repo: nix-darwin/nix-darwin
+            branch: nix-darwin-25.11
+            rolling-minor: 2511
+
+          - repo: nix-darwin/nix-darwin
             branch: nix-darwin-26.05
-            rolling-minow: 2605
+            rolling-minor: 2605
 
           - repo: nix-community/home-manager
             branch: release-24.05
