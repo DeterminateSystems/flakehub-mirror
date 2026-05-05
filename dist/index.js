@@ -39868,7 +39868,9 @@ var STABLE_TAG_NAME_REFS = {
   // See: https://github.com/NixOS/release-wiki/pull/90
   "24.11": "tags/branch-off-24.11",
   // It appears that https://github.com/NixOS/release-wiki/pull/90 was not followed for 25.05
-  "25.05": "tags/25.05"
+  "25.05": "tags/25.05",
+  // As of 5 May 2026, the process changed back to tagging directly with the version: https://github.com/NixOS/release-wiki/blob/dab8205f83a8b32ae896e37e211cf4e5cec9f0e0/src/Final-Release.md#on-the-release-branch
+  "25.11": "tags/25.11"
 };
 var FlakeHubMirrorAction = class {
   constructor() {
@@ -39906,7 +39908,7 @@ async function getRollingMinor(branch, testMode = false) {
         if (STABLE_TAG_NAME_REFS[versionPart]) {
           expectedRef = STABLE_TAG_NAME_REFS[versionPart];
         } else {
-          expectedRef = `tags/branch-off-${versionPart}`;
+          expectedRef = `tags/${versionPart}`;
         }
         try {
           await octokit.rest.git.getRef({
