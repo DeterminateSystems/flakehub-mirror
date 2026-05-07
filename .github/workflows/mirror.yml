@@ -107,6 +107,8 @@ jobs:
             branch: nixos-unstable
           - repo: NixOS/nixos-hardware
             branch: master
+          - repo: nlewo/nix2container
+            branch: master
           - repo: numtide/flake-utils
             branch: main
           - repo: numtide/treefmt-nix
