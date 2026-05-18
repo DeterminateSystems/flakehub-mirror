@@ -124,8 +124,6 @@ jobs:
             branch: master
           - repo: pyproject-nix/build-system-pkgs
             branch: master
-          - repo: feel-co/hjem
-            branch: main
 
           # Pulled out of the alpha-sorted list, since they're handled special
           # in the rapid, fast-acting update handling.
