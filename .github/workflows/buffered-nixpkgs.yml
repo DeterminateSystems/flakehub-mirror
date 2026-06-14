@@ -13,6 +13,7 @@ jobs:
           - name: DeterminateSystems/nixpkgs-weekly
             repo: NixOS/nixpkgs
             branch: nixpkgs-unstable
+            prefix: 0.1.
 
     runs-on: ubuntu-latest
     permissions:
@@ -22,11 +23,37 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/flakehub-cache-action@main
 
-      - name: Checkout
+      - name: Checkout flakehub-mirror tooling
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: flakehub-mirror-tooling
+          persist-credentials: false
+
+      - name: Calculate the revision to mirror
+        id: chill
+        working-directory: flakehub-mirror-tooling
+        env:
+          PREFIX: ${{ matrix.prefix }}
+        run: ./chill.sh "$PREFIX"
+
+      - name: Ensure a revision was calculated
+        env:
+          REVISION: ${{ steps.chill.outputs.revision }}
+          PREFIX: ${{ matrix.prefix }}
+        run: |
+          if [ -z "$REVISION" ]; then
+            echo "::error::chill.sh did not produce a revision for prefix '$PREFIX'" >&2
+            exit 1
+          fi
+
+      - name: Remove the tooling checkout to avoid conflicting with ${{ matrix.repo }}
+        run: rm -rf flakehub-mirror-tooling
+
+      - name: Checkout ${{ matrix.repo }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ matrix.repo }}
-          ref: ${{ matrix.branch }}
+          ref: ${{ steps.chill.outputs.revision }}
           persist-credentials: false
 
       - name: Release to FlakeHub
