@@ -16,9 +16,12 @@ function finish {
 trap finish EXIT
 
 offset=0
-while true; do
+iterations=0
+max_iterations=1000
+while [ "$iterations" -lt "$max_iterations" ]; do
+  iterations=$((iterations + 1))
+
   curl "https://api.flakehub.com/f/NixOS/nixpkgs/releases?offset=$offset" > "$scratch/releases.json"
-  offset=$(cat "$scratch/releases.json" | jq 'map(.index) | last')
 
   if jq --exit-status \
     --argjson chill_days "$chill_days" \
@@ -27,7 +30,18 @@ while true; do
     "$scratch/releases.json" > "$scratch/chilled.json"; then
     break
   fi
+
+  offset=$(cat "$scratch/releases.json" | jq 'map(.index) | last')
+  if [ -z "$offset" ] || [ "$offset" = "null" ]; then
+    echo "Reached end of pagination without finding a chilled release" >&2
+    exit 1
+  fi
 done
+
+if [ "$iterations" -ge "$max_iterations" ]; then
+  echo "Exceeded maximum pagination iterations ($max_iterations) without finding a chilled release" >&2
+  exit 1
+fi
 
 if [ -s "$scratch/chilled.json" ]; then
 jq -r --slurp 'first' "$scratch/chilled.json"
