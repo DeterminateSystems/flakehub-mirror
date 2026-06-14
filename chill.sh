@@ -21,7 +21,7 @@ max_iterations=1000
 while [ "$iterations" -lt "$max_iterations" ]; do
   iterations=$((iterations + 1))
 
-  curl "https://api.flakehub.com/f/NixOS/nixpkgs/releases?offset=$offset" > "$scratch/releases.json"
+  curl --fail --max-time 30 "https://api.flakehub.com/f/NixOS/nixpkgs/releases?offset=$offset" > "$scratch/releases.json"
 
   if jq --exit-status \
     --argjson chill_days "$chill_days" \
@@ -43,7 +43,11 @@ if [ "$iterations" -ge "$max_iterations" ]; then
   exit 1
 fi
 
-if [ -s "$scratch/chilled.json" ]; then
-jq -r --slurp 'first' "$scratch/chilled.json"
-  jq -r --slurp 'first | "revision=" +.revision' "$scratch/chilled.json" >> "$GITHUB_OUTPUT"
+if [ ! -s "$scratch/chilled.json" ]; then
+  echo "::error::No matching release found after successful jq filter (empty output)" >&2
+  exit 1
 fi
+
+jq -r --slurp 'first' "$scratch/chilled.json"
+jq -r --slurp 'first | "revision=" +.revision' "$scratch/chilled.json" >> "$GITHUB_OUTPUT"
+
