@@ -19,7 +19,7 @@ jobs:
             repo: NixOS/nixpkgs
             branch: nixos-26.05
             prefix: 0.2605.
-            visibility: authenticated
+            visibility: public # but requires authentication
 
     runs-on: ubuntu-latest
     permissions:
