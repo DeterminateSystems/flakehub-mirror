@@ -14,6 +14,12 @@ jobs:
             repo: NixOS/nixpkgs
             branch: nixpkgs-unstable
             prefix: 0.1.
+            visibility: public
+          - name: DeterminateSystems/nixpkgs-26.05-chilled
+            repo: NixOS/nixpkgs
+            branch: nixos-26.05
+            prefix: 0.2605.
+            visibility: public
 
     runs-on: ubuntu-latest
     permissions:
@@ -61,7 +67,7 @@ jobs:
         with:
           name: ${{ matrix.name }}
           mirror: true
-          visibility: public
+          visibility: ${{ matrix.visibility }}
           repository: ${{ matrix.repo }}
           rolling: true
           rolling-minor: ${{ matrix.rolling-minor }}
