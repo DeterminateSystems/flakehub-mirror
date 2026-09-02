@@ -1,4 +1,4 @@
-import { inputs, stringifyError } from "detsys-ts";
+import { inputs, stringifyError } from "@determinate-systems/detsys-ts";
 import * as actionsCore from "@actions/core";
 import * as github from "@actions/github";
 
