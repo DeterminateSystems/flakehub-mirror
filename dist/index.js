@@ -112476,7 +112476,7 @@ const SCOPE_NAME = "detsys-ts";
 * `$lib_version` that the PostHog instrumentation reported, and which told
 * nobody anything.
 */
-const LIBRARY_VERSION = "2.1.2";
+const LIBRARY_VERSION = "2.1.3";
 /**
 * The OTLP/HTTP collector for all Actions.
 * The exporters add `/v1/traces` and `/v1/logs` to this URL.
@@ -112543,6 +112543,41 @@ const OTLP_EXPORT_VARIABLES = (/* unused pure expression or super */ null && ([
 * contextFromTraceparent} correct no matter when they're called.
 */
 const PROPAGATOR = new core_build_src/* W3CTraceContextPropagator */.lm();
+/** OpenTelemetry's vendor key in `tracestate`. */
+const TRACE_STATE_KEY = "ot";
+const RANDOMNESS_HEX_DIGITS = 14;
+/**
+* The sampling randomness for `source`, as lowercase hexadecimal. Hashed,
+* because a sampler compares this against a threshold and that is only fair
+* if the value is uniformly distributed.
+*/
+function samplingRandomnessOf(source) {
+	return createHash("sha256").update(source).digest("hex").slice(0, RANDOMNESS_HEX_DIGITS);
+}
+/**
+* Records every span, and gives every trace it starts the same randomness.
+*
+* Each execution phase is a trace of its own, so a sampler keying on trace
+* randomness would keep a job's `main` phase and drop its `post`. One shared
+* value gets one decision for both. This discards nothing itself; the
+* collector decides what to keep.
+*/
+var SharedRandomnessSampler = class {
+	constructor(randomness) {
+		this.traceState = new otelCore.TraceState().set(TRACE_STATE_KEY, `rv:${randomness}`);
+	}
+	shouldSample(context) {
+		const parent = otelApi.trace.getSpanContext(context);
+		const isRoot = parent === void 0 || !otelApi.isSpanContextValid(parent);
+		return {
+			decision: sdkTrace.SamplingDecision.RECORD_AND_SAMPLED,
+			traceState: isRoot ? this.traceState : parent.traceState
+		};
+	}
+	toString() {
+		return "SharedRandomnessSampler";
+	}
+};
 const SEVERITY = {
 	debug: build_src/* SeverityNumber */.FT.DEBUG,
 	info: build_src/* SeverityNumber */.FT.INFO,
@@ -112666,6 +112701,7 @@ var Telemetry = class {
 			})).merge(otelResources.detectResources({ detectors: [otelResources.envDetector] }));
 			this.tracerProvider = new sdkTrace.BasicTracerProvider({
 				resource,
+				...options.samplingRandomnessSource === void 0 ? {} : { sampler: new SharedRandomnessSampler(samplingRandomnessOf(options.samplingRandomnessSource)) },
 				spanProcessors: [new sdkTrace.BatchSpanProcessor(new OTLPTraceExporter())]
 			});
 			this.loggerProvider = new sdkLogs.LoggerProvider({
@@ -113276,6 +113312,8 @@ const ATTR_NIX_STORE_TRUST = "detsys.nix.store_trust";
 const ATTR_NIX_STORE_VERSION = "detsys.nix.store_version";
 const ATTR_NIX_STORE_CHECK_METHOD = "detsys.nix.store_check_method";
 const ATTR_NIX_STORE_CHECK_ERROR = "detsys.nix.store_check_error";
+const ATTR_IDENTITY_STORED = "detsys.identity.stored";
+const ATTR_IDENTITY_STORE_ERROR = "detsys.identity.store_error";
 const ATTR_ATTACHMENT_NAME = "detsys.attachment.name";
 const ATTR_ATTACHMENT_PATH = "detsys.attachment.path";
 const STATE_KEY_EXECUTION_PHASE = "detsys_action_execution_phase";
@@ -113501,11 +113539,15 @@ var DetSysAction = class {
 				});
 				const correlationHashes = JSON.stringify(this.getCorrelationHashes());
 				process.env.DETSYS_CORRELATION = correlationHashes;
-				try {
-					await withSpan("store_identity", async () => {
+				await withSpan("store_identity", async (span) => {
+					try {
 						await writeCorrelationHashes(correlationHashes);
-					});
-				} catch {}
+						span.setAttribute(ATTR_IDENTITY_STORED, true);
+					} catch (e) {
+						span.setAttribute(ATTR_IDENTITY_STORED, false);
+						span.setAttribute(ATTR_IDENTITY_STORE_ERROR, stringifyError$1(e));
+					}
+				});
 				if (!await this.preflightRequireNix()) {
 					this.addEvent(EVENT_PREFLIGHT_REQUIRE_NIX_DENIED);
 					return;
@@ -113555,7 +113597,8 @@ var DetSysAction = class {
 		this.telemetry.start({
 			serviceName: `${this.actionOptions.name}-action`,
 			serviceVersion: dist_text(process.env["GITHUB_ACTION_REF"]),
-			resourceAttributes: await this.telemetryResourceAttributes()
+			resourceAttributes: await this.telemetryResourceAttributes(),
+			samplingRandomnessSource: this.getInvocationId()
 		});
 	}
 	/**
