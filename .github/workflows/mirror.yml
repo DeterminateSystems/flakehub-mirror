@@ -32,6 +32,7 @@ jobs:
           - nix-community/nixpkgs-fmt
           - NixOS/nix
           - NixOS/patchelf
+          - numtide/system-manager
           - vlinkz/nix-software-center
           - zhaofengli/colmena
     runs-on: ubuntu-latest
