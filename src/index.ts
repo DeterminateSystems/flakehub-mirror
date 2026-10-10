@@ -38,6 +38,8 @@ const STABLE_TAG_NAME_REFS: { [key: string]: string } = {
   "24.11": "tags/branch-off-24.11",
   // It appears that https://github.com/NixOS/release-wiki/pull/90 was not followed for 25.05
   "25.05": "tags/25.05",
+  // As of 5 May 2026, the process changed back to tagging directly with the version: https://github.com/NixOS/release-wiki/blob/dab8205f83a8b32ae896e37e211cf4e5cec9f0e0/src/Final-Release.md#on-the-release-branch
+  "25.11": "tags/25.11",
 };
 
 class FlakeHubMirrorAction {
@@ -90,8 +92,8 @@ export async function getRollingMinor(
         if (STABLE_TAG_NAME_REFS[versionPart]) {
           expectedRef = STABLE_TAG_NAME_REFS[versionPart];
         } else {
-          // See: https://github.com/NixOS/release-wiki/pull/90 which is still current policy
-          expectedRef = `tags/branch-off-${versionPart}`;
+          // See: https://github.com/NixOS/release-wiki/blob/dab8205f83a8b32ae896e37e211cf4e5cec9f0e0/src/Final-Release.md#on-the-release-branch, step 4
+          expectedRef = `tags/${versionPart}`;
         }
 
         // Check that NixOS/nixpkgs has the tag `${versionPart}`, like a tag named `24.05` for the nixos-24.05 branch.
