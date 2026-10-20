@@ -17056,7 +17056,7 @@ exports.colors = [6, 2, 3, 4, 5, 1];
 try {
 	// Optional dependency (as in, doesn't need to be installed, NOT like optionalDependencies in package.json)
 	// eslint-disable-next-line import/no-extraneous-dependencies
-	const supportsColor = __nccwpck_require__(1450);
+	const supportsColor = __nccwpck_require__(75);
 
 	if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
 		exports.colors = [
@@ -17287,21 +17287,6 @@ formatters.o = function (v) {
 formatters.O = function (v) {
 	this.inspectOpts.colors = this.useColors;
 	return util.inspect(v, this.inspectOpts);
-};
-
-
-/***/ }),
-
-/***/ 3813:
-/***/ ((module) => {
-
-
-
-module.exports = (flag, argv = process.argv) => {
-	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
-	const position = argv.indexOf(prefix + flag);
-	const terminatorPosition = argv.indexOf('--');
-	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
 };
 
 
@@ -20683,148 +20668,6 @@ const validRange = (range, options) => {
   }
 }
 module.exports = validRange
-
-
-/***/ }),
-
-/***/ 1450:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-
-const os = __nccwpck_require__(857);
-const tty = __nccwpck_require__(2018);
-const hasFlag = __nccwpck_require__(3813);
-
-const {env} = process;
-
-let forceColor;
-if (hasFlag('no-color') ||
-	hasFlag('no-colors') ||
-	hasFlag('color=false') ||
-	hasFlag('color=never')) {
-	forceColor = 0;
-} else if (hasFlag('color') ||
-	hasFlag('colors') ||
-	hasFlag('color=true') ||
-	hasFlag('color=always')) {
-	forceColor = 1;
-}
-
-if ('FORCE_COLOR' in env) {
-	if (env.FORCE_COLOR === 'true') {
-		forceColor = 1;
-	} else if (env.FORCE_COLOR === 'false') {
-		forceColor = 0;
-	} else {
-		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
-	}
-}
-
-function translateLevel(level) {
-	if (level === 0) {
-		return false;
-	}
-
-	return {
-		level,
-		hasBasic: true,
-		has256: level >= 2,
-		has16m: level >= 3
-	};
-}
-
-function supportsColor(haveStream, streamIsTTY) {
-	if (forceColor === 0) {
-		return 0;
-	}
-
-	if (hasFlag('color=16m') ||
-		hasFlag('color=full') ||
-		hasFlag('color=truecolor')) {
-		return 3;
-	}
-
-	if (hasFlag('color=256')) {
-		return 2;
-	}
-
-	if (haveStream && !streamIsTTY && forceColor === undefined) {
-		return 0;
-	}
-
-	const min = forceColor || 0;
-
-	if (env.TERM === 'dumb') {
-		return min;
-	}
-
-	if (process.platform === 'win32') {
-		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
-		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
-		const osRelease = os.release().split('.');
-		if (
-			Number(osRelease[0]) >= 10 &&
-			Number(osRelease[2]) >= 10586
-		) {
-			return Number(osRelease[2]) >= 14931 ? 3 : 2;
-		}
-
-		return 1;
-	}
-
-	if ('CI' in env) {
-		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
-			return 1;
-		}
-
-		return min;
-	}
-
-	if ('TEAMCITY_VERSION' in env) {
-		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
-	}
-
-	if (env.COLORTERM === 'truecolor') {
-		return 3;
-	}
-
-	if ('TERM_PROGRAM' in env) {
-		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
-
-		switch (env.TERM_PROGRAM) {
-			case 'iTerm.app':
-				return version >= 3 ? 3 : 2;
-			case 'Apple_Terminal':
-				return 2;
-			// No default
-		}
-	}
-
-	if (/-256(color)?$/i.test(env.TERM)) {
-		return 2;
-	}
-
-	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-		return 1;
-	}
-
-	if ('COLORTERM' in env) {
-		return 1;
-	}
-
-	return min;
-}
-
-function getSupportLevel(stream) {
-	const level = supportsColor(stream, stream && stream.isTTY);
-	return translateLevel(level);
-}
-
-module.exports = {
-	supportsColor: getSupportLevel,
-	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
-	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
-};
 
 
 /***/ }),
@@ -49092,6 +48935,14 @@ module.exports = {
 
 /***/ }),
 
+/***/ 75:
+/***/ ((module) => {
+
+module.exports = eval("require")("supports-color");
+
+
+/***/ }),
+
 /***/ 2613:
 /***/ ((module) => {
 
@@ -49391,17 +49242,15 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   X: () => (/* binding */ getRollingMinor)
 /* harmony export */ });
-/* harmony import */ var _determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(8119);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3838);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2413);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3838);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(2413);
+/* harmony import */ var _determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(8119);
 // src/index.ts
 
 
 
 var OUTPUT_KEY = "minorVersion";
-var BRANCH_REGEX = new RegExp(
-  /^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/
-);
+var BRANCH_REGEX = new RegExp(/^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/);
 var STABLE_TAG_NAME_REFS = {
   "15.09": "tags/15.09",
   "16.03": "tags/16.03",
@@ -49434,17 +49283,15 @@ var STABLE_TAG_NAME_REFS = {
 };
 var FlakeHubMirrorAction = class {
   constructor() {
-    this.releaseBranch = _determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .inputs */ .QL.getString("release-branch");
+    this.releaseBranch = _determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_2__/* .inputs */ .QL.getString("release-branch");
   }
   async execute() {
-    _actions_core__WEBPACK_IMPORTED_MODULE_1__/* .info */ .pq(
-      `Calculating the minor version for branch ${this.releaseBranch}`
-    );
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__/* .info */ .pq(`Calculating the minor version for branch ${this.releaseBranch}`);
     try {
       const minorVersion = await getRollingMinor(this.releaseBranch);
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__/* .setOutput */ .uH(OUTPUT_KEY, minorVersion);
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__/* .setOutput */ .uH(OUTPUT_KEY, minorVersion);
     } catch (e) {
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__/* .setFailed */ .C1(`flakehub-mirror failed: ${(0,_determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .M5)(e)}`);
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__/* .setFailed */ .C1(`flakehub-mirror failed: ${(0,_determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_2__/* .stringifyError */ .M5)(e)}`);
     }
   }
 };
@@ -49457,13 +49304,13 @@ async function getRollingMinor(branch, testMode = false) {
     const versionPart = match.groups.version;
     if (versionPart) {
       if (!testMode && versionPart !== "unstable") {
-        const githubToken = process.env["GITHUB_TOKEN"];
+        const githubToken = process.env.GITHUB_TOKEN;
         if (!githubToken) {
           throw new Error(
             "GitHub token not found; should be provided by GITHUB_TOKEN environment variable"
           );
         }
-        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_2__/* .getOctokit */ .Q(githubToken);
+        const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__/* .getOctokit */ .Q(githubToken);
         let expectedRef;
         if (STABLE_TAG_NAME_REFS[versionPart]) {
           expectedRef = STABLE_TAG_NAME_REFS[versionPart];
@@ -49478,18 +49325,16 @@ async function getRollingMinor(branch, testMode = false) {
           });
         } catch (e) {
           throw new Error(
-            `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${(0,_determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_0__/* .stringifyError */ .M5)(e)}`
+            `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${(0,_determinate_systems_detsys_ts__WEBPACK_IMPORTED_MODULE_2__/* .stringifyError */ .M5)(e)}`,
+            { cause: e }
           );
         }
       }
       const minorVersion = versionPart === "unstable" ? "1" : versionPart.replace(".", "");
-      _actions_core__WEBPACK_IMPORTED_MODULE_1__/* .info */ .pq(`Minor version part: ${minorVersion}`);
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__/* .info */ .pq(`Minor version part: ${minorVersion}`);
       return minorVersion;
-    } else {
-      throw new Error(
-        `Version part \`${versionPart}\` is undefined in matches: ${match.groups}`
-      );
     }
+    throw new Error(`Version part \`${versionPart}\` is undefined in matches: ${match.groups}`);
   } else {
     throw new Error(`Branch \`${branch}\` didn't match our publishable regex`);
   }

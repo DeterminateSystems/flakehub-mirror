@@ -2,50 +2,41 @@
   "name": "flakehub-mirror",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "type": "module",
-  "scripts": {
-    "build": "tsup",
-    "format": "prettier --write .",
-    "lint": "eslint src/**/*.ts",
-    "package": "ncc build",
-    "test": "vitest --watch false",
-    "test-dev": "vitest",
-    "all": "npm run format && npm run lint && npm run build && npm run package"
+  "keywords": [],
+  "homepage": "https://github.com/DeterminateSystems/flakehub-mirror#readme",
+  "bugs": {
+    "url": "https://github.com/DeterminateSystems/flakehub-mirror/issues"
   },
+  "license": "MIT",
+  "author": "",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DeterminateSystems/flakehub-mirror.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DeterminateSystems/flakehub-mirror/issues"
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "format": "oxfmt",
+    "lint": "oxlint src",
+    "package": "ncc build",
+    "test": "vitest --run",
+    "test-dev": "vitest",
+    "all": "npm run format && npm run lint && npm run build && npm run package"
   },
-  "homepage": "https://github.com/DeterminateSystems/flakehub-mirror#readme",
   "dependencies": {
     "@actions/core": "^3.0.1",
     "@actions/github": "^9.1.1",
     "@determinate-systems/detsys-ts": "^2.1.1"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/node": "^20.19.43",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@determinate-systems/oxlint-config": "^1.0.0",
+    "@types/node": "^24.19.2",
     "@vercel/ncc": "^0.38.4",
-    "eslint": "^8.57.1",
-    "eslint-import-resolver-typescript": "^3.10.1",
-    "eslint-plugin-github": "^4.10.2",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.6",
-    "prettier": "^3.9.6",
+    "oxlint-tsgolint": "^7.0.2004",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.7"
-  },
-  "overrides": {
-    "esbuild": "^0.28.1"
+    "vitest": "^5.0.5"
   }
 }
