@@ -1,12 +1,10 @@
-import { inputs, stringifyError } from "@determinate-systems/detsys-ts";
 import * as actionsCore from "@actions/core";
 import * as github from "@actions/github";
+import { inputs, stringifyError } from "@determinate-systems/detsys-ts";
 
 const OUTPUT_KEY = "minorVersion";
 
-const BRANCH_REGEX = new RegExp(
-  /^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/,
-);
+const BRANCH_REGEX = new RegExp(/^nixos-(?<version>([0-9]+\.[0-9]+)|unstable)$/);
 
 const STABLE_TAG_NAME_REFS: { [key: string]: string } = {
   "15.09": "tags/15.09",
@@ -48,9 +46,7 @@ class FlakeHubMirrorAction {
   }
 
   async execute(): Promise<void> {
-    actionsCore.info(
-      `Calculating the minor version for branch ${this.releaseBranch}`,
-    );
+    actionsCore.info(`Calculating the minor version for branch ${this.releaseBranch}`);
 
     try {
       const minorVersion = await getRollingMinor(this.releaseBranch);
@@ -61,10 +57,7 @@ class FlakeHubMirrorAction {
   }
 }
 
-export async function getRollingMinor(
-  branch: string,
-  testMode = false,
-): Promise<string> {
+export async function getRollingMinor(branch: string, testMode = false): Promise<string> {
   if (branch === "") {
     throw new Error("Branch name can't be empty");
   }
@@ -76,7 +69,7 @@ export async function getRollingMinor(
       // For releases that aren't unstable, we need to make sure that the tag exists
       // in NixOS/nixpkgs. If it doesn't, then the release isn't stable.
       if (!testMode && versionPart !== "unstable") {
-        const githubToken = process.env["GITHUB_TOKEN"];
+        const githubToken = process.env.GITHUB_TOKEN;
 
         if (!githubToken) {
           throw new Error(
@@ -104,19 +97,16 @@ export async function getRollingMinor(
         } catch (e: unknown) {
           throw new Error(
             `Failed to detect NixOS/nixpkgs ref ${expectedRef}: ${stringifyError(e)}`,
+            { cause: e },
           );
         }
       }
 
-      const minorVersion =
-        versionPart === "unstable" ? "1" : versionPart.replace(".", "");
+      const minorVersion = versionPart === "unstable" ? "1" : versionPart.replace(".", "");
       actionsCore.info(`Minor version part: ${minorVersion}`);
       return minorVersion;
-    } else {
-      throw new Error(
-        `Version part \`${versionPart}\` is undefined in matches: ${match.groups}`,
-      );
     }
+    throw new Error(`Version part \`${versionPart}\` is undefined in matches: ${match.groups}`);
   } else {
     throw new Error(`Branch \`${branch}\` didn't match our publishable regex`);
   }
