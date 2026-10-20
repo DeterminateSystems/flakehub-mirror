@@ -32,14 +32,11 @@
   },
   "devDependencies": {
     "@determinate-systems/oxlint-config": "^1.0.0",
-    "@types/node": "^20.19.43",
+    "@types/node": "^24.19.2",
     "@vercel/ncc": "^0.38.4",
     "oxlint-tsgolint": "^7.0.2004",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.7"
-  },
-  "overrides": {
-    "esbuild": "^0.28.1"
+    "vitest": "^5.0.5"
   }
 }
