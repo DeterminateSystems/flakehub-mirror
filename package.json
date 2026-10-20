@@ -21,7 +21,7 @@
     "format": "oxfmt",
     "lint": "oxlint src",
     "package": "ncc build",
-    "test": "vitest --watch false",
+    "test": "vitest --run",
     "test-dev": "vitest",
     "all": "npm run format && npm run lint && npm run build && npm run package"
   },
