@@ -86,6 +86,8 @@ jobs:
             branch: master
           - repo: hercules-ci/flake-parts
             branch: main
+          - repo: hyprwm/Hyprland
+            branch: main
           - repo: Mic92/sops-nix
             branch: master
           - repo: nix-community/home-manager
