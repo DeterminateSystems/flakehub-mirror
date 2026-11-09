@@ -1,15 +1,16 @@
 import { expect, test } from "vitest";
+
 import { getRollingMinor } from "./index.js";
 
-type SuccessCase = {
+interface SuccessCase {
   branch: string;
   minorVersion: string;
-};
+}
 
-type ErrorCase = {
+interface ErrorCase {
   branch: string;
   error: string;
-};
+}
 
 test("properly formed branches produce expected rolling minor versions", async () => {
   const successCases: SuccessCase[] = [
@@ -47,8 +48,6 @@ test("malformed branches produce expected errors", async () => {
   ];
 
   for (const { branch, error } of errorCases) {
-    await expect(getRollingMinor(branch, true)).rejects.toThrowError(
-      new Error(error),
-    );
+    await expect(getRollingMinor(branch, true)).rejects.toThrowError(new Error(error));
   }
 });

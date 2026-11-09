@@ -11,5 +11,6 @@
     "resolveJsonModule": true,
     "declaration": true
   },
-  "exclude": ["node_modules", "dist"]
+  // oxlint has issues if we don't specify this
+  "include": ["src/**/*"]
 }
